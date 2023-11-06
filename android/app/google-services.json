@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "203198940064",
+    "project_id": "trekmate-5985f",
+    "storage_bucket": "trekmate-5985f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203198940064:android:c71a076e9a8bfaa5785ac5",
+        "android_client_info": {
+          "package_name": "com.example.trekmate_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvrbzxv0QIXmcNw0RZiQfVpgvtHy3oRZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

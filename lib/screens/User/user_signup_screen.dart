@@ -1,0 +1,296 @@
+import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
+import 'package:trekmate_project/helper/helper_functions.dart';
+// import 'package:trekmate_project/screens/Main%20Pages/home_screen.dart';
+import 'package:trekmate_project/screens/User/user_login_screen.dart';
+// import 'package:trekmate_project/screens/Main%20Pages/home_screen.dart';
+import 'package:trekmate_project/service/auth_service.dart';
+import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/button.dart';
+import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/help_text.dart';
+import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/text_form_field.dart';
+import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/title.dart';
+import 'package:trekmate_project/widgets/Reusable%20widgets/back_button.dart';
+
+class UserSignUpScreen extends StatefulWidget {
+  const UserSignUpScreen({super.key});
+
+  @override
+  State<UserSignUpScreen> createState() => _UserSignUpScreenState();
+}
+
+class _UserSignUpScreenState extends State<UserSignUpScreen> {
+  final _formKey = GlobalKey<FormState>();
+  AuthService authService = AuthService();
+  String fullName = '';
+  String email = '';
+  String password = '';
+  bool isButtonEnable = false;
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: BoxDecoration(
+          // ===== Background image =====
+
+          image: DecorationImage(
+            image: AssetImage(backgroundImageWithLogo),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              // ===== Back button =====
+              CustomBackButton(
+                pageNavigator: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserLoginScreen(),
+                  ),
+                ),
+              ),
+
+              // ===== Background container =====
+              Align(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 1.8,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 20,
+                        spreadRadius: 5,
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // ===== Title =====
+                        const TitleWidget(
+                          mainText: 'Sign Up',
+                          mainTextSize: 30,
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+
+                        // ===== Full name field =====
+                        TextFieldWidget(
+                          fieldTitle: 'Full Name',
+                          fieldHintText: 'Enter your full name...',
+                          onChanged: (val) {
+                            fullName = val;
+                            debugPrint(fullName);
+                            setState(() {
+                              isButtonEnable = fullName.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  password.isNotEmpty;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please enter a name'),
+                                ),
+                              );
+                              return;
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+
+                        // ===== Email field =====
+                        TextFieldWidget(
+                          fieldTitle: 'Email Address',
+                          fieldHintText: 'Enter your email address...',
+                          onChanged: (val) {
+                            email = val;
+                            debugPrint(email);
+                            setState(() {
+                              isButtonEnable = fullName.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  password.isNotEmpty;
+                            });
+                          },
+                          validator: (val) {
+                            if ((RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val!))) {
+                              return null;
+                            } else {
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //     content: Text('Please enter a valid email'),
+                              //   ),
+                              // );
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        'Please enter a valid email'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Ok'))
+                                    ],
+                                  );
+                                },
+                              );
+                              return;
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+
+                        // ===== Create password field =====
+                        TextFieldWidget(
+                          fieldTitle: 'Create Password',
+                          fieldHintText: 'Enter a strong password...',
+                          onChanged: (val) {
+                            password = val;
+                            debugPrint(password);
+                            setState(() {
+                              isButtonEnable = fullName.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  password.isNotEmpty;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.length < 6) {
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //     content: Text(
+                              //         'Password must be at least 6 character'),
+                              //   ),
+                              // );
+                              // const AlertDialog(
+                              //   title:
+                              //       Text('Please enter at least 6 characters'),
+                              // );
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        'Please enter at least 6 characters'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Ok'),
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                              return;
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+
+                        // ===== Sign Up button =====
+                        ButtonsWidget(
+                          buttonText: _isLoading ? 'CHECKING...' : 'SIGN UP',
+                          buttonOnPressed: isButtonEnable
+                              ? () {
+                                  userSignUp();
+                                }
+                              : null,
+                        ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+
+                        // ===== Help text (login in) =====
+                        InkWell(
+                          onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UserLoginScreen(),
+                            ),
+                          ),
+                          child: const HelpTextWidget(
+                            firstText: "Already Have An Account? ",
+                            secondText: 'Login?',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  userSignUp() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      await authService
+          .registerUserWithEmailandPassword(fullName, email, password)
+          .then(
+        (value) async {
+          if (value == true) {
+            debugPrint('Account created');
+
+            await HelperFunctions.saveUserLoggedInStatus(true);
+            await HelperFunctions.saveUserFullName(fullName);
+            await HelperFunctions.saveUserEmail(email);
+
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Account created successfully'),
+              ),
+            );
+            // ignore: use_build_context_synchronously
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const HomeScreen(),
+            //   ),
+            // );
+          } else {
+            setState(() {
+              _isLoading = false;
+            });
+            debugPrint('Account not created');
+          }
+        },
+      );
+    }
+  }
+}

@@ -37,6 +37,22 @@ class AuthService {
     }
   }
 
+  // ===== Admin Login =====
+  Future loginAdminWithEmailandPassword(String email, String password) async {
+    try {
+      User? admin = (await firebaseAuth.signInWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+
+      if (admin != null) {
+        return true;
+      }
+    } on FirebaseAuthException catch (e) {
+      // print(e.message);
+      return e.message;
+    }
+  }
+
   // ===== Signout =====
   Future signOut() async {
     try {

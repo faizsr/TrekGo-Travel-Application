@@ -2,7 +2,7 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/Main%20Pages/firebase%20widgets/add_new_place_screen.dart.dart';
+import 'package:trekmate_project/screens/Admin/add_place_screen.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
 
@@ -85,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const AddNewPlaceScreen(),
+                            builder: (context) => const AddPlaceScreen(),
                           ),
                         );
                       },
@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const AddNewPlaceScreen(),
+                            builder: (context) => const AddPlaceScreen(),
                           ),
                         );
                       },

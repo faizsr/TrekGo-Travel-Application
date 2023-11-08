@@ -1,12 +1,23 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
+import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
 import 'package:trekmate_project/widgets/appbar_title_items.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/rating_star.dart';
 
 class PlaceDetailScreen extends StatelessWidget {
-  const PlaceDetailScreen({super.key});
+  final String? placeImage;
+  final String? placeName;
+  final double? ratingCount;
+  final String? description;
+  final String? location;
+  const PlaceDetailScreen({
+    super.key,
+    this.placeImage,
+    this.placeName,
+    this.ratingCount,
+    this.description,
+    this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +25,7 @@ class PlaceDetailScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //Place Image
 
@@ -26,7 +38,7 @@ class PlaceDetailScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(35),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(cubbonPark),
+                  image: NetworkImage(placeImage ?? ''),
                 ),
               ),
               child: Stack(
@@ -78,18 +90,20 @@ class PlaceDetailScreen extends StatelessWidget {
             //Place Title
 
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Cubbon Park',
-                  style: TextStyle(
+                Text(
+                  placeName!,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.24,
-                  child: const RatingStar(),
+                CardRatingBar(
+                  itemSize: 20,
+                  isMainAlignCenter: true,
+                  ratingCount: ratingCount,
                 ),
               ],
             ),
@@ -142,9 +156,9 @@ class PlaceDetailScreen extends StatelessWidget {
 
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 30),
-              child: const Text(
-                "Cubbon Park, officially known as Sri Chamarajendra Park, is a beautiful and expansive urban park located in the heart of Bangalore, the capital of the Indian state of Karnataka. Named after Sir Mark Cubbon, a British civil servant who served as the Commissioner of Mysore in the 19th century, the park is a green oasis amidst the bustling city.",
-                style: TextStyle(fontSize: 13),
+              child: Text(
+                description ?? '',
+                style: const TextStyle(fontSize: 13),
               ),
             ),
 
@@ -167,9 +181,9 @@ class PlaceDetailScreen extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 10),
                     width: MediaQuery.of(context).size.width * 0.8,
-                    child: const Text(
-                      "Kasturba Rd, behind High Court of Karnataka, Ambedkar Veedhi, Sampangi Rama Nagara, Bengaluru, Karnataka 560001",
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                    child: Text(
+                      location!,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ChoiceChipsWidget extends StatefulWidget {
+  final void Function(String?)? onSortNameChanged;
   const ChoiceChipsWidget({
     super.key,
+    this.onSortNameChanged,
   });
 
   @override
@@ -11,11 +13,13 @@ class ChoiceChipsWidget extends StatefulWidget {
 
 class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
   int selectedOption = 0;
+  bool? viewAll;
   List<bool>? isSelected;
   int? noOfButtons;
   String? sortName;
 
   List<String> buttonText = [
+    'View All',
     'Kerala',
     'Karnataka',
     'Rajasthan',
@@ -41,6 +45,7 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
   void initState() {
     noOfButtons = buttonText.length;
     isSelected = List.filled(noOfButtons!, false);
+    isSelected![selectedOption] = true;
     super.initState();
   }
 
@@ -51,7 +56,9 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
-            padding: const EdgeInsets.only(left: 15, ),
+            padding: const EdgeInsets.only(
+              left: 15,
+            ),
             scrollDirection: Axis.horizontal,
             itemCount: buttonText.length,
             itemBuilder: (context, index) {
@@ -91,6 +98,8 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
                         setState(() {
                           chipSelectionHandle(index);
                           sortName = buttonText[index];
+                          viewAll = sortName == null;
+                          widget.onSortNameChanged!(sortName);
                         });
                       },
                       elevation: 0.0,

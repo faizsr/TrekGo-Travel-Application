@@ -1,8 +1,8 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Main%20Pages/add_favorite_screen.dart';
+import 'package:trekmate_project/screens/Main%20Pages/home_screen_copy.dart';
 import 'package:trekmate_project/screens/Main%20Pages/saved_places_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/home_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/profile_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/search_screen.dart';
 
@@ -17,7 +17,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   int selectedIndex = 0;
 
   List pages = [
-    const HomeScreen(),
+    const HomeScreenCopy(),
     const SearchScreen(),
     const AddFavoriteScreen(),
     const SavedPlacesScreen(),

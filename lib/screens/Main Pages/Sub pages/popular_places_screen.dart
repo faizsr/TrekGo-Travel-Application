@@ -1,15 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:trekmate_project/assets.dart';
+import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
 
-class PopularPlacesScreen extends StatelessWidget {
-  const PopularPlacesScreen({super.key});
+class PopularPlacesScreen extends StatefulWidget {
+  final String? sortName;
+  const PopularPlacesScreen({
+    super.key,
+    this.sortName,
+  });
 
+  @override
+  State<PopularPlacesScreen> createState() => _PopularPlacesScreenState();
+}
+
+class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
+  double? ratingCount;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       //Appbar
       appBar: AppBar(
         leading: GestureDetector(
@@ -65,35 +75,40 @@ class PopularPlacesScreen extends StatelessWidget {
 
       //Contents
       body: SingleChildScrollView(
-
         //Popular place cards
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: PopularCard(
-                popularCardImage: munnar,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: PopularCard(
-                popularCardImage: kuttanad,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: PopularCard(
-                popularCardImage: athirapally,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: PopularCard(
-                popularCardImage: jewTown,
-              ),
-            ),
-          ],
+        child: StreamBuilder(
+          stream: widget.sortName == 'View All'
+              ? DatabaseService()
+                  .destinationCollection
+                  .where('place_category', isEqualTo: 'Popular')
+                  .snapshots()
+              : DatabaseService()
+                  .destinationCollection
+                  .where('place_category', isEqualTo: 'Popular')
+                  .where('place_state', isEqualTo: widget.sortName)
+                  .snapshots(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: snapshot.data.docs
+                    .map<Widget>((DocumentSnapshot destinationSnap) {
+                  ratingCount = double.tryParse(
+                      destinationSnap['place_rating'].toString());
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: PopularCard(
+                      placeName: destinationSnap['place_name'],
+                      popularCardImage: destinationSnap['place_image'],
+                      ratingCount: ratingCount,
+                      placeDescripton: destinationSnap['place_description'],
+                      placeLocation: destinationSnap['place_location'],
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

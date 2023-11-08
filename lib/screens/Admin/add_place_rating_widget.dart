@@ -40,12 +40,6 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
             });
           },
         ),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     debugPrint('Rating count $ratingCount');
-        //   },
-        //   child: const Text('Save'),
-        // ),
         Text('Rating $ratingCount'),
       ],
     );

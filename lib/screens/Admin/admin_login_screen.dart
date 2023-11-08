@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/User/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
+import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/button.dart';
 import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/text_form_field.dart';
 import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/title.dart';
@@ -90,7 +93,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         const SizedBox(
                           height: 30,
                         ),
-                  
+
                         // ===== Admin ID field =====
                         TextFieldWidget(
                           controller: adminIdController,
@@ -111,7 +114,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                  
+
                         // ===== Email address field =====
                         TextFieldWidget(
                           controller: emailController,
@@ -132,7 +135,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                  
+
                         // ===== Password field =====
                         TextFieldWidget(
                           controller: passwordController,
@@ -153,7 +156,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         const SizedBox(
                           height: 30,
                         ),
-                  
+
                         // ===== Login Button =====
                         ButtonsWidget(
                           buttonText: 'LOGIN',
@@ -176,18 +179,34 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
   adminLogin() async {
     if (_formKey.currentState!.validate()) {
-      if (adminIdController.text == 'main admin' &&
-          emailController.text == 'mainadmin@gmail.com' &&
-          passwordController.text == 'admin@321') {
-        await HelperFunctions.saveAdminLoggedInStatus(true);
-        await HelperFunctions.saveAdminId(adminIdController.text);
-        await HelperFunctions.saveAdminEmail(emailController.text);
+      await authService.loginAdminWithEmailandPassword(email, password).then(
+        (value) async {
+          if (value == true && adminIdController.text == 'admin@321') {
+            QuerySnapshot snapshot = await DatabaseService(
+                    uid: FirebaseAuth.instance.currentUser!.uid)
+                .gettingAdminData(email);
 
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const NavigationBottomBar()),
-            (route) => false);
-      }
+            // saving the values to our shared preferences
+            await HelperFunctions.saveAdminLoggedInStatus(true);
+            await HelperFunctions.saveAdminEmail(email);
+            await HelperFunctions.saveAdminId(snapshot.docs[0]["admin_id"]);
+
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const NavigationBottomBar(),
+                ),
+                (route) => false);
+          } else {
+            // setState(() {
+            //   // _isLoading = false;
+            // });
+            // showSnackbar(context, Colors.red, value);
+            debugPrint('Enter admin id correctly');
+            debugPrint('$context');
+          }
+        },
+      );
     }
   }
 }

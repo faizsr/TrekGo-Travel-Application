@@ -1,29 +1,28 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trekmate_project/screens/Main%20Pages/firebase%20widgets/firebase_rating_star.dart';
+import 'package:trekmate_project/screens/Admin/add_place_rating_widget.dart';
+import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/text_form_field.dart';
 
 import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/choice%20chips/drop_down_widget.dart';
 
-class AddNewPlaceScreen extends StatefulWidget {
-  const AddNewPlaceScreen({super.key});
+class AddPlaceScreen extends StatefulWidget {
+  const AddPlaceScreen({super.key});
 
   @override
-  State<AddNewPlaceScreen> createState() => _AddNewPlaceScreenState();
+  State<AddPlaceScreen> createState() => _AddPlaceScreenState();
 }
 
-class _AddNewPlaceScreenState extends State<AddNewPlaceScreen> {
+class _AddPlaceScreenState extends State<AddPlaceScreen> {
   XFile? _selectedImage;
   String? imageUrl = '';
   String? selectedCategory;
   String? selectedState;
   double? ratingCount;
-  String? placeId;
   final _formKey = GlobalKey<FormState>();
 
   void updateCategorySelection(String? category) {
@@ -280,26 +279,15 @@ class _AddNewPlaceScreenState extends State<AddNewPlaceScreen> {
                         debugPrint(e.toString());
                       }
                       debugPrint(uniqueFileName);
-
-                      // ===== Saving all the data to the firebase database =====
-                      await FirebaseFirestore.instance
-                          .collection('destination')
-                          .add({
-                        "place_category": selectedCategory,
-                        "place_state": selectedState,
-                        "place_image": imageUrl,
-                        "place_name": _titleController.text,
-                        "place_description": _descriptionController.text,
-                        "place_locaton": _locationController.text,
-                        "place_rating": ratingCount,
-                        'place_id': placeId,
-                      }).then((DocumentReference place) {
-                        setState(() {
-                          placeId = place.id;
-                          debugPrint('Place id: $placeId');
-                          debugPrint('Place id from ${place.id}');
-                        });
-                      });
+                      DatabaseService().savingDestination(
+                        selectedCategory!,
+                        selectedState!,
+                        imageUrl!,
+                        _titleController.text,
+                        _descriptionController.text,
+                        _locationController.text,
+                        ratingCount!,
+                      );
                       debugPrint(selectedCategory);
                       debugPrint(selectedState);
 

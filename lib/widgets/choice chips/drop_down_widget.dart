@@ -26,10 +26,15 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   final stateList = [
     'Kerala',
     'Karnataka',
+    'Rajasthan',
     'Goa',
-    'Maharashtra',
+    'Himachal Pradesh',
     'Tamil Nadu',
-    'Sikkim'
+    'Meghalaya',
+    'Gujarat',
+    'Andhra pradesh',
+    'Madhya Pradesh',
+    'Maharashtra',
   ];
   String? selectedCategory;
   String? selectedState;
@@ -39,6 +44,8 @@ class _DropDownWidgetState extends State<DropDownWidget> {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2.1,
       child: DropdownButtonFormField(
+        isExpanded: true,
+        menuMaxHeight: 300,
         validator: widget.validator,
         borderRadius: BorderRadius.circular(20),
         padding: EdgeInsets.only(

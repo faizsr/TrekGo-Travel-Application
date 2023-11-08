@@ -1,40 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/favorites_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/recommended_screen.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/popular_carousel_slider_copy.dart';
+import 'package:trekmate_project/widgets/Carousel%20slider/recommended_slider.dart';
 import 'package:trekmate_project/widgets/Home%20screen%20widgets/main_subtitle.dart';
 import 'package:trekmate_project/widgets/Home%20screen%20widgets/top_bar_items.dart';
 import 'package:trekmate_project/widgets/Main%20screens%20widgets/appbar_subtitles.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/favorites_carousel_slider.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/recommended_card.dart';
 import 'package:trekmate_project/widgets/choice%20chips/choice_chips.dart';
-// import 'package:trekmate_project/widgets/Home%20screen%20widgets/scroll_button.dart';
-// import 'package:trekmate_project/widgets/choice%20chips/scroll_sample.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenCopy extends StatefulWidget {
+  const HomeScreenCopy({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenCopy> createState() => _HomeScreenCopyState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final pages = [
-    PopularCard(popularCardImage: munnar),
-    PopularCard(
-      popularCardImage: varkala,
-    ),
-    PopularCard(
-      popularCardImage: vythiri,
-    ),
-    PopularCard(popularCardImage: athirapally),
-    PopularCard(
-      popularCardImage: kuttanad,
-    )
-  ];
+class _HomeScreenCopyState extends State<HomeScreenCopy> {
+  String? sortName;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.07,
-                    child: const ChoiceChipsWidget(),
+                    child: ChoiceChipsWidget(
+                      onSortNameChanged: (newSortName) {
+                        setState(() {
+                          sortName = newSortName;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -115,11 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         subtitleText: 'Popular',
                         viewAllPlaces: () => Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const PopularPlacesScreen(),
+                            builder: (context) =>
+                                PopularPlacesScreen(sortName: sortName),
                           ),
                         ),
                       ),
-                      const PopularCarouselSlider()
+                      PopularCarouselSlider(sortName: sortName)
                     ],
                   ),
                 ),
@@ -131,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       MainSubtitles(
@@ -138,30 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         viewAllPlaces: () => Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) =>
-                                const RecommendedPlacesScreen(),
+                                RecommendedPlacesScreen(sortName: sortName),
                           ),
                         ),
                       ),
-                      // PlaceCards(),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                            top: 15,
-                          ),
-                          child: Row(
-                            children: [
-                              RecommendedCard(recommendedCardImage: jewTown),
-                              RecommendedCard(recommendedCardImage: kuttanad),
-                              RecommendedCard(recommendedCardImage: vythiri),
-                              RecommendedCard(recommendedCardImage: varkala),
-                              RecommendedCard(
-                                  recommendedCardImage: athirapally),
-                            ],
-                          ),
-                        ),
-                      )
+                      RecommendedPlaceSlider(sortName: sortName),
                     ],
                   ),
                 ),

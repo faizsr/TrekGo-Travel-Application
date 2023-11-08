@@ -7,7 +7,9 @@ import 'package:trekmate_project/widgets/Reusable%20widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({
+    super.key,
+  });
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -92,17 +94,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child:
                           const ListtileItem(listtileText: 'Add Destination'),
                     )
-                  : GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const AddPlaceScreen(),
-                          ),
-                        );
-                      },
-                      child:
-                          const ListtileItem(listtileText: 'Add Destination'),
-                    ),
+                  : const SizedBox(),
 
               //Theme section
               const SectionTitles(titleText: 'THEME'),

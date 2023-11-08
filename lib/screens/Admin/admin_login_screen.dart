@@ -28,6 +28,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   String adminId = '';
   String email = '';
   String password = '';
+  bool isLoading = false;
+  bool isButtonEnable = false;
 
   AuthService authService = AuthService();
 
@@ -102,6 +104,11 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           onChanged: (val) {
                             adminId = val;
                             debugPrint(adminId);
+                            setState(() {
+                              isButtonEnable = adminId.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  password.isNotEmpty;
+                            });
                           },
                           validator: (val) {
                             if (val == null) {
@@ -123,13 +130,25 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           onChanged: (val) {
                             email = val;
                             debugPrint(email);
+                            setState(() {
+                              isButtonEnable = adminId.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  password.isNotEmpty;
+                            });
                           },
                           validator: (val) {
-                            return RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(val!)
-                                ? null
-                                : 'Please enter a valid email';
+                            if ((RegExp(
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                .hasMatch(val!))) {
+                              return null;
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please enter a valid email'),
+                                ),
+                              );
+                              return;
+                            }
                           },
                         ),
                         const SizedBox(
@@ -144,10 +163,21 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           onChanged: (val) {
                             password = val;
                             debugPrint(password);
+                            setState(() {
+                              isButtonEnable = adminId.isNotEmpty &&
+                                  email.isNotEmpty &&
+                                  password.isNotEmpty;
+                            });
                           },
                           validator: (val) {
                             if (val!.length < 6) {
-                              return 'Password must be at least 6 character';
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Password must be at least 6 character'),
+                                ),
+                              );
+                              return;
                             } else {
                               return null;
                             }
@@ -159,8 +189,21 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
                         // ===== Login Button =====
                         ButtonsWidget(
-                          buttonText: 'LOGIN',
-                          buttonOnPressed: () => adminLogin(),
+                          buttonText: isLoading ? '' : 'LOGIN',
+                          buttonOnPressed:
+                              isButtonEnable ? () => adminLogin() : null,
+                          loadingWidget: isLoading
+                              ? const SizedBox(
+                                  width: 15,
+                                  height: 15,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                )
+                              : null,
                         ),
                         const SizedBox(
                           height: 25,
@@ -178,7 +221,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   }
 
   adminLogin() async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && password.length > 5) {
+      setState(() {
+        isLoading = true;
+      });
       await authService.loginAdminWithEmailandPassword(email, password).then(
         (value) async {
           if (value == true && adminIdController.text == 'admin@321') {
@@ -198,10 +244,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 ),
                 (route) => false);
           } else {
-            // setState(() {
-            //   // _isLoading = false;
-            // });
-            // showSnackbar(context, Colors.red, value);
+            setState(() {
+              isLoading = false;
+            });
             debugPrint('Enter admin id correctly');
             debugPrint('$context');
           }

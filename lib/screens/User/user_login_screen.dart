@@ -25,9 +25,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formkey = GlobalKey<FormState>();
+  bool isLoading = false;
   String email = '';
   String password = '';
   AuthService authService = AuthService();
+  bool validate = false;
+  bool isButtonEnable = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,13 +97,24 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           onChanged: (val) {
                             email = val;
                             debugPrint(email);
+                            setState(() {
+                              isButtonEnable =
+                                  email.isNotEmpty && password.isNotEmpty;
+                            });
                           },
                           validator: (val) {
-                            return RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(val!)
-                                ? null
-                                : 'Please enter a valid email';
+                            if ((RegExp(
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                .hasMatch(val!))) {
+                              return null;
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please enter a valid email'),
+                                ),
+                              );
+                              return;
+                            }
                           },
                         ),
                         const SizedBox(
@@ -110,7 +124,6 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-
                             // ===== Password Field =====
                             TextFieldWidget(
                               fieldTitle: 'Password',
@@ -118,10 +131,20 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                               onChanged: (val) {
                                 password = val;
                                 debugPrint(val);
+                                setState(() {
+                                  isButtonEnable =
+                                      email.isNotEmpty && password.isNotEmpty;
+                                });
                               },
                               validator: (val) {
                                 if (val!.length < 6) {
-                                  return 'Password must be at least 6 characterz';
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Password must be at least 6 character'),
+                                    ),
+                                  );
+                                  return;
                                 } else {
                                   return null;
                                 }
@@ -157,16 +180,25 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
 
                         // ===== Login Button =====
                         ButtonsWidget(
-                            buttonText: 'LOGIN',
-                            buttonOnPressed: () {
-                              userLogin();
-                            }
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const NavigationBottomBar(),
-                            //   ),
-                            // ),
-                            ),
+                          buttonText: isLoading ? '' : 'LOGIN',
+                          buttonOnPressed: isButtonEnable
+                              ? () {
+                                  userLogin();
+                                }
+                              : null,
+                          loadingWidget: isLoading
+                              ? const SizedBox(
+                                  width: 15,
+                                  height: 15,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                )
+                              : null,
+                        ),
                         const SizedBox(
                           height: 35,
                         ),
@@ -182,8 +214,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           child: HelpTextWidget(
                             firstText: "Don't Have An Account? ",
                             secondText: 'Sign Up?',
-                            onPressedSignUp: () =>
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            onPressedSignUp: () => Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
                               builder: (context) => const UserSignUpScreen(),
                             )),
                           ),
@@ -202,7 +234,10 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
 
 // ===== User Login Function =====
   userLogin() async {
-    if (formkey.currentState!.validate()) {
+    if (formkey.currentState!.validate() && password.length > 5) {
+      setState(() {
+        isLoading = true;
+      });
       await authService.loginUserWithEmailandPassword(email, password).then(
         (value) async {
           if (value == true) {
@@ -222,6 +257,28 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                     builder: (context) => const NavigationBottomBar()),
                 (route) => false);
           } else {
+            setState(() {
+              isLoading = false;
+            });
+
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Incorrect Login Details'),
+                  content: const Text(
+                      'The email and password you entered is incorrect. Please try again.'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'))
+                  ],
+                );
+              },
+            );
+
             debugPrint('Error login in');
           }
         },

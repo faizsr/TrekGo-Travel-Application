@@ -131,30 +131,14 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           },
                           validator: (val) {
                             if ((RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                 .hasMatch(val!))) {
                               return null;
                             } else {
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(
-                              //     content: Text('Please enter a valid email'),
-                              //   ),
-                              // );
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text(
-                                        'Please enter a valid email'),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Ok'))
-                                    ],
-                                  );
-                                },
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please enter a valid email'),
+                                ),
                               );
                               return;
                             }
@@ -179,32 +163,11 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           },
                           validator: (val) {
                             if (val!.length < 6) {
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(
-                              //     content: Text(
-                              //         'Password must be at least 6 character'),
-                              //   ),
-                              // );
-                              // const AlertDialog(
-                              //   title:
-                              //       Text('Please enter at least 6 characters'),
-                              // );
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text(
-                                        'Please enter at least 6 characters'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Ok'),
-                                      )
-                                    ],
-                                  );
-                                },
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Password must be at least 6 character'),
+                                ),
                               );
                               return;
                             } else {
@@ -218,11 +181,23 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
 
                         // ===== Sign Up button =====
                         ButtonsWidget(
-                          buttonText: _isLoading ? 'CHECKING...' : 'SIGN UP',
+                          buttonText: _isLoading ? '' : 'SIGN UP',
                           buttonOnPressed: isButtonEnable
                               ? () {
                                   userSignUp();
                                 }
+                              : null,
+                          loadingWidget: _isLoading
+                              ? const SizedBox(
+                                  width: 15,
+                                  height: 15,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                )
                               : null,
                         ),
                         const SizedBox(
@@ -276,13 +251,9 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 content: Text('Account created successfully'),
               ),
             );
-            // ignore: use_build_context_synchronously
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const HomeScreen(),
-            //   ),
-            // );
+            setState(() {
+              _isLoading = false;
+            });
           } else {
             setState(() {
               _isLoading = false;

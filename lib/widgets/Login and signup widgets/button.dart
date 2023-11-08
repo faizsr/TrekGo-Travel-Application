@@ -6,6 +6,7 @@ class ButtonsWidget extends StatelessWidget {
   final double? buttonWidth;
   final bool isOutlinedButton;
   final Function()? buttonOnPressed;
+  final Widget? loadingWidget;
 
   const ButtonsWidget({
     super.key,
@@ -14,6 +15,7 @@ class ButtonsWidget extends StatelessWidget {
     this.buttonWidth,
     this.isOutlinedButton = false,
     this.buttonOnPressed,
+    this.loadingWidget,
   });
 
   @override
@@ -24,22 +26,25 @@ class ButtonsWidget extends StatelessWidget {
       child: isOutlinedButton
           ? OutlinedButton(
               style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7.65),
-                  ),
-                  side: const BorderSide(
-                    width: 1,
-                    color: Color(0xFF1285b9),
-                  )),
-              onPressed: buttonOnPressed,
-              child: Text(
-                buttonText,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.65),
+                ),
+                side: const BorderSide(
+                  width: 1,
                   color: Color(0xFF1285b9),
                 ),
+                // disabledBackgroundColor: const Color(0xCC1285b9),
               ),
+              onPressed: buttonOnPressed,
+              child: loadingWidget ??
+                  Text(
+                    buttonText,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Color(0xFF1285b9),
+                    ),
+                  ),
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -48,15 +53,17 @@ class ButtonsWidget extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7.65),
                 ),
+                disabledBackgroundColor: const Color(0xB31285b9),
               ),
               onPressed: buttonOnPressed,
-              child: Text(
-                buttonText,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: Colors.white),
-              ),
+              child: loadingWidget ??
+                  Text(
+                    buttonText,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 12,
+                        color: Colors.white),
+                  ),
             ),
     );
   }

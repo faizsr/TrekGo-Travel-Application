@@ -16,13 +16,19 @@ class NavigationBottomBar extends StatefulWidget {
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
   int selectedIndex = 0;
 
-  List pages = [
-    const HomeScreenCopy(),
-    const SearchScreen(),
-    const AddFavoriteScreen(),
-    const SavedPlacesScreen(),
-    ProfileScreen(),
-  ];
+  List pages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      const HomeScreenCopy(),
+      const SearchScreen(),
+      const AddFavoriteScreen(),
+      const SavedPlacesScreen(),
+      ProfileScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

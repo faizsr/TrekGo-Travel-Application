@@ -14,11 +14,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   bool _isUserSignedIn = false;
   bool _isAdminSignedIn = false;
-  // @override
-  // void initState() {
-  //   gotoLogin();
-  //   super.initState();
-  // }
 
   @override
   void initState() {
@@ -28,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
+  // ===== Checking if user login =====
   getUserLoggedInStatus() async {
     await HelperFunctions.getUserLoggedInStatus().then((value) {
       if (value != null) {
@@ -38,6 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  // ===== Checking if admin login =====
   getAdminLoggedInStatus() async {
     await HelperFunctions.getAdminLoggedInStatus().then((value) {
       if (value != null) {
@@ -51,6 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // ===== Body =====
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -68,21 +67,24 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  // ===== Function for navigating based on roles =====
   Future<void> checkLoginStatus() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       _isUserSignedIn
           ? Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const NavigationBottomBar(),
+                builder: (_) => NavigationBottomBar(
+                    isUser: _isUserSignedIn, isAdmin: _isAdminSignedIn),
               ),
             )
           : _isAdminSignedIn
               ? Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NavigationBottomBar(),
+                    builder: (context) => NavigationBottomBar(
+                        isAdmin: _isAdminSignedIn, isUser: _isUserSignedIn),
                   ),
                 )
               : Navigator.push(

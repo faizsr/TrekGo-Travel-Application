@@ -7,7 +7,13 @@ import 'package:trekmate_project/screens/Main%20Pages/profile_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/search_screen.dart';
 
 class NavigationBottomBar extends StatefulWidget {
-  const NavigationBottomBar({super.key});
+  final bool? isAdmin;
+  final bool? isUser;
+  const NavigationBottomBar({
+    super.key,
+    this.isAdmin,
+    this.isUser,
+  });
 
   @override
   State<NavigationBottomBar> createState() => _NavigationBottomBarState();
@@ -22,19 +28,28 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   void initState() {
     super.initState();
     pages = [
-      const HomeScreenCopy(),
+      HomeScreenCopy(
+        isAdmin: widget.isAdmin,
+        isUser: widget.isUser,
+      ),
       const SearchScreen(),
       const AddFavoriteScreen(),
       const SavedPlacesScreen(),
       ProfileScreen(),
     ];
+    debugPrint('Admin logged in ${widget.isAdmin}');
+    debugPrint('User logged in ${widget.isUser}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      // ===== Body =====
       body: pages[selectedIndex],
       extendBody: true,
+
+      // ===== Bottom navigation bar =====
       bottomNavigationBar: Container(
         margin: const EdgeInsets.all(20),
         child: ClipRRect(

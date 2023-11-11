@@ -5,10 +5,14 @@ import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
 
 class RecommendedPlacesScreen extends StatefulWidget {
+  final bool? isAdmin;
+  final bool? isUser;
   final String? sortName;
   const RecommendedPlacesScreen({
     super.key,
     this.sortName,
+    this.isAdmin,
+    this.isUser,
   });
 
   @override
@@ -21,7 +25,8 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Appbar
+
+      // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -74,10 +79,12 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
         backgroundColor: const Color(0xFFe5e6f6),
       ),
 
-      //Body
+      // ===== Body =====
       body: SingleChildScrollView(
-        //Recommended place cards
+        // ===== Recommended places =====
         child: StreamBuilder(
+
+          // ===== Sorting data based on chip selection =====
           stream: widget.sortName == 'View All'
               ? DatabaseService()
                   .destinationCollection
@@ -98,7 +105,12 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 25),
                     child: PopularCard(
+                      isAdmin: widget.isAdmin,
+                      isUser: widget.isUser,
                       ratingCount: ratingCount,
+                      placeid: destinationSnap.id,
+                      placeCategory: destinationSnap['place_category'],
+                      placeState: destinationSnap['place_state'],
                       placeName: destinationSnap['place_name'],
                       popularCardImage: destinationSnap['place_image'],
                       placeDescripton: destinationSnap['place_description'],

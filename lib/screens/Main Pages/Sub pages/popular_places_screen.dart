@@ -5,9 +5,13 @@ import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
 
 class PopularPlacesScreen extends StatefulWidget {
+  final bool? isAdmin;
+  final bool? isUser;
   final String? sortName;
   const PopularPlacesScreen({
     super.key,
+    this.isAdmin,
+    this.isUser,
     this.sortName,
   });
 
@@ -20,7 +24,7 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Appbar
+      // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -54,13 +58,23 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
                       size: 12,
                       color: Colors.black,
                     ),
-                    const Text(
-                      'Kerala, India',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                      ),
-                    ),
+
+
+                    widget.sortName == 'View All'
+                        ? const Text(
+                            'India',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
+                          )
+                        : Text(
+                            '${widget.sortName}, India',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
+                          )
                   ],
                 ),
               ),
@@ -73,10 +87,12 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
         backgroundColor: const Color(0xFFe5e6f6),
       ),
 
-      //Contents
+      // ===== Body =====
       body: SingleChildScrollView(
-        //Popular place cards
+        // ===== Popular places =====
         child: StreamBuilder(
+
+          // ===== Sorting data based on chip selection =====
           stream: widget.sortName == 'View All'
               ? DatabaseService()
                   .destinationCollection
@@ -97,8 +113,12 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 25),
                     child: PopularCard(
+                      isAdmin: widget.isAdmin,
+                      isUser: widget.isUser,
                       placeName: destinationSnap['place_name'],
                       popularCardImage: destinationSnap['place_image'],
+                      placeCategory: destinationSnap['place_category'],
+                      placeState: destinationSnap['place_state'],
                       ratingCount: ratingCount,
                       placeDescripton: destinationSnap['place_description'],
                       placeLocation: destinationSnap['place_location'],

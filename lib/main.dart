@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/firebase_options.dart';
-// import 'package:trekmate_project/helper/helper_functions.dart';
-// import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
+// import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen_copy.dart';
 import 'package:trekmate_project/screens/Main%20Pages/splash_screen.dart';
 
 Future<void> main() async {
@@ -10,6 +9,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(
     const MyApp(),
   );
@@ -25,36 +25,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // bool _isUserSignedIn = false;
-  // bool _isAdminSignedIn = false;
-
-  // @override
-  // void initState() {
-  //   getUserLoggedInStatus();
-  //   getAdminLoggedInStatus();
-  //   super.initState();
-  // }
-
-  // getUserLoggedInStatus() async {
-  //   await HelperFunctions.getUserLoggedInStatus().then((value) {
-  //     if (value != null) {
-  //       setState(() {
-  //         _isUserSignedIn = value;
-  //       });
-  //     }
-  //   });
-  // }
-
-  // getAdminLoggedInStatus() async {
-  //   await HelperFunctions.getAdminLoggedInStatus().then((value) {
-  //     if (value != null) {
-  //       setState(() {
-  //         _isAdminSignedIn = value;
-  //       });
-  //     }
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,11 +34,6 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: const Color(0xFFf0f3f7),
         ),
         debugShowCheckedModeBanner: false,
-        // home: _isUserSignedIn
-        //     ? const NavigationBottomBar()
-        //     : _isAdminSignedIn
-        //         ? const NavigationBottomBar()
-        //         : const SplashScreen(),
         home: const SplashScreen(),
       ),
     );

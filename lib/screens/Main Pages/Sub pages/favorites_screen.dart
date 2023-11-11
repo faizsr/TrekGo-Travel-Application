@@ -10,6 +10,8 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -35,6 +37,8 @@ class FavoriteScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: const Color(0xFFe5e6f6),
       ),
+
+      // ===== Body =====
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),

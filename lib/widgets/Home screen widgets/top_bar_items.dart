@@ -3,7 +3,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trekmate_project/assets.dart';
 
 class TopBarItems extends StatelessWidget {
-  const TopBarItems({super.key});
+  final String? placeLocation;
+  const TopBarItems({
+    super.key,
+    this.placeLocation,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +32,11 @@ class TopBarItems extends StatelessWidget {
             Icon(
               MdiIcons.mapMarkerOutline,
               size: 13,
+              
             ),
-            const Text('Kerala, India'),
+            placeLocation == 'View All'
+                ? const Text('India')
+                : Text('${placeLocation ?? 'Welcome to'}, India'),
           ],
         ),
         Container(

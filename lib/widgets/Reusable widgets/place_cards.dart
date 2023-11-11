@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen.dart';
+import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
+import 'package:trekmate_project/widgets/Reusable%20widgets/place_card_buttons.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
 
 class PopularCard extends StatelessWidget {
-  final String? placeName;
+  final String? placeid;
   final String popularCardImage;
-  final double? ratingCount;
+  final String? placeCategory;
+  final String? placeState;
+  final String? placeName;
   final String? placeDescripton;
   final String? placeLocation;
+  final double? ratingCount;
+  final bool? isAdmin;
+  final bool? isUser;
   const PopularCard({
     super.key,
+    this.placeid,
     required this.popularCardImage,
+    this.placeCategory,
+    this.placeState,
     this.placeName,
     this.ratingCount,
     this.placeDescripton,
     this.placeLocation,
+    this.isAdmin,
+    this.isUser,
   });
 
   @override
@@ -25,6 +38,11 @@ class PopularCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaceDetailScreen(
+              isAdmin: isAdmin ?? true,
+              isUser: isUser ?? false,
+              placeid: placeid,
+              placeCategory: placeCategory,
+              placeState: placeState,
               placeImage: popularCardImage,
               placeName: placeName,
               ratingCount: ratingCount,
@@ -33,6 +51,8 @@ class PopularCard extends StatelessWidget {
             ),
           ),
         );
+        debugPrint('Admin logged place in $isAdmin');
+        debugPrint('User logged in $isUser');
       },
       child: Center(
         child: Container(
@@ -109,25 +129,79 @@ class PopularCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: SizedBox(
+                  child: Container(
+                    color: Colors.white,
                     width: MediaQuery.of(context).size.width * 0.88,
                     height: MediaQuery.of(context).size.height * 0.24,
-                    child: Image.network(
-                      popularCardImage,
+                    child: Image(
+                      frameBuilder:
+                          (context, child, frame, wasSynchronouslyLoaded) {
+                        if (wasSynchronouslyLoaded) {
+                          return child;
+                        } else {
+                          return AnimatedOpacity(
+                            opacity: frame == null ? 0 : 1,
+                            duration: const Duration(seconds: 2),
+                            curve: Curves.easeOut,
+                            child: child,
+                          );
+                        }
+                      },
+                      image: NetworkImage(
+                        popularCardImage,
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
+              isAdmin == true
+                  ? Positioned(
+                      top: 20,
+                      left: 20,
+                      child: GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => UpdatePlaceScreen(
+                                    placeid: placeid,
+                                    placeImage: popularCardImage,
+                                    placeCategory: placeCategory,
+                                    placeState: placeState,
+                                    placeTitle: placeName,
+                                    placeDescription: placeDescripton,
+                                    placeLocation: placeLocation,
+                                    placeRating: ratingCount,
+                                  ),
+                                ),
+                              ),
+                          child: const PlaceCardButton(buttonText: 'UPDATE')),
+                    )
+                  : const SizedBox(),
+              isAdmin == true
+                  ? Positioned(
+                      top: 20,
+                      right: 20,
+                      child: GestureDetector(
+                        onTap: () {
+                          deleteData(placeid!);
+                        },
+                        child: const PlaceCardButton(buttonText: 'REMOVE'),
+                      ),
+                    )
+                  : const SizedBox(),
               Positioned(
                 right: 30,
                 bottom: MediaQuery.of(context).size.width * 0.16,
                 child: const SavedIcon(),
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Future<void> deleteData(String placeid) async {
+  await DatabaseService().destinationCollection.doc(placeid).delete();
 }

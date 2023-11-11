@@ -13,7 +13,7 @@ class SearchScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //Appbar
+          // ===== Appbar =====
           Container(
             height: MediaQuery.of(context).size.height * 0.235,
             decoration: const BoxDecoration(
@@ -31,7 +31,7 @@ class SearchScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  //Appbar headings and icons
+                  // ===== Appbar heading and icons =====
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -62,7 +62,7 @@ class SearchScreen extends StatelessWidget {
                     height: 15,
                   ),
 
-                  //Appbar Search Area
+                  // ===== Appbar search area =====
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -96,7 +96,7 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
 
-          //Recend Search heading
+          // ===== Recent search area =====
           const Padding(
             padding: EdgeInsets.only(
               left: 25,
@@ -112,7 +112,7 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
 
-          //Recent Search Card
+          // ===== Recent search card =====
           RecentSearchCard(
             cardImage: maharajaPalace,
             cardTitle: 'Maharaja Palace',
@@ -120,7 +120,8 @@ class SearchScreen extends StatelessWidget {
           RecentSearchCard(
             cardImage: munnar,
             cardTitle: 'Munnar View Point',
-          ),          RecentSearchCard(
+          ),
+          RecentSearchCard(
             cardImage: kuttanad,
             cardTitle: 'Kuttand',
           ),

@@ -9,6 +9,8 @@ class AddFavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -37,6 +39,8 @@ class AddFavoriteScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: const Color(0xFFe5e6f6),
       ),
+
+      // ===== Body =====
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +61,7 @@ class AddFavoriteScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.28,
               child: Center(
-                //Choose image section
+                // ===== Section for image selection =====
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(width: 1, color: Colors.grey),
@@ -80,7 +84,7 @@ class AddFavoriteScreen extends StatelessWidget {
               ),
             ),
 
-            //Title section
+            // ===== Title section =====
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: SectionTitles(
@@ -92,7 +96,7 @@ class AddFavoriteScreen extends StatelessWidget {
               minmaxLine: false,
             ),
 
-            //Description section
+            // ===== Description section =====
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: SectionTitles(titleText: 'Description'),
@@ -102,7 +106,7 @@ class AddFavoriteScreen extends StatelessWidget {
               minmaxLine: true,
             ),
 
-            //Location section
+            // ===== Location section =====
             const Padding(
               padding: EdgeInsets.only(left: 12),
               child: SectionTitles(
@@ -118,7 +122,7 @@ class AddFavoriteScreen extends StatelessWidget {
               height: 10,
             ),
 
-            //Save button
+            // ===== Save button =====
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
               width: MediaQuery.of(context).size.width,

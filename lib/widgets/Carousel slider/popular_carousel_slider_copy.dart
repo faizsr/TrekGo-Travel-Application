@@ -5,8 +5,15 @@ import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
 
 class PopularCarouselSlider extends StatefulWidget {
+  final bool? isAdmin;
+  final bool? isUser;
   final String? sortName;
-  const PopularCarouselSlider({super.key, this.sortName});
+  const PopularCarouselSlider({
+    super.key,
+    this.isAdmin,
+    this.isUser,
+    this.sortName,
+  });
 
   @override
   State<PopularCarouselSlider> createState() => _PopularCarouselSliderState();
@@ -15,6 +22,8 @@ class PopularCarouselSlider extends StatefulWidget {
 class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
   @override
   Widget build(BuildContext context) {
+
+    // ===== Popular places carousel slider =====
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2.7,
       child: StreamBuilder(
@@ -37,7 +46,10 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                   DocumentSnapshot destinationSnapshot =
                       snapshot.data.docs[index];
                   return PopularCard(
+                    placeid: destinationSnapshot.id,
                     popularCardImage: destinationSnapshot['place_image'],
+                    placeCategory: destinationSnapshot['place_category'],
+                    placeState: destinationSnapshot['place_state'],
                     placeName: destinationSnapshot['place_name'],
                     ratingCount: double.tryParse(
                         destinationSnapshot['place_rating'].toString()),
@@ -46,6 +58,7 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                   );
                 },
                 options: CarouselOptions(
+                  // autoPlay: true,
                   scrollPhysics: const BouncingScrollPhysics(),
                   viewportFraction: 1.0,
                   pauseAutoPlayInFiniteScroll: true,
@@ -56,10 +69,26 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                 ));
           } else {
             return Container(
-              color: Colors.white,
-              height: MediaQuery.of(context).size.height / 2.7,
-              child: const Center(
-                child: Text('Popular is empty for this place'),
+              margin: const EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 10,
+                    offset: Offset(0, 4),
+                    spreadRadius: 2,
+                    color: Color(0x0D000000),
+                  )
+                ],
+              ),
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: MediaQuery.of(context).size.height / 2.95,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2.7,
+                child: const Center(
+                  child: Text('Popular is empty for this place'),
+                ),
               ),
             );
           }

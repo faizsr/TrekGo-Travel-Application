@@ -229,6 +229,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
     );
   }
 
+
+  // ===== Function for user sign up =====
   userSignUp() async {
     if (_formKey.currentState!.validate()) {
       setState(() {

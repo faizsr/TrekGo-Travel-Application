@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DropDownWidget extends StatefulWidget {
+  final String? updateCategory;
+  final String? updateState;
   final double? leftPadding;
   final double? rightPadding;
   final bool listSelect;
@@ -9,6 +11,8 @@ class DropDownWidget extends StatefulWidget {
   final String? Function(String?)? validator;
   const DropDownWidget({
     super.key,
+    this.updateCategory,
+    this.updateState,
     this.leftPadding,
     this.rightPadding,
     this.listSelect = false,
@@ -38,6 +42,15 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   ];
   String? selectedCategory;
   String? selectedState;
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint('Category : ${widget.updateCategory}');
+    debugPrint('State : ${widget.updateState}');
+    selectedCategory = widget.updateCategory;
+    selectedState = widget.updateState;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +97,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        value: selectedCategory,
+        value: widget.listSelect ? selectedCategory : selectedState,
         items: widget.listSelect
             ? categoryList.map((newValue) {
                 return DropdownMenuItem(

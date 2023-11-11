@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
 
 class SavedPlacesScreen extends StatelessWidget {
@@ -12,6 +10,7 @@ class SavedPlacesScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // ===== Appbar =====
             Container(
               height: MediaQuery.of(context).size.height * 0.13,
               width: MediaQuery.of(context).size.width,
@@ -52,27 +51,30 @@ class SavedPlacesScreen extends StatelessWidget {
               ),
             ),
 
-            //Saved Place Cards
+            // ===== Saved places card =====
 
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: PopularCard(popularCardImage: varkala),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: PopularCard(popularCardImage: athirapally),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: PopularCard(popularCardImage: munnar),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: PopularCard(popularCardImage: cubbonPark),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: PopularCard(popularCardImage: maharajaPalace),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20),
+            //   child: PopularCard(popularCardImage: varkala),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20),
+            //   child: PopularCard(popularCardImage: athirapally),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20),
+            //   child: PopularCard(popularCardImage: munnar),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20),
+            //   child: PopularCard(popularCardImage: cubbonPark),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 20),
+            //   child: PopularCard(popularCardImage: maharajaPalace),
+            // ),
+            const Center(
+              child: Text('No saved places'),
             ),
 
             SizedBox(

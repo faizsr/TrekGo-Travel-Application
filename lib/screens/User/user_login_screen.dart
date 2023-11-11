@@ -75,12 +75,14 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                       children: [
                         // ===== Title =====
                         GestureDetector(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const AdminLoginScreen(),
-                            ),
-                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AdminLoginScreen(),
+                              ),
+                            );
+                          },
                           child: const TitleWidget(
                             mainText: 'login',
                             mainTextSize: 30,
@@ -157,7 +159,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const ForgotPasswordScreen(),
+                                      ForgotPasswordScreen(),
                                 ),
                               ),
                               child: const Padding(
@@ -200,7 +202,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                               : null,
                         ),
                         const SizedBox(
-                          height: 35,
+                          height: 25,
                         ),
 
                         // ===== Help text (sign up) =====
@@ -220,6 +222,25 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                             )),
                           ),
                         ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // GestureDetector(
+                        //   onTap: () => Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => const UserSignUpScreen(),
+                        //     ),
+                        //   ),
+                        //   child: HelpTextWidget(
+                        //     firstText: "Are you a admin? ",
+                        //     secondText: 'Login?',
+                        //     onPressedSignUp: () => Navigator.of(context)
+                        //         .pushReplacement(MaterialPageRoute(
+                        //       builder: (context) => const UserSignUpScreen(),
+                        //     )),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -254,7 +275,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             // ignore: use_build_context_synchronously
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => const NavigationBottomBar()),
+                    builder: (context) => const NavigationBottomBar(
+                        isAdmin: false, isUser: true)),
                 (route) => false);
           } else {
             setState(() {

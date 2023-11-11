@@ -11,6 +11,8 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // ===== Body =====
       body: Column(
         children: [
           Container(
@@ -32,6 +34,8 @@ class EditProfileScreen extends StatelessWidget {
           ),
           Stack(
             children: [
+
+              // ===== User profile picture =====
               Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -49,6 +53,8 @@ class EditProfileScreen extends StatelessWidget {
                   backgroundImage: AssetImage(athirapally),
                 ),
               ),
+
+              // ===== Button for picking image from camera =====
               Positioned(
                 bottom: 10,
                 right: 2,
@@ -70,6 +76,8 @@ class EditProfileScreen extends StatelessWidget {
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              // ===== Name section =====
               Padding(
                 padding: EdgeInsets.only(left: 12),
                 child: SectionTitles(
@@ -79,6 +87,8 @@ class EditProfileScreen extends StatelessWidget {
               TextFieldWidgetTwo(
                 hintText: 'Adam Bekh',
               ),
+
+              // ===== Gender section =====
               Padding(
                 padding: EdgeInsets.only(left: 12),
                 child: SectionTitles(
@@ -88,6 +98,8 @@ class EditProfileScreen extends StatelessWidget {
               TextFieldWidgetTwo(
                 hintText: 'Male',
               ),
+
+              // ===== Username =====
               Padding(
                 padding: EdgeInsets.only(left: 12),
                 child: SectionTitles(
@@ -97,6 +109,8 @@ class EditProfileScreen extends StatelessWidget {
               TextFieldWidgetTwo(
                 hintText: 'adambekh',
               ),
+
+              // ===== Email section =====
               Padding(
                 padding: EdgeInsets.only(left: 12),
                 child: SectionTitles(

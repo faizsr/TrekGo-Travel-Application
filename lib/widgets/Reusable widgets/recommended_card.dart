@@ -5,6 +5,9 @@ import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_s
 import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
 
 class RecommendedCard extends StatelessWidget {
+  final String? placeid;
+  final String? placeCategory;
+  final String? placeState;
   final String? placeName;
   final double? ratingCount;
   final String recommendedCardImage;
@@ -12,6 +15,9 @@ class RecommendedCard extends StatelessWidget {
   final String? placeLocation;
   const RecommendedCard({
     super.key,
+    this.placeid,
+    this.placeCategory,
+    this.placeState,
     this.placeName,
     this.ratingCount,
     required this.recommendedCardImage,
@@ -26,6 +32,11 @@ class RecommendedCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaceDetailScreen(
+              isAdmin: true,
+              isUser: false,
+              placeid: placeid,
+              placeCategory: placeCategory,
+              placeState: placeState,
               placeImage: recommendedCardImage,
               placeName: placeName,
               ratingCount: ratingCount,
@@ -92,7 +103,7 @@ class RecommendedCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       // color: Colors.black,
                       width: MediaQuery.of(context).size.width * 0.22,
                       child: Text(

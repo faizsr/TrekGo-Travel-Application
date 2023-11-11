@@ -10,19 +10,39 @@ import 'package:trekmate_project/widgets/Reusable%20widgets/text_form_field.dart
 import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/choice%20chips%20and%20drop%20down%20widget/drop_down_widget.dart';
 
-class AddPlaceScreen extends StatefulWidget {
-  const AddPlaceScreen({super.key});
-
+class UpdatePlaceScreen extends StatefulWidget {
+  final String? placeid;
+  final String? placeImage;
+  final String? placeCategory;
+  final String? placeState;
+  final String? placeTitle;
+  final String? placeDescription;
+  final String? placeLocation;
+  final double? placeRating;
+  const UpdatePlaceScreen({
+    super.key,
+    this.placeid,
+    this.placeImage,
+    this.placeCategory,
+    this.placeState,
+    this.placeTitle,
+    this.placeDescription,
+    this.placeLocation,
+    this.placeRating,
+  });
   @override
-  State<AddPlaceScreen> createState() => _AddPlaceScreenState();
+  State<UpdatePlaceScreen> createState() => _UpdatePlaceScreenState();
 }
 
-class _AddPlaceScreenState extends State<AddPlaceScreen> {
+class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
   XFile? _selectedImage;
-  String? imageUrl = '';
-  String? selectedCategory;
-  String? selectedState;
+  String? imageUrl;
   double? ratingCount;
+  String? selectedCategory;
+  String? initialCategory;
+  String? selectedState;
+  String? initialState;
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
   void updateCategorySelection(String? category) {
@@ -38,9 +58,20 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   }
 
   // ===== Text controllers =====
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
+
+  @override
+  void initState() {
+    titleController.text = widget.placeTitle!;
+    descriptionController.text = widget.placeDescription!;
+    locationController.text = widget.placeLocation!;
+    ratingCount = widget.placeRating;
+    initialCategory = widget.placeCategory;
+    initialState = widget.placeState;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +79,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => Navigator.pop(context, 'refresh'),
           child: const Padding(
             padding: EdgeInsets.only(top: 30),
             child: Icon(
@@ -91,7 +122,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                           image: FileImage(File(_selectedImage!.path)),
                           fit: BoxFit.cover,
                         )
-                      : null,
+                      : DecorationImage(
+                          image: NetworkImage(widget.placeImage!),
+                          fit: BoxFit.cover,
+                        ),
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: const [
@@ -146,6 +180,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 children: [
                   // ===== Popular or Recommended =====
                   DropDownWidget(
+                    updateCategory: initialCategory,
+                    updateState: initialState,
                     leftPadding: 20,
                     listSelect: true,
                     onCategorySelectionChange: updateCategorySelection,
@@ -160,6 +196,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
                   // ===== State =====
                   DropDownWidget(
+                    updateState: initialState,
+                    updateCategory: initialCategory,
                     rightPadding: 20,
                     onStateCelectionChange: updateStateSelection,
                     validator: (val) {
@@ -181,7 +219,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 ),
               ),
               TextFieldWidgetTwo(
-                controller: _titleController,
+                controller: titleController,
                 hintText: 'Title of the place...',
                 minmaxLine: false,
                 validator: (value) {
@@ -199,7 +237,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 child: SectionTitles(titleText: 'Description'),
               ),
               TextFieldWidgetTwo(
-                controller: _descriptionController,
+                controller: descriptionController,
                 hintText: 'Description of the place...',
                 minmaxLine: true,
                 validator: (value) {
@@ -219,7 +257,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 ),
               ),
               TextFieldWidgetTwo(
-                controller: _locationController,
+                controller: locationController,
                 hintText: 'Location of the place...',
                 minmaxLine: false,
                 validator: (value) {
@@ -238,6 +276,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               // ===== Rating =====
               Center(
                 child: RatingStarWidget(
+                  onUpdate: true,
+                  initialRatingCount: ratingCount,
                   onRatingPlace: updateRatingCount,
                 ),
               ),
@@ -259,48 +299,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    // ===== Saving image to firestore database =====
-                    if (_formKey.currentState!.validate() &&
-                        _selectedImage != null &&
-                        ratingCount != null) {
-                      String uniqueFileName =
-                          DateTime.now().millisecondsSinceEpoch.toString();
-
-                      Reference referenceRoot = FirebaseStorage.instance.ref();
-                      Reference referenceDirImages =
-                          referenceRoot.child('images');
-                      Reference referenceImageToUpload =
-                          referenceDirImages.child(uniqueFileName);
-
-                      try {
-                        await referenceImageToUpload
-                            .putFile(File(_selectedImage!.path));
-                        imageUrl =
-                            await referenceImageToUpload.getDownloadURL();
-                      } catch (e) {
-                        debugPrint(e.toString());
-                      }
-                      debugPrint(uniqueFileName);
-                      DatabaseService().savingDestination(
-                        selectedCategory!,
-                        selectedState!,
-                        imageUrl!,
-                        _titleController.text.trim(),
-                        _descriptionController.text.trim(),
-                        _locationController.text.trim(),
-                        ratingCount!,
-                      );
-                      debugPrint(selectedCategory);
-                      debugPrint(selectedState);
-
-                      debugPrint('Data successfully added');
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please fill all forms'),
-                        ),
-                      );
-                    }
+                    updateDetails();
                   },
                   child: const Text(
                     'SAVE',
@@ -328,5 +327,40 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       return XFile(pickedImage.path);
     }
     return null;
+  }
+
+  // ===== Function for updating the detials =====
+  updateDetails() async {
+    Reference referenceImageToUpload =
+        FirebaseStorage.instance.refFromURL(widget.placeImage!);
+
+    try {
+      await referenceImageToUpload.putFile(File(_selectedImage!.path));
+      imageUrl = await referenceImageToUpload.getDownloadURL();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    // ===== Saving to the database =====
+    if (titleController.text.isNotEmpty ||
+        descriptionController.text.isNotEmpty ||
+        locationController.text.isNotEmpty ||
+        ratingCount != null ||
+        imageUrl != null ||
+        selectedCategory != null ||
+        selectedState != null) {
+      await DatabaseService().destinationCollection.doc(widget.placeid).update({
+        'place_image': imageUrl ?? widget.placeImage,
+        'place_name': titleController.text.trim(),
+        'place_description': descriptionController.text.trim(),
+        'place_location': locationController.text.trim(),
+        'place_rating': ratingCount ?? widget.placeRating,
+        'place_category': selectedCategory ?? widget.placeCategory,
+        'place_state': selectedState ?? widget.placeState,
+      });
+      debugPrint('Updated');
+    } else {
+      debugPrint('Not updated');
+    }
   }
 }

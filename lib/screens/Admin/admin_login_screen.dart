@@ -220,6 +220,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     );
   }
 
+
+  // ===== Function for admin login =====
   adminLogin() async {
     if (_formKey.currentState!.validate() && password.length > 5) {
       setState(() {
@@ -240,7 +242,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             // ignore: use_build_context_synchronously
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => const NavigationBottomBar(),
+                  builder: (context) => const NavigationBottomBar(
+                    isAdmin: true,
+                    isUser: false,
+                  ),
                 ),
                 (route) => false);
           } else {

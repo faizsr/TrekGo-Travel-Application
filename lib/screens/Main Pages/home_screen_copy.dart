@@ -8,10 +8,16 @@ import 'package:trekmate_project/widgets/Home%20screen%20widgets/main_subtitle.d
 import 'package:trekmate_project/widgets/Home%20screen%20widgets/top_bar_items.dart';
 import 'package:trekmate_project/widgets/Main%20screens%20widgets/appbar_subtitles.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/favorites_carousel_slider.dart';
-import 'package:trekmate_project/widgets/choice%20chips/choice_chips.dart';
+import 'package:trekmate_project/widgets/choice%20chips%20and%20drop%20down%20widget/choice_chips.dart';
 
 class HomeScreenCopy extends StatefulWidget {
-  const HomeScreenCopy({super.key});
+  final bool? isAdmin;
+  final bool? isUser;
+  const HomeScreenCopy({
+    super.key,
+    this.isAdmin,
+    this.isUser,
+  });
 
   @override
   State<HomeScreenCopy> createState() => _HomeScreenCopyState();
@@ -26,7 +32,7 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //Appbar
+            // ===== Custom appbar =====
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -42,12 +48,12 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      //Appbar Top items
+                      // ===== Appbar top items =====
                       Positioned(
                         top: MediaQuery.of(context).size.width * 0.06,
                         right: 25,
                         left: 25,
-                        child: const TopBarItems(),
+                        child: TopBarItems(placeLocation: sortName),
                       ),
                       Positioned(
                         top: MediaQuery.of(context).size.width * 0.24,
@@ -71,7 +77,7 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                   ),
                 ),
 
-                //Appbar tab bars
+                // ===== Appbar choice chips =====
                 Positioned(
                   top: MediaQuery.of(context).size.height * 0.225,
                   child: SizedBox(
@@ -95,22 +101,32 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
 
             Column(
               children: [
-                //Popular Section
+                // ===== Popular places section =====
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       MainSubtitles(
-                        subtitleText: 'Popular',
-                        viewAllPlaces: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                PopularPlacesScreen(sortName: sortName),
-                          ),
-                        ),
-                      ),
-                      PopularCarouselSlider(sortName: sortName)
+                          subtitleText: 'Popular',
+                          viewAllPlaces: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PopularPlacesScreen(
+                                  sortName: sortName,
+                                  isAdmin: widget.isAdmin,
+                                  isUser: widget.isUser,
+                                ),
+                              ),
+                            );
+                            debugPrint('Admin logged in ${widget.isAdmin}');
+                            debugPrint('User logged in ${widget.isUser}');
+                          }),
+                      PopularCarouselSlider(
+                        isAdmin: widget.isAdmin,
+                        isUser: widget.isUser,
+                        sortName: sortName,
+                      )
                     ],
                   ),
                 ),
@@ -118,7 +134,7 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                   height: 10,
                 ),
 
-                //Recommended Screen
+                // ===== Recommended places section =====
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
@@ -129,8 +145,11 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                         subtitleText: 'Recommended',
                         viewAllPlaces: () => Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) =>
-                                RecommendedPlacesScreen(sortName: sortName),
+                            builder: (context) => RecommendedPlacesScreen(
+                              isAdmin: widget.isAdmin,
+                              isUser: widget.isUser,
+                              sortName: sortName,
+                            ),
                           ),
                         ),
                       ),
@@ -142,7 +161,7 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                   height: 20,
                 ),
 
-                //Favorites screen
+                // ===== Favorite screen section =====
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(

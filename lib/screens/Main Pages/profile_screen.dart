@@ -21,6 +21,8 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(
             height: 90,
           ),
+
+          // ===== Profile photo =====
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -41,6 +43,8 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
+
+          // ===== Name of the user =====
           const Text(
             'Adam Bekh',
             style: TextStyle(
@@ -48,6 +52,8 @@ class ProfileScreen extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+
+          // ===== Email of the user =====
           const Text(
             'adambekh@gmail.com',
             style: TextStyle(
@@ -58,6 +64,8 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(
             height: 50,
           ),
+
+          // ===== Bottom card =====
           Container(
             height: MediaQuery.of(context).size.height * 0.525,
             width: MediaQuery.of(context).size.width,
@@ -76,6 +84,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
+
+                  // ===== Edit profile button =====
                   UserProfileListtile(
                     titleText: 'Edit Profile',
                     onTapIcon: () => Navigator.of(context).push(
@@ -89,6 +99,8 @@ class ProfileScreen extends StatelessWidget {
                     indent: 15,
                     endIndent: 15,
                   ),
+
+                  // ===== Saved places button =====
                   UserProfileListtile(
                     titleText: 'Saved Places',
                     onTapIcon: () => Navigator.of(context).push(
@@ -100,6 +112,8 @@ class ProfileScreen extends StatelessWidget {
                     indent: 15,
                     endIndent: 15,
                   ),
+
+                  // ===== Favorite places button =====
                   UserProfileListtile(
                     titleText: 'Your Favorites',
                     onTapIcon: () => Navigator.of(context).push(
@@ -113,6 +127,8 @@ class ProfileScreen extends StatelessWidget {
                     indent: 15,
                     endIndent: 15,
                   ),
+
+                  // ===== Settings button =====
                   UserProfileListtile(
                     titleText: 'Settings',
                     onTapIcon: () => Navigator.of(context).push(
@@ -126,6 +142,8 @@ class ProfileScreen extends StatelessWidget {
                     indent: 15,
                     endIndent: 15,
                   ),
+
+                  // ===== Logout button =====
                   UserProfileListtile(
                     titleText: 'Logout',
                     onTapIcon: () {

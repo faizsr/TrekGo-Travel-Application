@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/Admin/add_place_screen.dart';
+import 'package:trekmate_project/screens/User/user_login_screen.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
 
@@ -24,6 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
   }
 
+  // ===== Checking if its admin =====
   getAdminLoggedInStatus() async {
     await HelperFunctions.getAdminLoggedInStatus().then((value) {
       if (value != null) {
@@ -37,6 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -62,12 +65,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0,
         backgroundColor: const Color(0xFFe5e6f6),
       ),
+
+      // ===== Body =====
       body: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //App Logo
+              // ===== App logo =====
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(
@@ -78,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
 
-              //General section
+              // ===== General Section =====
               const SectionTitles(titleText: 'GENERAL'),
               const ListtileItem(listtileText: 'Edit Profile'),
               const ListtileItem(listtileText: 'Reset Password'),
@@ -96,15 +101,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     )
                   : const SizedBox(),
 
-              //Theme section
-              const SectionTitles(titleText: 'THEME'),
-              const ListtileItem(
-                listtileText: 'Dark Theme',
-              ),
+              // //Theme section
+              // const SectionTitles(titleText: 'THEME'),
+              // const ListtileItem(
+              //   listtileText: 'Dark Theme',
+              // ),
 
-              //Logout seciton
+              // ===== Logout section
               const SectionTitles(titleText: 'LOGOUT'),
-              const ListtileItem(
+              ListtileItem(
+                onTap: () => Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const UserLoginScreen(),
+                    ),
+                    (route) => false),
                 listtileText: 'Logout',
               )
             ],

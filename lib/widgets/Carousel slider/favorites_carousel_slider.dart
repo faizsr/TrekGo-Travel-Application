@@ -14,6 +14,8 @@ class FavoritesCarouselSlider extends StatefulWidget {
 class _FavoritesCarouselSliderState extends State<FavoritesCarouselSlider> {
   @override
   Widget build(BuildContext context) {
+
+    // ===== Favorite places carousel slider =====
     return SizedBox(
       height: MediaQuery.of(context).size.height / 3.3,
       child: CarouselSlider(
@@ -32,7 +34,7 @@ class _FavoritesCarouselSliderState extends State<FavoritesCarouselSlider> {
           enlargeStrategy: CenterPageEnlargeStrategy.height,
           enlargeCenterPage: true,
           enableInfiniteScroll: true,
-          autoPlay: true,
+          // autoPlay: true,
           autoPlayAnimationDuration: const Duration(seconds: 3),
         ),
       ),

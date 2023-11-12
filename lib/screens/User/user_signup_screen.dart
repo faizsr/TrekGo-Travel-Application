@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-// import 'package:trekmate_project/screens/Main%20Pages/home_screen.dart';
-import 'package:trekmate_project/screens/User/user_login_screen.dart';
-// import 'package:trekmate_project/screens/Main%20Pages/home_screen.dart';
+import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/button.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/help_text.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/title.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/back_button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/title.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/back_button.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   const UserSignUpScreen({super.key});
@@ -152,6 +150,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         TextFieldWidget(
                           fieldTitle: 'Create Password',
                           fieldHintText: 'Enter a strong password...',
+                          obscureText: true,
                           onChanged: (val) {
                             password = val;
                             debugPrint(password);
@@ -229,7 +228,6 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
     );
   }
 
-
   // ===== Function for user sign up =====
   userSignUp() async {
     if (_formKey.currentState!.validate()) {
@@ -237,10 +235,11 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
         _isLoading = true;
       });
       await authService
-          .registerUserWithEmailandPassword(fullName, email, password)
+          .registerUserWithEmailandPassword(
+              fullName.trim(), email.trim(), password.trim(), context)
           .then(
         (value) async {
-          if (value == true) {
+          if (value == true && email != 'adminlogin@gmail.com') {
             debugPrint('Account created');
 
             await HelperFunctions.saveUserLoggedInStatus(true);

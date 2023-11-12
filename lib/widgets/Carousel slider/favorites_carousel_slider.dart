@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/favorite_card.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/favorite_card.dart';
 
 class FavoritesCarouselSlider extends StatefulWidget {
   const FavoritesCarouselSlider({super.key});

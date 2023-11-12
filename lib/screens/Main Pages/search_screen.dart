@@ -1,8 +1,8 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/resent_search_card.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/resent_search_card.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

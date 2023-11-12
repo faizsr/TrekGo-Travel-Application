@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/service/database_service.dart';
 
@@ -20,8 +21,8 @@ class AuthService {
   }
 
   // ===== User Sign up =====
-  Future registerUserWithEmailandPassword(
-      String fullname, String email, String password) async {
+  Future registerUserWithEmailandPassword(String fullname, String email,
+      String password, BuildContext context) async {
     try {
       User? user = (await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -33,6 +34,16 @@ class AuthService {
         return true;
       }
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        debugPrint('Email already in use');
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Email entered is already in use'),
+          ),
+        );
+      }
+      debugPrint(e.message);
       return e.message;
     }
   }

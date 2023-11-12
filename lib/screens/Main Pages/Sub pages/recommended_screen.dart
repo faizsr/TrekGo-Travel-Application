@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 
 class RecommendedPlacesScreen extends StatefulWidget {
   final bool? isAdmin;
@@ -25,7 +25,6 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
@@ -60,13 +59,21 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
                       size: 12,
                       color: Colors.black,
                     ),
-                    const Text(
-                      'Kerala, India',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                      ),
-                    ),
+                    widget.sortName == 'View All'
+                        ? const Text(
+                            'India',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
+                          )
+                        : Text(
+                            '${widget.sortName ?? 'Welcome to'}, India',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
+                          )
                   ],
                 ),
               ),
@@ -83,7 +90,6 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
       body: SingleChildScrollView(
         // ===== Recommended places =====
         child: StreamBuilder(
-
           // ===== Sorting data based on chip selection =====
           stream: widget.sortName == 'View All'
               ? DatabaseService()

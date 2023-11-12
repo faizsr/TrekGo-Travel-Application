@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/text_form_field.dart';
-
-import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class AddFavoriteScreen extends StatelessWidget {
   const AddFavoriteScreen({super.key});
@@ -9,7 +8,6 @@ class AddFavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(

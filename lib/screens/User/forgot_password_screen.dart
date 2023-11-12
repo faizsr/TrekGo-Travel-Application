@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/User/user_login_screen.dart';
+import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/button.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/help_text.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/title.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/back_button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/title.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/back_button.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});

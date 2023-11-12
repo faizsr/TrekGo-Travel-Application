@@ -5,6 +5,7 @@ class TextFieldWidget extends StatelessWidget {
   final String fieldHintText;
   final bool noPaddingNeeded;
   final bool colorIsWhite;
+  final bool obscureText;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
@@ -15,6 +16,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.fieldHintText,
     this.noPaddingNeeded = false,
     this.colorIsWhite = false,
+    this.obscureText = false,
     this.onChanged,
     this.validator,
     this.controller,
@@ -61,6 +63,7 @@ class TextFieldWidget extends StatelessWidget {
             ),
             child: TextFormField(
               controller: controller,
+              obscureText: obscureText,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 18,

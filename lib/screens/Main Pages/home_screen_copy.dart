@@ -4,11 +4,11 @@ import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/popular_places
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/recommended_screen.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/popular_carousel_slider_copy.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/recommended_slider.dart';
-import 'package:trekmate_project/widgets/Home%20screen%20widgets/main_subtitle.dart';
-import 'package:trekmate_project/widgets/Home%20screen%20widgets/top_bar_items.dart';
-import 'package:trekmate_project/widgets/Main%20screens%20widgets/appbar_subtitles.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/main_subtitle.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/top_bar_items.dart';
+import 'package:trekmate_project/widgets/main_screen_widgets/appbar_subtitles.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/favorites_carousel_slider.dart';
-import 'package:trekmate_project/widgets/choice%20chips%20and%20drop%20down%20widget/choice_chips.dart';
+import 'package:trekmate_project/widgets/chips_and_drop_downs/choice_chips.dart';
 
 class HomeScreenCopy extends StatefulWidget {
   final bool? isAdmin;
@@ -153,7 +153,10 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                           ),
                         ),
                       ),
-                      RecommendedPlaceSlider(sortName: sortName),
+                      RecommendedPlaceSlider(
+                          isAdmin: widget.isAdmin,
+                          isUser: widget.isUser,
+                          sortName: sortName),
                     ],
                   ),
                 ),

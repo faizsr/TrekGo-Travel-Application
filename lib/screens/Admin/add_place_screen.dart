@@ -4,11 +4,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/screens/Admin/add_place_rating_widget.dart';
+import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/text_form_field.dart';
-
-import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
-import 'package:trekmate_project/widgets/choice%20chips%20and%20drop%20down%20widget/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   const AddPlaceScreen({super.key});
@@ -23,6 +23,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   String? selectedCategory;
   String? selectedState;
   double? ratingCount;
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
   void updateCategorySelection(String? category) {
@@ -260,56 +261,27 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   ),
                   onPressed: () async {
                     // ===== Saving image to firestore database =====
-                    if (_formKey.currentState!.validate() &&
-                        _selectedImage != null &&
-                        ratingCount != null) {
-                      String uniqueFileName =
-                          DateTime.now().millisecondsSinceEpoch.toString();
-
-                      Reference referenceRoot = FirebaseStorage.instance.ref();
-                      Reference referenceDirImages =
-                          referenceRoot.child('images');
-                      Reference referenceImageToUpload =
-                          referenceDirImages.child(uniqueFileName);
-
-                      try {
-                        await referenceImageToUpload
-                            .putFile(File(_selectedImage!.path));
-                        imageUrl =
-                            await referenceImageToUpload.getDownloadURL();
-                      } catch (e) {
-                        debugPrint(e.toString());
-                      }
-                      debugPrint(uniqueFileName);
-                      DatabaseService().savingDestination(
-                        selectedCategory!,
-                        selectedState!,
-                        imageUrl!,
-                        _titleController.text.trim(),
-                        _descriptionController.text.trim(),
-                        _locationController.text.trim(),
-                        ratingCount!,
-                      );
-                      debugPrint(selectedCategory);
-                      debugPrint(selectedState);
-
-                      debugPrint('Data successfully added');
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please fill all forms'),
-                        ),
-                      );
-                    }
+                    addPlace();
                   },
-                  child: const Text(
-                    'SAVE',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1285b9),
-                    ),
-                  ),
+                  child: isLoading
+                      ? const SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF1285b9),
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        )
+                      : const Text(
+                          'SAVE',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1285b9),
+                          ),
+                        ),
                 ),
               )
             ],
@@ -328,5 +300,59 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       return XFile(pickedImage.path);
     }
     return null;
+  }
+
+  // ====== Adding new place function ======
+  addPlace() async {
+    if (_formKey.currentState!.validate() &&
+        _selectedImage != null &&
+        ratingCount != null) {
+      setState(() {
+        isLoading = true;
+      });
+      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImages = referenceRoot.child('images');
+      Reference referenceImageToUpload =
+          referenceDirImages.child(uniqueFileName);
+
+      try {
+        await referenceImageToUpload.putFile(File(_selectedImage!.path));
+        imageUrl = await referenceImageToUpload.getDownloadURL();
+      } catch (e) {
+        debugPrint(e.toString());
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      debugPrint(uniqueFileName);
+      DatabaseService().savingDestination(
+        selectedCategory!,
+        selectedState!,
+        imageUrl!,
+        _titleController.text.trim(),
+        _descriptionController.text.trim(),
+        _locationController.text.trim(),
+        ratingCount!,
+      );
+      debugPrint(selectedCategory);
+      debugPrint(selectedState);
+
+      debugPrint('Data successfully added');
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const NavigationBottomBar(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all forms'),
+        ),
+      );
+    }
   }
 }

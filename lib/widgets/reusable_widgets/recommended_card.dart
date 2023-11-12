@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/Firebase/card_rating_bar.dart';
 
 class RecommendedCard extends StatelessWidget {
+  final bool? isAdmin;
+  final bool? isUser;
   final String? placeid;
   final String? placeCategory;
   final String? placeState;
@@ -15,6 +17,8 @@ class RecommendedCard extends StatelessWidget {
   final String? placeLocation;
   const RecommendedCard({
     super.key,
+    this.isAdmin,
+    this.isUser,
     this.placeid,
     this.placeCategory,
     this.placeState,
@@ -32,8 +36,8 @@ class RecommendedCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaceDetailScreen(
-              isAdmin: true,
-              isUser: false,
+              isAdmin: isAdmin ?? true,
+              isUser: isUser ?? false,
               placeid: placeid,
               placeCategory: placeCategory,
               placeState: placeState,
@@ -52,6 +56,7 @@ class RecommendedCard extends StatelessWidget {
         ),
         // color: Colors.white,
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),

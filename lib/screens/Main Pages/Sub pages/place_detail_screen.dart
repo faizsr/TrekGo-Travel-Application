@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
-import 'package:trekmate_project/widgets/Place%20detail%20widget/bottom_buttons.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
+import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/Firebase/card_rating_bar.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;
@@ -79,16 +79,16 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                     color: Colors.black,
                   ),
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Icon(
-                      MdiIcons.dotsVertical,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  ),
-                ],
+                // actions: [
+                //   Padding(
+                //     padding: const EdgeInsets.only(right: 10),
+                //     child: Icon(
+                //       MdiIcons.dotsVertical,
+                //       color: Colors.black,
+                //       size: 20,
+                //     ),
+                //   ),
+                // ],
                 backgroundColor: Colors.white24,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -126,30 +126,30 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       image: NetworkImage(widget.placeImage ?? ''),
                     ),
                   ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 15,
-                        right: 15,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: 7.0,
-                              sigmaY: 4.0,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white12,
-                              child: Icon(
-                                MdiIcons.directions,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // child: Stack(
+                  //   children: [
+                  //     Positioned(
+                  //       bottom: 15,
+                  //       right: 15,
+                  //       child: ClipRRect(
+                  //         borderRadius: BorderRadius.circular(40),
+                  //         child: BackdropFilter(
+                  //           filter: ImageFilter.blur(
+                  //             sigmaX: 7.0,
+                  //             sigmaY: 4.0,
+                  //           ),
+                  //           child: CircleAvatar(
+                  //             backgroundColor: Colors.white12,
+                  //             child: Icon(
+                  //               MdiIcons.directions,
+                  //               color: Colors.white,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ),
 
                 // ============ Place Title ============
@@ -294,7 +294,6 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                         ? MainAxisAlignment.spaceAround
                         : MainAxisAlignment.center,
                     children: [
-
                       // ===== Checking if its admin =====
                       widget.isAdmin == true
                           ? const BottomButtons(
@@ -315,7 +314,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       widget.isAdmin == true
                           ? BottomButtons(
                               onPressed: () async {
-                                onUpdateDetails();
+                                await onUpdateDetails();
                               },
                               widthValue: 3.4,
                               buttonText: 'Update Place',
@@ -327,7 +326,32 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
 
                       // ===== Checking if its admin =====
                       widget.isAdmin == true
-                          ? const BottomButtons(
+                          ? BottomButtons(
+                              onPressed: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text(
+                                        'Are you sure want to delete'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('No'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          await deleteData(
+                                              widget.placeid ?? '');
+                                          debugPrint('Deleted successfully');
+                                        },
+                                        child: const Text('Yes'),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
                               widthValue: 3.3,
                               buttonText: 'Remove Place',
                             )
@@ -362,5 +386,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
         placeRating: widget.ratingCount,
       ),
     ));
+  }
+
+  Future<void> deleteData(String placeid) async {
+    await DatabaseService().destinationCollection.doc(placeid).delete();
   }
 }

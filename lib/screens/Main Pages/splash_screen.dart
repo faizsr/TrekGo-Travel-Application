@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
-import 'package:trekmate_project/screens/User/user_login_screen.dart';
+import 'package:trekmate_project/screens/user/user_login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       _isUserSignedIn
-          ? Navigator.push(
+          ? Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (_) => NavigationBottomBar(
@@ -80,14 +80,14 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             )
           : _isAdminSignedIn
-              ? Navigator.push(
+              ? Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NavigationBottomBar(
                         isAdmin: _isAdminSignedIn, isUser: _isUserSignedIn),
                   ),
                 )
-              : Navigator.push(
+              : Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const UserLoginScreen(),

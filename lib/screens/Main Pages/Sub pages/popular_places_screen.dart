@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 
 class PopularPlacesScreen extends StatefulWidget {
   final bool? isAdmin;
@@ -58,8 +58,6 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
                       size: 12,
                       color: Colors.black,
                     ),
-
-
                     widget.sortName == 'View All'
                         ? const Text(
                             'India',
@@ -69,7 +67,7 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
                             ),
                           )
                         : Text(
-                            '${widget.sortName}, India',
+                            '${widget.sortName ?? 'Welcome to'}, India',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
@@ -91,7 +89,6 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
       body: SingleChildScrollView(
         // ===== Popular places =====
         child: StreamBuilder(
-
           // ===== Sorting data based on chip selection =====
           stream: widget.sortName == 'View All'
               ? DatabaseService()
@@ -115,6 +112,7 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
                     child: PopularCard(
                       isAdmin: widget.isAdmin,
                       isUser: widget.isUser,
+                      placeid: destinationSnap.id,
                       placeName: destinationSnap['place_name'],
                       popularCardImage: destinationSnap['place_image'],
                       placeCategory: destinationSnap['place_category'],

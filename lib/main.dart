@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/firebase_options.dart';
-// import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen_copy.dart';
 import 'package:trekmate_project/screens/Main%20Pages/splash_screen.dart';
 
 Future<void> main() async {

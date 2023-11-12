@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/place_cards.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 
 class PopularCarouselSlider extends StatefulWidget {
   final bool? isAdmin;
@@ -22,7 +22,6 @@ class PopularCarouselSlider extends StatefulWidget {
 class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
   @override
   Widget build(BuildContext context) {
-
     // ===== Popular places carousel slider =====
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2.7,
@@ -46,6 +45,10 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                   DocumentSnapshot destinationSnapshot =
                       snapshot.data.docs[index];
                   return PopularCard(
+                    isAdmin: widget.isAdmin == true
+                        ? null
+                        : widget.isAdmin,
+                    isUser: widget.isUser,
                     placeid: destinationSnapshot.id,
                     popularCardImage: destinationSnapshot['place_image'],
                     placeCategory: destinationSnapshot['place_category'],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/Firebase/card_rating_bar.dart';
 
 class RecentSearchCard extends StatelessWidget {
   final String cardImage;

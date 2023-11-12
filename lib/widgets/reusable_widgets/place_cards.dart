@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/Firebase/card_rating_bar.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/place_card_buttons.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/Firebase/card_rating_bar.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
 
 class PopularCard extends StatelessWidget {
@@ -35,6 +35,8 @@ class PopularCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        debugPrint('Admin logged place in $isAdmin');
+        debugPrint('User logged in $isUser');
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaceDetailScreen(
@@ -51,8 +53,6 @@ class PopularCard extends StatelessWidget {
             ),
           ),
         );
-        debugPrint('Admin logged place in $isAdmin');
-        debugPrint('User logged in $isUser');
       },
       child: Center(
         child: Container(
@@ -183,7 +183,7 @@ class PopularCard extends StatelessWidget {
                       right: 20,
                       child: GestureDetector(
                         onTap: () {
-                          deleteData(placeid!);
+                          deleteData(placeid ?? '');
                         },
                         child: const PlaceCardButton(buttonText: 'REMOVE'),
                       ),

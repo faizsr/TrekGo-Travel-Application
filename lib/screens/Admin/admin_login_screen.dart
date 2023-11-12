@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
-import 'package:trekmate_project/screens/User/user_login_screen.dart';
+import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/button.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/Login%20and%20signup%20widgets/title.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/back_button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/title.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/back_button.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -158,6 +158,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         // ===== Password field =====
                         TextFieldWidget(
                           controller: passwordController,
+                          obscureText: true,
                           fieldTitle: 'Password',
                           fieldHintText: 'Enter your password...',
                           onChanged: (val) {
@@ -220,7 +221,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     );
   }
 
-
   // ===== Function for admin login =====
   adminLogin() async {
     if (_formKey.currentState!.validate() && password.length > 5) {
@@ -229,7 +229,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       });
       await authService.loginAdminWithEmailandPassword(email, password).then(
         (value) async {
-          if (value == true && adminIdController.text == 'admin@321') {
+          if (value == true && email == 'adminlogin@gmail.com') {
             QuerySnapshot snapshot = await DatabaseService(
                     uid: FirebaseAuth.instance.currentUser!.uid)
                 .gettingAdminData(email);
@@ -252,6 +252,11 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             setState(() {
               isLoading = false;
             });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Enter login details correctly'),
+              ),
+            );
             debugPrint('Enter admin id correctly');
             debugPrint('$context');
           }

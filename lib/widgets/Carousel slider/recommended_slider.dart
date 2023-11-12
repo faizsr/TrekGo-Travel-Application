@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/recommended_card.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/recommended_card.dart';
 
 class RecommendedPlaceSlider extends StatefulWidget {
   final String? sortName;
+  final bool? isAdmin;
+  final bool? isUser;
   const RecommendedPlaceSlider({
     super.key,
     this.sortName,
+    this.isAdmin,
+    this.isUser
   });
 
   @override
@@ -18,7 +22,6 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
   double? ratingCount;
   @override
   Widget build(BuildContext context) {
-
     // ===== Recommended places carousel slider =====
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -46,6 +49,8 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
                   ratingCount = double.tryParse(
                       destinationSnap['place_rating'].toString());
                   return RecommendedCard(
+                    isAdmin: widget.isAdmin == true ? null : widget.isAdmin,
+                    isUser: widget.isUser,
                     placeName: destinationSnap['place_name'],
                     ratingCount: double.tryParse(
                         destinationSnap['place_rating'].toString()),
@@ -69,9 +74,9 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
                 height: MediaQuery.of(context).size.height / 5.0,
                 child: const Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Text('Recommeded is empty for this place',textAlign: TextAlign.center)
-                  ),
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text('Recommeded is empty for this place',
+                          textAlign: TextAlign.center)),
                 ),
               );
             }

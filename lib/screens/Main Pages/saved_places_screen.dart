@@ -73,9 +73,7 @@ class SavedPlacesScreen extends StatelessWidget {
             //   padding: const EdgeInsets.only(top: 20),
             //   child: PopularCard(popularCardImage: maharajaPalace),
             // ),
-            const Center(
-              child: Text('No saved places'),
-            ),
+            const Text('No saved places'),
 
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.13,

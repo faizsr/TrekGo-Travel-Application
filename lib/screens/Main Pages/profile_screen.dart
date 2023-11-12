@@ -4,9 +4,9 @@ import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/edit_profile_s
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/favorites_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/settings_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/saved_places_screen.dart';
-import 'package:trekmate_project/screens/User/user_login_screen.dart';
+import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/user_profile_listtile.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/user_profile_listtile.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});

@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/screens/Admin/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/text_form_field.dart';
-
-import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
-import 'package:trekmate_project/widgets/choice%20chips%20and%20drop%20down%20widget/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class UpdatePlaceScreen extends StatefulWidget {
   final String? placeid;
@@ -301,14 +300,25 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                   onPressed: () async {
                     updateDetails();
                   },
-                  child: const Text(
-                    'SAVE',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1285b9),
-                    ),
-                  ),
+                  child: isLoading
+                      ? const SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF1285b9),
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        )
+                      : const Text(
+                          'SAVE',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1285b9),
+                          ),
+                        ),
                 ),
               )
             ],
@@ -349,6 +359,9 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
         imageUrl != null ||
         selectedCategory != null ||
         selectedState != null) {
+      setState(() {
+        isLoading = true;
+      });
       await DatabaseService().destinationCollection.doc(widget.placeid).update({
         'place_image': imageUrl ?? widget.placeImage,
         'place_name': titleController.text.trim(),
@@ -359,8 +372,17 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
         'place_state': selectedState ?? widget.placeState,
       });
       debugPrint('Updated');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Updated successfully'),
+        ),
+      );
     } else {
       debugPrint('Not updated');
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 }

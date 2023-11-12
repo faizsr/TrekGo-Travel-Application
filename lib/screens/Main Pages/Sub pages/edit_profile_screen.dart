@@ -1,9 +1,9 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/Reusable%20widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/appbar_title_items.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});

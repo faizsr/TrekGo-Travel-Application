@@ -1,10 +1,10 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/screens/Main%20Pages/add_favorite_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/home_screen_copy.dart';
-import 'package:trekmate_project/screens/Main%20Pages/saved_places_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/profile_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/search_screen.dart';
+import 'package:trekmate_project/screens/main_pages/add_favorite_screen.dart';
+import 'package:trekmate_project/screens/main_pages/home_screen_copy.dart';
+import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
+import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
+import 'package:trekmate_project/screens/main_pages/search_screen.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   final bool? isAdmin;

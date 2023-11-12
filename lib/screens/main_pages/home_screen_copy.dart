@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/favorites_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/popular_places_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/recommended_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/favorites_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/popular_carousel_slider_copy.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/recommended_slider.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/main_subtitle.dart';

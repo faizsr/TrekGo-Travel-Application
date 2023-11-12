@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/edit_profile_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/favorites_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/settings_screen.dart';
-import 'package:trekmate_project/screens/Main%20Pages/saved_places_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/favorites_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen.dart';
+import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/user_profile_listtile.dart';

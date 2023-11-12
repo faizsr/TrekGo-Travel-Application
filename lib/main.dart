@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/firebase_options.dart';
-import 'package:trekmate_project/screens/Main%20Pages/splash_screen.dart';
+import 'package:trekmate_project/screens/main_pages/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

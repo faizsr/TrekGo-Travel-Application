@@ -179,7 +179,7 @@ class PopularCard extends StatelessWidget {
                       right: 20,
                       child: GestureDetector(
                         onTap: () {
-                          deleteData(placeid ?? '');
+                          deleteDestination(placeid ?? '', context);
                         },
                         child: const PlaceCardButton(buttonText: 'REMOVE'),
                       ),
@@ -198,6 +198,28 @@ class PopularCard extends StatelessWidget {
   }
 }
 
-Future<void> deleteData(String placeid) async {
-  await DatabaseService().destinationCollection.doc(placeid).delete();
+Future<T?> deleteDestination<T>(String placeId, BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Are you sure want to delete'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('No'),
+        ),
+        TextButton(
+          onPressed: () async {
+            await DatabaseService().destinationCollection.doc(placeId).delete();
+            debugPrint('Deleted successfully');
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pop();
+          },
+          child: const Text('Yes'),
+        )
+      ],
+    ),
+  );
 }

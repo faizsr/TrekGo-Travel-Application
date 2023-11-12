@@ -344,7 +344,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       // ignore: use_build_context_synchronously
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => const NavigationBottomBar(),
+          builder: (context) => const NavigationBottomBar(
+            isAdmin: true,
+            isUser: false,
+          ),
         ),
       );
     } else {

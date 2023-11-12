@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/Firebase/card_rating_bar.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
@@ -15,6 +16,7 @@ class RecommendedCard extends StatelessWidget {
   final String recommendedCardImage;
   final String? placeDescription;
   final String? placeLocation;
+  final DocumentSnapshot? destinationSnapshot;
   const RecommendedCard({
     super.key,
     this.isAdmin,
@@ -27,6 +29,7 @@ class RecommendedCard extends StatelessWidget {
     required this.recommendedCardImage,
     this.placeDescription,
     this.placeLocation,
+    this.destinationSnapshot,
   });
 
   @override
@@ -39,13 +42,6 @@ class RecommendedCard extends StatelessWidget {
               isAdmin: isAdmin ?? true,
               isUser: isUser ?? false,
               placeid: placeid,
-              placeCategory: placeCategory,
-              placeState: placeState,
-              placeImage: recommendedCardImage,
-              placeName: placeName,
-              ratingCount: ratingCount,
-              description: placeDescription,
-              location: placeLocation,
             ),
           ),
         );

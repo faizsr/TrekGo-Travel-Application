@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/screens/Main%20Pages/Sub%20pages/place_detail_screen.dart';
@@ -17,6 +18,7 @@ class PopularCard extends StatelessWidget {
   final double? ratingCount;
   final bool? isAdmin;
   final bool? isUser;
+  final DocumentSnapshot? destinationSnapshot;
   const PopularCard({
     super.key,
     this.placeid,
@@ -29,6 +31,7 @@ class PopularCard extends StatelessWidget {
     this.placeLocation,
     this.isAdmin,
     this.isUser,
+    this.destinationSnapshot,
   });
 
   @override
@@ -43,13 +46,6 @@ class PopularCard extends StatelessWidget {
               isAdmin: isAdmin ?? true,
               isUser: isUser ?? false,
               placeid: placeid,
-              placeCategory: placeCategory,
-              placeState: placeState,
-              placeImage: popularCardImage,
-              placeName: placeName,
-              ratingCount: ratingCount,
-              description: placeDescripton,
-              location: placeLocation,
             ),
           ),
         );

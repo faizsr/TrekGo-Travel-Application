@@ -60,4 +60,8 @@ class DatabaseService {
     QuerySnapshot snapshot = await adminCollection.where('admin_email').get();
     return snapshot;
   }
+
+  Stream<DocumentSnapshot> getdestinationData(String placeId) {
+    return destinationCollection.doc(placeId).snapshots();
+  }
 }

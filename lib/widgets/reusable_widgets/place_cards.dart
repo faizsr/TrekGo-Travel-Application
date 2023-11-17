@@ -12,7 +12,6 @@ import 'package:trekmate_project/widgets/saved_icon.dart';
 // import 'package:shimmer/shimmer.dart';
 
 class PopularCard extends StatefulWidget {
-  final bool? enableShrimmer;
   final String? placeid;
   final String? popularCardImage;
   final String? placeCategory;
@@ -25,7 +24,6 @@ class PopularCard extends StatefulWidget {
   final bool? isUser;
   final DocumentSnapshot? destinationSnapshot;
   const PopularCard({
-    this.enableShrimmer,
     super.key,
     this.placeid,
     this.popularCardImage,
@@ -57,7 +55,6 @@ class _PopularCardState extends State<PopularCard> {
         });
       }
     });
-    debugPrint('connection state : ${widget.enableShrimmer}');
   }
 
   @override
@@ -160,16 +157,9 @@ class _PopularCardState extends State<PopularCard> {
                             fit: BoxFit.cover,
                           ),
                         )
-                      : Container(
+                      : SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
                           height: MediaQuery.of(context).size.height * 0.24,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image:
-                                  NetworkImage(widget.popularCardImage ?? ''),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
                           child: FadeInImage(
                             placeholder: AssetImage(lazyLoading),
                             fit: BoxFit.cover,

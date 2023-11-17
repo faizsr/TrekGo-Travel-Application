@@ -48,7 +48,6 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                   return PopularCard(
                     isAdmin: widget.isAdmin == true ? null : widget.isAdmin,
                     isUser: widget.isUser,
-                    enableShrimmer: false,
                     placeid: destinationSnapshot.id,
                     popularCardImage: destinationSnapshot['place_image'],
                     placeCategory: destinationSnapshot['place_category'],

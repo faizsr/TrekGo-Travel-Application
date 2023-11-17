@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DropDownWidget extends StatefulWidget {
+  final String? hintText;
   final String? updateCategory;
   final String? updateState;
   final double? leftPadding;
@@ -11,6 +12,7 @@ class DropDownWidget extends StatefulWidget {
   final String? Function(String?)? validator;
   const DropDownWidget({
     super.key,
+    this.hintText,
     this.updateCategory,
     this.updateState,
     this.leftPadding,
@@ -89,9 +91,9 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           ),
         ),
         icon: const Icon(Icons.arrow_drop_down),
-        hint: const Text(
-          'Select category',
-          style: TextStyle(
+        hint: Text(
+          widget.hintText ?? '',
+          style: const TextStyle(
             fontSize: 14,
             color: Color(0x66000000),
             fontWeight: FontWeight.w500,

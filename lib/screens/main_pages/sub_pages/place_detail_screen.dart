@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
+import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;
@@ -31,6 +33,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     super.initState();
     _destinationData =
         DatabaseService().getdestinationData(widget.placeid ?? '');
+  }
+
+  launchgoogleMap(Uri googleMapsUrl) async {
+    if (await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication)) {
+    } else {
+      throw 'Could not launch $googleMapsUrl';
+    }
   }
 
   @override
@@ -76,16 +85,6 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                     color: Colors.black,
                   ),
                 ),
-                // actions: [
-                //   Padding(
-                //     padding: const EdgeInsets.only(right: 10),
-                //     child: Icon(
-                //       MdiIcons.dotsVertical,
-                //       color: Colors.black,
-                //       size: 20,
-                //     ),
-                //   ),
-                // ],
                 backgroundColor: Colors.white24,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -102,7 +101,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
       body: StreamBuilder(
         stream: _destinationData,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data?.data() != null) {
             var destinationSnapshot =
                 snapshot.data?.data() as Map<String, dynamic>;
             return Container(
@@ -207,57 +206,19 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                         child: TabBarView(
                           controller: tabController,
                           children: [
-                            SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 30),
-                                    child: Text(
-                                      destinationSnapshot['place_description'],
-                                      style: const TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    height: 30,
-                                    thickness: 1,
-                                    color: Color(0x0D000000),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 15, right: 15),
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.location_on_outlined,
-                                          size: 30,
-                                          color: Color(0xFF1285b9),
-                                        ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 10),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: Text(
-                                            destinationSnapshot[
-                                                'place_location'],
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            // ============= Overview Section =============
+                            OverViewSection(
+                              description:
+                                  destinationSnapshot['place_description'],
+                              location: destinationSnapshot['place_location'],
                             ),
+
+                            // ============= Rating Section =============
                             const Center(
                               child: Text('Rating section'),
                             ),
+
+                            // ============= Review Section =============
                             const Center(
                               child: Text('Review section'),
                             ),
@@ -281,16 +242,28 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                           children: [
                             // ===== Checking if its admin =====
                             widget.isAdmin == true
-                                ? const BottomButtons(
+                                ? BottomButtons(
+                                    onPressed: () {
+                                      String link =
+                                          'https://www.google.com/maps/place/Mysuru,+Karnataka/@12.3109318,76.4708788,11z/data=!3m1!4b1!4m6!3m5!1s0x3baf70381d572ef9:0x2b89ece8c0f8396d!8m2!3d12.2958104!4d76.6393805!16zL20vMGo2MDM?entry=ttu';
+                                      Uri uri = Uri.parse(link);
+                                      launchgoogleMap(uri);
+                                    },
                                     widthValue: 3.6,
                                     buttonText: 'Get Direction',
                                   )
                                 : Container(
                                     margin: EdgeInsets.only(
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                0.04),
-                                    child: const BottomButtons(
+                                      right: MediaQuery.of(context).size.width *
+                                          0.04,
+                                    ),
+                                    child: BottomButtons(
+                                      onPressed: () {
+                                        String link =
+                                            'https://www.google.com/maps/place/Mysuru,+Karnataka/@12.3109318,76.4708788,11z/data=!3m1!4b1!4m6!3m5!1s0x3baf70381d572ef9:0x2b89ece8c0f8396d!8m2!3d12.2958104!4d76.6393805!16zL20vMGo2MDM?entry=ttu';
+                                        Uri uri = Uri.parse(link);
+                                        launchgoogleMap(uri);
+                                      },
                                       widthValue: 2.3,
                                       buttonText: 'Get Direction',
                                     ),
@@ -347,6 +320,11 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                     widget.placeid ?? '');
                                                 debugPrint(
                                                     'Deleted successfully');
+                                                // ignore: use_build_context_synchronously
+                                                Navigator.of(context).pop();
+
+                                                // ignore: use_build_context_synchronously
+                                                Navigator.of(context).pop();
                                               },
                                               child: const Text('Yes'),
                                             )

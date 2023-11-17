@@ -7,6 +7,7 @@ import 'package:trekmate_project/screens/admin/add_place_rating_widget.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
@@ -47,33 +48,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // ===== Appbar =====
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: const Padding(
-            padding: EdgeInsets.only(top: 30),
-            child: Icon(
-              Icons.keyboard_backspace_rounded,
-              color: Colors.black,
-              size: 25,
-            ),
-          ),
+      appBar: PreferredSize(
+        preferredSize: MediaQuery.of(context).size * 0.1,
+        child: const PlaceScreenAppbar(
+          title: 'Add Destination',
+          isLocationEnable: false,
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(top: 30),
-          child: Text(
-            'Add New Destination',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 17,
-            ),
-          ),
-        ),
-        centerTitle: true,
-        toolbarHeight: 90,
-        elevation: 0,
-        backgroundColor: const Color(0xFFe5e6f6),
       ),
 
       // ===== Body =====
@@ -108,30 +88,31 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 child: Center(
                   // ===== Choose image button =====
                   child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 20,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 20,
                       ),
-                      onPressed: () async {
-                        XFile? pickedImage = await pickImageFromGallery();
-                        setState(() {
-                          _selectedImage = pickedImage;
-                        });
-                      },
-                      child: const Text(
-                        'CHOOSE IMAGE',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey,
-                        ),
-                      )),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    onPressed: () async {
+                      XFile? pickedImage = await pickImageFromGallery();
+                      setState(() {
+                        _selectedImage = pickedImage;
+                      });
+                    },
+                    child: const Text(
+                      'CHOOSE IMAGE',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
                 ),
               ),
 
@@ -147,6 +128,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 children: [
                   // ===== Popular or Recommended =====
                   DropDownWidget(
+                    hintText: 'Select Category',
                     leftPadding: 20,
                     listSelect: true,
                     onCategorySelectionChange: updateCategorySelection,
@@ -161,6 +143,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
                   // ===== State =====
                   DropDownWidget(
+                    hintText: 'Select State',
                     rightPadding: 20,
                     onStateCelectionChange: updateStateSelection,
                     validator: (val) {
@@ -261,7 +244,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   ),
                   onPressed: () async {
                     // ===== Saving image to firestore database =====
-                    addPlace();
+                    await addPlace();
                   },
                   child: isLoading
                       ? const SizedBox(

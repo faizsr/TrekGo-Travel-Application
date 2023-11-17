@@ -98,7 +98,7 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
                         setState(() {
                           chipSelectionHandle(index);
                           sortName = buttonText[index];
-                          viewAll = sortName == null;
+                          // viewAll = sortName == null;
                           widget.onSortNameChanged!(sortName);
                         });
                       },

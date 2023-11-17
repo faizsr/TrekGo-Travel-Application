@@ -1,15 +1,20 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
+// import 'package:shimmer/shimmer.dart';
 
-class PopularCard extends StatelessWidget {
+class PopularCard extends StatefulWidget {
+  final bool? enableShrimmer;
   final String? placeid;
-  final String popularCardImage;
+  final String? popularCardImage;
   final String? placeCategory;
   final String? placeState;
   final String? placeName;
@@ -20,9 +25,10 @@ class PopularCard extends StatelessWidget {
   final bool? isUser;
   final DocumentSnapshot? destinationSnapshot;
   const PopularCard({
+    this.enableShrimmer,
     super.key,
     this.placeid,
-    required this.popularCardImage,
+    this.popularCardImage,
     this.placeCategory,
     this.placeState,
     this.placeName,
@@ -35,17 +41,37 @@ class PopularCard extends StatelessWidget {
   });
 
   @override
+  State<PopularCard> createState() => _PopularCardState();
+}
+
+class _PopularCardState extends State<PopularCard> {
+  bool showShimmer = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(milliseconds: 750), () {
+      if (mounted) {
+        setState(() {
+          showShimmer = false;
+        });
+      }
+    });
+    debugPrint('connection state : ${widget.enableShrimmer}');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        debugPrint('Admin logged place in $isAdmin');
-        debugPrint('User logged in $isUser');
+        debugPrint('Admin logged place in ${widget.isAdmin}');
+        debugPrint('User logged in ${widget.isUser}');
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaceDetailScreen(
-              isAdmin: isAdmin ?? true,
-              isUser: isUser ?? false,
-              placeid: placeid,
+              isAdmin: widget.isAdmin ?? true,
+              isUser: widget.isUser ?? false,
+              placeid: widget.placeid,
             ),
           ),
         );
@@ -78,7 +104,7 @@ class PopularCard extends StatelessWidget {
                       // color: Colors.black,
                       width: MediaQuery.of(context).size.width * 0.45,
                       child: Text(
-                        placeName ?? '',
+                        widget.placeName ?? '',
                         style: const TextStyle(
                             color: Color(0xFF1285b9),
                             fontWeight: FontWeight.w600,
@@ -90,7 +116,7 @@ class PopularCard extends StatelessWidget {
                       height: 2,
                     ),
                     CardRatingBar(
-                      ratingCount: ratingCount ?? 0,
+                      ratingCount: widget.ratingCount ?? 0,
                       itemSize: 20,
                       isRatingTextNeeded: true,
                     ),
@@ -125,33 +151,34 @@ class PopularCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    color: Colors.white,
-                    width: MediaQuery.of(context).size.width * 0.88,
-                    height: MediaQuery.of(context).size.height * 0.24,
-                    child: Image(
-                      frameBuilder:
-                          (context, child, frame, wasSynchronouslyLoaded) {
-                        if (wasSynchronouslyLoaded) {
-                          return child;
-                        } else {
-                          return AnimatedOpacity(
-                            opacity: frame == null ? 0 : 1,
-                            duration: const Duration(seconds: 2),
-                            curve: Curves.easeOut,
-                            child: child,
-                          );
-                        }
-                      },
-                      image: NetworkImage(
-                        popularCardImage,
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  child: showShimmer
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.88,
+                          height: MediaQuery.of(context).size.height * 0.24,
+                          child: Image(
+                            image: AssetImage(lazyLoading),
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Container(
+                          width: MediaQuery.of(context).size.width * 0.88,
+                          height: MediaQuery.of(context).size.height * 0.24,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image:
+                                  NetworkImage(widget.popularCardImage ?? ''),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: FadeInImage(
+                            placeholder: AssetImage(lazyLoading),
+                            fit: BoxFit.cover,
+                            image: NetworkImage(widget.popularCardImage ?? ''),
+                          ),
+                        ),
                 ),
               ),
-              isAdmin == true
+              widget.isAdmin == true
                   ? Positioned(
                       top: 20,
                       left: 20,
@@ -159,27 +186,27 @@ class PopularCard extends StatelessWidget {
                           onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => UpdatePlaceScreen(
-                                    placeid: placeid,
-                                    placeImage: popularCardImage,
-                                    placeCategory: placeCategory,
-                                    placeState: placeState,
-                                    placeTitle: placeName,
-                                    placeDescription: placeDescripton,
-                                    placeLocation: placeLocation,
-                                    placeRating: ratingCount,
+                                    placeid: widget.placeid,
+                                    placeImage: widget.popularCardImage,
+                                    placeCategory: widget.placeCategory,
+                                    placeState: widget.placeState,
+                                    placeTitle: widget.placeName,
+                                    placeDescription: widget.placeDescripton,
+                                    placeLocation: widget.placeLocation,
+                                    placeRating: widget.ratingCount,
                                   ),
                                 ),
                               ),
                           child: const PlaceCardButton(buttonText: 'UPDATE')),
                     )
                   : const SizedBox(),
-              isAdmin == true
+              widget.isAdmin == true
                   ? Positioned(
                       top: 20,
                       right: 20,
                       child: GestureDetector(
                         onTap: () {
-                          deleteDestination(placeid ?? '', context);
+                          deleteDestination(widget.placeid ?? '', context);
                         },
                         child: const PlaceCardButton(buttonText: 'REMOVE'),
                       ),

@@ -1,6 +1,6 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/screens/main_pages/add_favorite_screen.dart';
+import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/home_screen_copy.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
@@ -33,7 +33,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         isUser: widget.isUser,
       ),
       const SearchScreen(),
-      const AddFavoriteScreen(),
+      const AddWishlistScreen(),
       const SavedPlacesScreen(),
       ProfileScreen(),
     ];
@@ -44,7 +44,6 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       // ===== Body =====
       body: pages[selectedIndex],
       extendBody: true,
@@ -83,11 +82,13 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
               ),
               BottomNavigationBarItem(
                 icon: GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AddFavoriteScreen(),
-                    ),
-                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const AddWishlistScreen(),
+                      ),
+                    );
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.09,
                     height: MediaQuery.of(context).size.height * 0.04,

@@ -1,12 +1,15 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 class FavoritesCard extends StatelessWidget {
   final String? favoritesCardImage;
+  final String? name;
   const FavoritesCard({
     super.key,
     this.favoritesCardImage,
+    this.name,
   });
 
   @override
@@ -31,9 +34,7 @@ class FavoritesCard extends StatelessWidget {
         ),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(
-            favoritesCardImage!,
-          ),
+          image: FileImage(File(favoritesCardImage ?? '')),
         ),
       ),
       child: Stack(
@@ -66,8 +67,8 @@ class FavoritesCard extends StatelessWidget {
                     ],
                     color: Colors.white.withOpacity(0.1),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
                       left: 15,
                       right: 10,
                     ),
@@ -75,14 +76,14 @@ class FavoritesCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Cubbon Park',
-                          style: TextStyle(
+                          name ?? '',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_ios,
                           size: 15,
                           color: Colors.white,

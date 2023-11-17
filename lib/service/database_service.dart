@@ -62,6 +62,10 @@ class DatabaseService {
   }
 
   Stream<DocumentSnapshot> getdestinationData(String placeId) {
-    return destinationCollection.doc(placeId).snapshots();
+    if (placeId.isNotEmpty) {
+      return destinationCollection.doc(placeId).snapshots();
+    } else {
+      return const Stream.empty();
+    }
   }
 }

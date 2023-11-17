@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/recommended_card.dart';
 
@@ -7,12 +8,8 @@ class RecommendedPlaceSlider extends StatefulWidget {
   final String? sortName;
   final bool? isAdmin;
   final bool? isUser;
-  const RecommendedPlaceSlider({
-    super.key,
-    this.sortName,
-    this.isAdmin,
-    this.isUser
-  });
+  const RecommendedPlaceSlider(
+      {super.key, this.sortName, this.isAdmin, this.isUser});
 
   @override
   State<RecommendedPlaceSlider> createState() => _RecommendedPlaceSliderState();
@@ -64,19 +61,15 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
                 }).toList(),
               );
             } else {
-              return Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    color: Colors.white),
+              return SizedBox(
                 width: MediaQuery.of(context).size.width / 2.2,
                 height: MediaQuery.of(context).size.height / 5.0,
-                child: const Center(
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Text('Recommeded is empty for this place',
-                          textAlign: TextAlign.center)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image(
+                    image: AssetImage(lazyLoading),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               );
             }

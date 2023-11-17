@@ -23,3 +23,5 @@ String athirapally = 'assets/images/Kerala/Athirapally_image.jpeg';
 String munnar = 'assets/images/Kerala/Munnar_image.jpg';
 String varkala = 'assets/images/Kerala/Varkala_beach_image.jpg';
 String vythiri = 'assets/images/Kerala/Vythiri_Resort_Wayand_image.jpeg';
+
+String lazyLoading = 'assets/images/lazy-loading.gif';

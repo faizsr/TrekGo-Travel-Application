@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 
@@ -45,10 +46,9 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                   DocumentSnapshot destinationSnapshot =
                       snapshot.data.docs[index];
                   return PopularCard(
-                    isAdmin: widget.isAdmin == true
-                        ? null
-                        : widget.isAdmin,
+                    isAdmin: widget.isAdmin == true ? null : widget.isAdmin,
                     isUser: widget.isUser,
+                    enableShrimmer: false,
                     placeid: destinationSnapshot.id,
                     popularCardImage: destinationSnapshot['place_image'],
                     placeCategory: destinationSnapshot['place_category'],
@@ -73,10 +73,8 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
           } else {
             return Container(
               margin: const EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
+              decoration: const BoxDecoration(
+                boxShadow: [
                   BoxShadow(
                     blurRadius: 10,
                     offset: Offset(0, 4),
@@ -87,10 +85,11 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
               ),
               width: MediaQuery.of(context).size.width * 0.88,
               height: MediaQuery.of(context).size.height / 2.95,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height / 2.7,
-                child: const Center(
-                  child: Text('Popular is empty for this place'),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image(
+                  image: AssetImage(lazyLoading),
+                  fit: BoxFit.cover,
                 ),
               ),
             );

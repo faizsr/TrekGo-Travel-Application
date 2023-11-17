@@ -32,6 +32,7 @@ class BottomButtons extends StatelessWidget {
               color: Colors.black,
               fontSize: 15,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

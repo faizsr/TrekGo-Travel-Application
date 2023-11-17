@@ -1,7 +1,8 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class FavoriteCardAll extends StatelessWidget {
   final String backgroundImage;
@@ -17,7 +18,7 @@ class FavoriteCardAll extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(
-        top: 20,
+        bottom: 20,
         left: 20,
         right: 20,
       ),
@@ -37,36 +38,36 @@ class FavoriteCardAll extends StatelessWidget {
         ),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(backgroundImage),
+          image: FileImage(File(backgroundImage)),
         ),
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
-            top: 10,
-            right: 10,
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 7.0,
-                  sigmaY: 4.0,
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.13,
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  decoration: BoxDecoration(
-                    color: Colors.white12,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Icon(
-                    MdiIcons.heart,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 10,
+          //   right: 10,
+          //   child: ClipRRect(
+          //     child: BackdropFilter(
+          //       filter: ImageFilter.blur(
+          //         sigmaX: 7.0,
+          //         sigmaY: 4.0,
+          //       ),
+          //       child: Container(
+          //         width: MediaQuery.of(context).size.width * 0.13,
+          //         height: MediaQuery.of(context).size.height * 0.06,
+          //         decoration: BoxDecoration(
+          //           color: Colors.white12,
+          //           borderRadius: BorderRadius.circular(50),
+          //         ),
+          //         child: Icon(
+          //           MdiIcons.heart,
+          //           color: Colors.white,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             bottom: MediaQuery.of(context).size.height * 0.018,
             left: 18,

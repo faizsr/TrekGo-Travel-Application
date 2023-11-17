@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/screens/admin/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
@@ -76,33 +77,12 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // ===== Appbar =====
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context, 'refresh'),
-          child: const Padding(
-            padding: EdgeInsets.only(top: 30),
-            child: Icon(
-              Icons.keyboard_backspace_rounded,
-              color: Colors.black,
-              size: 25,
-            ),
-          ),
+    appBar: PreferredSize(
+        preferredSize: MediaQuery.of(context).size * 0.1,
+        child: const PlaceScreenAppbar(
+          title: 'Update Destination',
+          isLocationEnable: false,
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(top: 30),
-          child: Text(
-            'Add New Destination',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 17,
-            ),
-          ),
-        ),
-        centerTitle: true,
-        toolbarHeight: 90,
-        elevation: 0,
-        backgroundColor: const Color(0xFFe5e6f6),
       ),
 
       // ===== Body =====

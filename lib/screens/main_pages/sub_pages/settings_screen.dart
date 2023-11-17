@@ -4,6 +4,7 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/add_place_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 
@@ -40,30 +41,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // ===== Appbar =====
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: const Padding(
-            padding: EdgeInsets.only(top: 30),
-            child: Icon(
-              Icons.keyboard_backspace_rounded,
-              color: Colors.black,
-              size: 25,
-            ),
-          ),
+      appBar: PreferredSize(
+        preferredSize: MediaQuery.of(context).size * 0.1,
+        child: const PlaceScreenAppbar(
+          title: 'Settings',
+          isLocationEnable: false,
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(top: 30),
-          child: Text(
-            'Settings',
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w600, fontSize: 17),
-          ),
-        ),
-        centerTitle: true,
-        toolbarHeight: 90,
-        elevation: 0,
-        backgroundColor: const Color(0xFFe5e6f6),
       ),
 
       // ===== Body =====

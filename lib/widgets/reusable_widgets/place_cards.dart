@@ -9,7 +9,6 @@ import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
-// import 'package:shimmer/shimmer.dart';
 
 class PopularCard extends StatefulWidget {
   final String? placeid;

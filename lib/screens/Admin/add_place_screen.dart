@@ -8,6 +8,7 @@ import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_naviga
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
@@ -50,9 +51,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       // ===== Appbar =====
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.1,
-        child: const PlaceScreenAppbar(
+        child: PlaceScreenAppbar(
           title: 'Add Destination',
           isLocationEnable: false,
+          showCheckIcon: true,
+          onTap: () => addPlace(),
+          isLoading: isLoading,
         ),
       ),
 
@@ -64,56 +68,20 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ===== Image Container =====
-              Container(
-                margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                decoration: BoxDecoration(
-                  image: _selectedImage != null
-                      ? DecorationImage(
-                          image: FileImage(File(_selectedImage!.path)),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 10,
-                      color: Color(0x0D000000),
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.28,
-                child: Center(
-                  // ===== Choose image button =====
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    onPressed: () async {
-                      XFile? pickedImage = await pickImageFromGallery();
-                      setState(() {
-                        _selectedImage = pickedImage;
-                      });
-                    },
-                    child: const Text(
-                      'CHOOSE IMAGE',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
+
+              AddUpdateImageContainer(
+                image: _selectedImage != null
+                    ? DecorationImage(
+                        image: FileImage(File(_selectedImage!.path)),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+                onPressed: () async {
+                  XFile? pickedImage = await pickImageFromGallery();
+                  setState(() {
+                    _selectedImage = pickedImage;
+                  });
+                },
               ),
 
               // ===== Category section =====
@@ -225,48 +193,6 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   onRatingPlace: updateRatingCount,
                 ),
               ),
-
-              // ===== Save button =====
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.05,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFFe5e6f6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: const BorderSide(
-                      color: Color(0xFF1285b9),
-                    ),
-                  ),
-                  onPressed: () async {
-                    // ===== Saving image to firestore database =====
-                    await addPlace();
-                  },
-                  child: isLoading
-                      ? const SizedBox(
-                          width: 15,
-                          height: 15,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xFF1285b9),
-                              strokeWidth: 2,
-                            ),
-                          ),
-                        )
-                      : const Text(
-                          'SAVE',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF1285b9),
-                          ),
-                        ),
-                ),
-              )
             ],
           ),
         ),

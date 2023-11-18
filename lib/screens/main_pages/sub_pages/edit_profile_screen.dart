@@ -1,7 +1,7 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/appbar_title_items.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
@@ -11,30 +11,23 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: MediaQuery.of(context).size * 0.1,
+        child: const PlaceScreenAppbar(
+          title: 'Edit Profile',
+          isLocationEnable: false,
+          showCheckIcon: true,
+        ),
+      ),
 
       // ===== Body =====
       body: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.1,
-            color: const Color(0xFFe5e6f6),
-            child: const Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: AppbarTitleItems(
-                appbarTitleText: 'Edit Profile',
-                iconSize: 28,
-                titleSize: 18,
-                isTrailingNeeded: true,
-              ),
-            ),
-          ),
           const SizedBox(
             height: 50,
           ),
           Stack(
             children: [
-
               // ===== User profile picture =====
               Container(
                 decoration: BoxDecoration(
@@ -76,7 +69,6 @@ class EditProfileScreen extends StatelessWidget {
           const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               // ===== Name section =====
               Padding(
                 padding: EdgeInsets.only(left: 12),

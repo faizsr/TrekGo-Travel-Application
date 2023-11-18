@@ -5,11 +5,17 @@ class PlaceScreenAppbar extends StatelessWidget {
   final String? sortName;
   final String? title;
   final bool isLocationEnable;
+  final bool showCheckIcon;
+  final bool isLoading;
+  final Function()? onTap;
   const PlaceScreenAppbar({
     super.key,
     this.sortName,
     this.title,
     this.isLocationEnable = true,
+    this.showCheckIcon = false,
+    this.isLoading = false,
+    this.onTap,
   });
 
   @override
@@ -72,7 +78,25 @@ class PlaceScreenAppbar extends StatelessWidget {
         ),
       ),
       actions: [
-        Icon(MdiIcons.check),
+        showCheckIcon
+            ? Padding(
+                padding: const EdgeInsets.only(top: 18, right: 10),
+                child: GestureDetector(
+                  onTap: onTap,
+                  child: isLoading == true
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF1285b9),
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Icon(
+                          MdiIcons.check,
+                          color: Colors.black,
+                        ),
+                ),
+              )
+            : const SizedBox(),
       ],
       centerTitle: true,
       toolbarHeight: 100,

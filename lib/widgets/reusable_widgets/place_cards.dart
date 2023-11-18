@@ -102,10 +102,11 @@ class _PopularCardState extends State<PopularCard> {
                       child: Text(
                         widget.placeName ?? '',
                         style: const TextStyle(
-                            color: Color(0xFF1285b9),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            overflow: TextOverflow.ellipsis),
+                          color: Color(0xFF1285b9),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                     const SizedBox(

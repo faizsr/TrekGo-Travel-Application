@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:trekmate_project/assets.dart';
+import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
@@ -42,11 +45,13 @@ class PopularCard extends StatefulWidget {
 }
 
 class _PopularCardState extends State<PopularCard> {
+  late Box<Saved> savedBox;
   bool showShimmer = true;
 
   @override
   void initState() {
     super.initState();
+    savedBox = Hive.box('saved');
     Timer(const Duration(milliseconds: 750), () {
       if (mounted) {
         setState(() {
@@ -205,7 +210,14 @@ class _PopularCardState extends State<PopularCard> {
               Positioned(
                 right: 30,
                 bottom: MediaQuery.of(context).size.width * 0.16,
-                child: const SavedIcon(),
+                child: SavedIcon(
+                  id: widget.placeid,
+                  image: widget.popularCardImage,
+                  rating: widget.ratingCount,
+                  name: widget.placeName,
+                  description: widget.placeDescripton,
+                  location: widget.placeLocation,
+                ),
               ),
             ],
           ),
@@ -216,27 +228,42 @@ class _PopularCardState extends State<PopularCard> {
 }
 
 Future<T?> deleteDestination<T>(String placeId, BuildContext context) async {
+  // return showDialog(
+  //   context: context,
+  //   builder: (context) => AlertDialog(
+  //     title: const Text('Are you sure want to delete'),
+  //     actions: [
+  //       TextButton(
+  //         onPressed: () {
+  //           Navigator.of(context).pop();
+  //         },
+  //         child: const Text('No'),
+  //       ),
+  //       TextButton(
+  //         onPressed: () async {
+  //           await DatabaseService().destinationCollection.doc(placeId).delete();
+  //           debugPrint('Deleted successfully');
+  //           // ignore: use_build_context_synchronously
+  //           Navigator.of(context).pop();
+  //         },
+  //         child: const Text('Yes'),
+  //       )
+  //     ],
+  //   ),
+  // );
   return showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Are you sure want to delete'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('No'),
-        ),
-        TextButton(
-          onPressed: () async {
-            await DatabaseService().destinationCollection.doc(placeId).delete();
-            debugPrint('Deleted successfully');
-            // ignore: use_build_context_synchronously
-            Navigator.of(context).pop();
-          },
-          child: const Text('Yes'),
-        )
-      ],
-    ),
+    builder: (context) {
+      return CustomAlertDialog(
+        title: 'Delete Place?',
+        description: 'This place will be permanently deleted from this list',
+        onTap: () async {
+          await DatabaseService().destinationCollection.doc(placeId).delete();
+          debugPrint('Deleted successfully');
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).pop();
+        },
+      );
+    },
   );
 }

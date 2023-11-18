@@ -29,6 +29,7 @@ class _CardRatingBarState extends State<CardRatingBar> {
       children: [
         RatingBar(
           ignoreGestures: true,
+          
           itemSize: widget.itemSize ?? 0,
           initialRating: widget.ratingCount ?? 0,
           unratedColor: Colors.grey.shade300,

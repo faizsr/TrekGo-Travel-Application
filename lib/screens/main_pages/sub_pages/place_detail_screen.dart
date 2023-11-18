@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
@@ -304,32 +305,23 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     onPressed: () async {
                                       showDialog(
                                         context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: const Text(
-                                              'Are you sure want to delete'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text('No'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () async {
-                                                await deleteData(
-                                                    widget.placeid ?? '');
-                                                debugPrint(
-                                                    'Deleted successfully');
-                                                // ignore: use_build_context_synchronously
-                                                Navigator.of(context).pop();
-
-                                                // ignore: use_build_context_synchronously
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text('Yes'),
-                                            )
-                                          ],
-                                        ),
+                                        builder: (context) {
+                                          return CustomAlertDialog(
+                                            title: 'Delete Place?',
+                                            description:
+                                                'This place will be permanently deleted from this list',
+                                            onTap: () async {
+                                              await deleteData(
+                                                  widget.placeid ?? '');
+                                              debugPrint(
+                                                  'Deleted successfully');
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.of(context).pop();
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.of(context).pop();
+                                            },
+                                          );
+                                        },
                                       );
                                     },
                                     widthValue: 3.3,

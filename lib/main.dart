@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/firebase_options.dart';
 import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/main_pages/splash_screen.dart';
 
 Future<void> main() async {
@@ -10,9 +11,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await Hive.initFlutter('favorite_db');
+  await Hive.initFlutter('hive_db');
   Hive.registerAdapter<Favorites>(FavoritesAdapter());
+  Hive.registerAdapter(SavedAdapter());
   await Hive.openBox<Favorites>('favorites');
+  await Hive.openBox<Saved>('saved');
 
   runApp(
     const MyApp(),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
+import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final int? index;
@@ -148,29 +149,22 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                       onTap: () async {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Are you sure want to delete'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('No'),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  await favoriteBox.deleteAt(widget.index ?? 0);
-                                  debugPrint('Deleted successfully');
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.of(context).pop('refresh');
+                          builder: (context) {
+                            return CustomAlertDialog(
+                              title: 'Delete Wishlist?',
+                              description:
+                                  'This place will be permanently deleted from this list',
+                              onTap: () async {
+                                await favoriteBox.deleteAt(widget.index ?? 0);
+                                debugPrint('Deleted successfully');
+                                // ignore: use_build_context_synchronously
+                                Navigator.of(context).pop('refresh');
 
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.of(context).pop('refresh');
-                                },
-                                child: const Text('Yes'),
-                              )
-                            ],
-                          ),
+                                // ignore: use_build_context_synchronously
+                                Navigator.of(context).pop('refresh');
+                              },
+                            );
+                          },
                         );
                       },
                       child: const CircleAvatar(

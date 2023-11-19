@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class FilterChipWidget extends StatefulWidget {
+class FirebaseFilterChipWidget extends StatefulWidget {
   final List<String>? selectedState;
   final String? category;
   final VoidCallback? onUpdateData;
-  const FilterChipWidget({
+  const FirebaseFilterChipWidget({
     super.key,
     this.selectedState,
     this.category,
@@ -12,23 +12,24 @@ class FilterChipWidget extends StatefulWidget {
   });
 
   @override
-  State<FilterChipWidget> createState() => _FilterChipWidgetState();
+  State<FirebaseFilterChipWidget> createState() =>
+      _FirebaseFilterChipWidgetState();
 }
 
-class _FilterChipWidgetState extends State<FilterChipWidget> {
+class _FirebaseFilterChipWidgetState extends State<FirebaseFilterChipWidget> {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
         showCheckmark: false,
         selected: widget.selectedState != null &&
-            widget.selectedState!.contains(widget.category?.toLowerCase()),
+            widget.selectedState!.contains(widget.category),
         label: Text(widget.category ?? ''),
         onSelected: (selected) {
           setState(() {
             if (selected) {
-              widget.selectedState!.add(widget.category!.toLowerCase());
+              widget.selectedState!.add(widget.category!);
             } else {
-              widget.selectedState!.remove(widget.category?.toLowerCase());
+              widget.selectedState!.remove(widget.category);
             }
           });
           debugPrint('selected state: ${widget.selectedState}');

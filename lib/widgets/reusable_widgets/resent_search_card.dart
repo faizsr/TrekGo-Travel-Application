@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 
 class RecentSearchCard extends StatelessWidget {
-  final String cardImage;
-  final String cardTitle;
+  final String? cardImage;
+  final String? cardTitle;
+  final double? ratingCount;
   const RecentSearchCard({
     super.key,
-    required this.cardImage,
-    required this.cardTitle,
+    this.cardImage,
+    this.cardTitle,
+    this.ratingCount,
   });
 
   @override
@@ -34,8 +36,8 @@ class RecentSearchCard extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
-              child: Image.asset(
-                cardImage,
+              child: Image.network(
+                cardImage ?? '',
                 fit: BoxFit.cover,
               ),
             ),
@@ -43,15 +45,15 @@ class RecentSearchCard extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-           Positioned(
+          Positioned(
             left: 115,
             top: 32,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cardTitle,
-                  style:const  TextStyle(
+                  cardTitle ?? '',
+                  style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 15,
                   ),
@@ -59,7 +61,11 @@ class RecentSearchCard extends StatelessWidget {
                 const SizedBox(
                   height: 2,
                 ),
-                const CardRatingBar(),
+                CardRatingBar(
+                  ratingCount: ratingCount ?? 0,
+                  itemSize: 18,
+                  isRatingTextNeeded: true,
+                ),
               ],
             ),
           ),

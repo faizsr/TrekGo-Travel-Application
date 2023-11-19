@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-void customSnackbar(
-    context, message, double bottomMargin, rightMargin, leftMargin) {
+void customSnackbar(context, message, double bottomMargin,  rightMargin,
+    double leftMargin) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       elevation: 0,

@@ -24,7 +24,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   List<String> selectedState = [];
   late String searchValue;
 
-  final List<String> categories = [
+  final List<String> states = [
     'Kerala',
     'Karnataka',
     'Rajasthan',
@@ -87,12 +87,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
           onVerticalDragUpdate: (details) {},
           onHorizontalDragUpdate: (details) {
             if (details.delta.direction <= 0) {
-              // Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(
-              //       builder: (context) =>
-              //           const NavigationBottomBar(isAdmin: true, isUser: false),
-              //     ),
-              //     (route) => false);
               nextScreenRemoveUntil(
                 context,
                 const NavigationBottomBar(
@@ -159,7 +153,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             padding: const EdgeInsets.all(16.0),
                             child: Wrap(
                               spacing: 8.0,
-                              children: categories
+                              children: states
                                   .map((category) => FilterChipWidget(
                                         selectedState: selectedState,
                                         category: category,
@@ -205,15 +199,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     setState(() {
                       indexValue = index;
                     });
-                    String refresh =
-                        // await Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => WishlistPlaceDetail(
-                        //       index: index,
-                        //     ),
-                        //   ),
-                        // );
-                        await nextScreen(
+                    String refresh = await nextScreen(
                       context,
                       WishlistPlaceDetail(
                         index: index,

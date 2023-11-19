@@ -36,6 +36,7 @@ class DatabaseService {
     String placeName,
     String placeDescription,
     String placeLocation,
+    String placeMap,
     double placeRating,
   ) async {
     return await destinationCollection.doc().set({
@@ -45,6 +46,7 @@ class DatabaseService {
       "place_name": placeName,
       "place_description": placeDescription,
       "place_location": placeLocation,
+      "place_map": placeMap,
       "place_rating": placeRating,
     });
   }

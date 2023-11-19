@@ -22,6 +22,7 @@ class PopularCard extends StatefulWidget {
   final String? placeName;
   final String? placeDescripton;
   final String? placeLocation;
+  final String? placeMap;
   final double? ratingCount;
   final bool? isAdmin;
   final bool? isUser;
@@ -36,6 +37,7 @@ class PopularCard extends StatefulWidget {
     this.ratingCount,
     this.placeDescripton,
     this.placeLocation,
+    this.placeMap,
     this.isAdmin,
     this.isUser,
     this.destinationSnapshot,

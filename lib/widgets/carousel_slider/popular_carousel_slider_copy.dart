@@ -57,6 +57,7 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                         destinationSnapshot['place_rating'].toString()),
                     placeDescripton: destinationSnapshot['place_description'],
                     placeLocation: destinationSnapshot['place_location'],
+                    placeMap: destinationSnapshot['place_map'],
                   );
                 },
                 options: CarouselOptions(

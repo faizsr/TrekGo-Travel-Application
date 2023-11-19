@@ -247,7 +247,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                 ? BottomButtons(
                                     onPressed: () {
                                       String link =
-                                          'https://www.google.com/maps/place/Mysuru,+Karnataka/@12.3109318,76.4708788,11z/data=!3m1!4b1!4m6!3m5!1s0x3baf70381d572ef9:0x2b89ece8c0f8396d!8m2!3d12.2958104!4d76.6393805!16zL20vMGo2MDM?entry=ttu';
+                                          destinationSnapshot['place_map'];
                                       Uri uri = Uri.parse(link);
                                       launchgoogleMap(uri);
                                     },
@@ -262,7 +262,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     child: BottomButtons(
                                       onPressed: () {
                                         String link =
-                                            'https://www.google.com/maps/place/Mysuru,+Karnataka/@12.3109318,76.4708788,11z/data=!3m1!4b1!4m6!3m5!1s0x3baf70381d572ef9:0x2b89ece8c0f8396d!8m2!3d12.2958104!4d76.6393805!16zL20vMGo2MDM?entry=ttu';
+                                            destinationSnapshot['place_map'];
                                         Uri uri = Uri.parse(link);
                                         launchgoogleMap(uri);
                                       },

@@ -45,6 +45,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  final TextEditingController mapLinkController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +193,26 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 },
               ),
 
+              const Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: SectionTitles(
+                  titleText: 'Map Link',
+                ),
+              ),
+              TextFieldWidgetTwo(
+                controller: mapLinkController,
+                hintText: 'Map link of the place...',
+                minmaxLine: false,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    customSnackbar(context, 'Map Link is required', 20, 20, 20);
+                    return;
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+
               const SizedBox(
                 height: 15,
               ),
@@ -253,6 +274,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         _titleController.text.trim(),
         _descriptionController.text.trim(),
         _locationController.text.trim(),
+        mapLinkController.text,
         ratingCount!,
       );
       debugPrint(selectedCategory);

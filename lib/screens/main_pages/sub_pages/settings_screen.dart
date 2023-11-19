@@ -4,6 +4,7 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/add_place_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
@@ -73,11 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _isAdminSignedIn
                   ? GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const AddPlaceScreen(),
-                          ),
-                        );
+                        nextScreen(context, const AddPlaceScreen());
                       },
                       child:
                           const ListtileItem(listtileText: 'Add Destination'),
@@ -93,11 +90,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               // ===== Logout section
               const SectionTitles(titleText: 'LOGOUT'),
               ListtileItem(
-                onTap: () => Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const UserLoginScreen(),
-                    ),
-                    (route) => false),
+                onTap: () =>
+                    nextScreenRemoveUntil(context, const UserLoginScreen()),
                 listtileText: 'Logout',
               )
             ],

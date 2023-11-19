@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
@@ -98,7 +99,9 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   onStateCelectionChange: updateStateSelection,
                   validator: (val) {
                     if (val == null) {
-                      return 'This field is required';
+                      customSnackbar(
+                          context, 'Please select a category', 20, 20, 20);
+                      return;
                     } else {
                       return null;
                     }
@@ -117,6 +120,14 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 controller: nameController,
                 hintText: 'Title of the place...',
                 minmaxLine: false,
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    customSnackbar(context, 'Title is required', 20, 20, 20);
+                    return;
+                  } else {
+                    return null;
+                  }
+                },
               ),
 
               // ===== Description section =====
@@ -128,6 +139,15 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 controller: descriptionController,
                 hintText: 'Description of the place...',
                 minmaxLine: true,
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    customSnackbar(
+                        context, 'Description is required', 20, 20, 20);
+                    return;
+                  } else {
+                    return null;
+                  }
+                },
               ),
 
               // ===== Location section =====
@@ -141,6 +161,14 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 controller: locationController,
                 hintText: 'Location of the place...',
                 minmaxLine: false,
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    customSnackbar(context, 'Location is required', 20, 20, 20);
+                    return;
+                  } else {
+                    return null;
+                  }
+                },
               ),
 
               const SizedBox(

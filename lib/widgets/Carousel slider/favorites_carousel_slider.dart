@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/favorite_card.dart';
 
 class FavoritesCarouselSlider extends StatefulWidget {
@@ -37,9 +38,10 @@ class _FavoritesCarouselSliderState extends State<FavoritesCarouselSlider> {
         itemBuilder: (context, index, realIndex) {
           final displayWishlist = wishList[index];
           return GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => WishlistPlaceDetail(index: index),
-            )),
+            onTap: () => nextScreen(
+              context,
+              WishlistPlaceDetail(index: index),
+            ),
             child: FavoritesCard(
               name: displayWishlist.name,
               favoritesCardImage: displayWishlist.image,

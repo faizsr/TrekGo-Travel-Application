@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
@@ -358,8 +359,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     String? location,
     double? rating,
   }) async {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => UpdatePlaceScreen(
+    nextScreen(
+      context,
+      UpdatePlaceScreen(
         placeid: widget.placeid,
         placeImage: image,
         placeCategory: category,
@@ -369,7 +371,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
         placeLocation: location,
         placeRating: rating,
       ),
-    ));
+    );
   }
 
   Future<void> deleteData(String placeid) async {

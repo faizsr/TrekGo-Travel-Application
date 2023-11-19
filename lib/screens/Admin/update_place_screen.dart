@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/screens/admin/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
@@ -134,7 +135,9 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                     onCategorySelectionChange: updateCategorySelection,
                     validator: (val) {
                       if (val == null) {
-                        return 'This field is required';
+                        customSnackbar(
+                            context, 'Please select a category', 20, 20, 20);
+                        return;
                       } else {
                         return null;
                       }
@@ -149,7 +152,9 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                     onStateCelectionChange: updateStateSelection,
                     validator: (val) {
                       if (val == null) {
-                        return 'This field is required';
+                        customSnackbar(
+                            context, 'Please select a state', 20, 20, 20);
+                        return;
                       } else {
                         return null;
                       }
@@ -171,7 +176,8 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 minmaxLine: false,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'This field is required';
+                    customSnackbar(context, 'Title is required', 20, 20, 20);
+                    return;
                   } else {
                     return null;
                   }
@@ -189,7 +195,9 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 minmaxLine: true,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'This field is required';
+                    customSnackbar(
+                        context, 'Description is required', 20, 20, 20);
+                    return;
                   } else {
                     return null;
                   }
@@ -209,7 +217,8 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 minmaxLine: false,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'This field is required';
+                    customSnackbar(context, 'Location is required', 20, 20, 20);
+                    return;
                   } else {
                     return null;
                   }
@@ -280,11 +289,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
       });
       debugPrint('Updated');
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Updated successfully'),
-        ),
-      );
+      customSnackbar(context, 'Updated successfully', 20, 20, 20);
     } else {
       debugPrint('Not updated');
     }

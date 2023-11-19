@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
@@ -35,12 +36,8 @@ class ForgotPasswordScreen extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             children: [
               CustomBackButton(
-                pageNavigator: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UserLoginScreen(),
-                  ),
-                ),
+                pageNavigator: () =>
+                    nextScreenReplace(context, const UserLoginScreen()),
               ),
               Align(
                 alignment: Alignment.center,
@@ -84,11 +81,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                           },
                           fieldHintText: 'Enter a valid email address...',
                           validator: (val) {
-                            return RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(val!)
-                                ? null
-                                : 'Please enter a valid email';
+                            if ((RegExp(
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                .hasMatch(val!))) {
+                              return null;
+                            } else {
+                              customSnackbar(context,
+                                  'Please enter a valid email', 150, 55, 55);
+                              return;
+                            }
                           },
                         ),
                         const SizedBox(

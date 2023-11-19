@@ -3,6 +3,7 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
@@ -99,11 +100,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           },
                           validator: (val) {
                             if (val!.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please enter a name'),
-                                ),
-                              );
+                              customSnackbar(
+                                  context, 'Please enter a name', 130, 55, 55);
                               return;
                             } else {
                               return null;
@@ -133,11 +131,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                 .hasMatch(val!))) {
                               return null;
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please enter a valid email'),
-                                ),
-                              );
+                              customSnackbar(context,
+                                  'Please enter a valid email', 130, 55, 55);
                               return;
                             }
                           },
@@ -162,12 +157,12 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           },
                           validator: (val) {
                             if (val!.length < 6) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Password must be at least 6 character'),
-                                ),
-                              );
+                              customSnackbar(
+                                  context,
+                                  'Passowrd must be at least 6 character',
+                                  130,
+                                  55,
+                                  55);
                               return;
                             } else {
                               return null;
@@ -247,11 +242,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
             await HelperFunctions.saveUserEmail(email);
 
             // ignore: use_build_context_synchronously
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Account created successfully'),
-              ),
-            );
+            customSnackbar(
+                context, 'Account created successfully', 130, 55, 55);
             setState(() {
               _isLoading = false;
             });

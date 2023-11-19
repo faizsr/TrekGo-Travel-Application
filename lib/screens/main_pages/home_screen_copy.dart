@@ -4,6 +4,7 @@ import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_scr
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/popular_carousel_slider_copy.dart';
 import 'package:trekmate_project/widgets/Carousel%20slider/recommended_slider.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/main_subtitle.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/top_bar_items.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/appbar_subtitles.dart';
@@ -110,13 +111,12 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                       MainSubtitles(
                           subtitleText: 'Popular',
                           viewAllPlaces: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => PopularPlacesScreen(
-                                  sortName: sortName,
-                                  isAdmin: widget.isAdmin,
-                                  isUser: widget.isUser,
-                                ),
+                            nextScreen(
+                              context,
+                              PopularPlacesScreen(
+                                sortName: sortName,
+                                isAdmin: widget.isAdmin,
+                                isUser: widget.isUser,
                               ),
                             );
                             debugPrint('Admin logged in ${widget.isAdmin}');
@@ -143,13 +143,12 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                     children: [
                       MainSubtitles(
                         subtitleText: 'Recommended',
-                        viewAllPlaces: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => RecommendedPlacesScreen(
-                              isAdmin: widget.isAdmin,
-                              isUser: widget.isUser,
-                              sortName: sortName,
-                            ),
+                        viewAllPlaces: () => nextScreen(
+                          context,
+                          RecommendedPlacesScreen(
+                            isAdmin: widget.isAdmin,
+                            isUser: widget.isUser,
+                            sortName: sortName,
                           ),
                         ),
                       ),
@@ -173,11 +172,8 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                     children: [
                       MainSubtitles(
                         subtitleText: 'Travel Wishlist',
-                        viewAllPlaces: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const WishlistScreen(),
-                          ),
-                        ),
+                        viewAllPlaces: () =>
+                            nextScreen(context, const WishlistScreen()),
                       ),
                       const FavoritesCarouselSlider(),
                     ],

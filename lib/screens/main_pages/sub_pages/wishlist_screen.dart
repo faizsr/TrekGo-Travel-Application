@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/favorite_card_all.dart';
@@ -86,12 +87,19 @@ class _WishlistScreenState extends State<WishlistScreen> {
           onVerticalDragUpdate: (details) {},
           onHorizontalDragUpdate: (details) {
             if (details.delta.direction <= 0) {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const NavigationBottomBar(isAdmin: true, isUser: false),
-                  ),
-                  (route) => false);
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(
+              //       builder: (context) =>
+              //           const NavigationBottomBar(isAdmin: true, isUser: false),
+              //     ),
+              //     (route) => false);
+              nextScreenRemoveUntil(
+                context,
+                const NavigationBottomBar(
+                  isAdmin: true,
+                  isUser: false,
+                ),
+              );
             }
           },
           onTap: () => Navigator.of(context).pop(),
@@ -198,11 +206,19 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       indexValue = index;
                     });
                     String refresh =
-                        await Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => WishlistPlaceDetail(
+                        // await Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => WishlistPlaceDetail(
+                        //       index: index,
+                        //     ),
+                        //   ),
+                        // );
+                        await nextScreen(
+                      context,
+                      WishlistPlaceDetail(
                         index: index,
                       ),
-                    ));
+                    );
                     if (refresh == 'refresh') {
                       updateData();
                     }

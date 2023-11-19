@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -37,11 +38,8 @@ class AuthService {
       if (e.code == 'email-already-in-use') {
         debugPrint('Email already in use');
         // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Email entered is already in use'),
-          ),
-        );
+        customSnackbar(
+            context, 'This email address is already in use', 130, 55, 55);
       }
       debugPrint(e.message);
       return e.message;

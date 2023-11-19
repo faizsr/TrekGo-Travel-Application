@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
@@ -119,8 +120,9 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                     left: 15,
                     child: GestureDetector(
                       onTap: () async {
-                        await Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => UpdateWishlistScreen(
+                        await nextScreen(
+                          context,
+                          UpdateWishlistScreen(
                             index: widget.index,
                             image: favorites.image.toString(),
                             name: favorites.name,
@@ -128,7 +130,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                             description: favorites.description,
                             location: favorites.location,
                           ),
-                        ));
+                        );
                         updateData();
                       },
                       child: const CircleAvatar(

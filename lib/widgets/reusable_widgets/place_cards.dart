@@ -8,6 +8,7 @@ import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
@@ -67,13 +68,12 @@ class _PopularCardState extends State<PopularCard> {
       onTap: () {
         debugPrint('Admin logged place in ${widget.isAdmin}');
         debugPrint('User logged in ${widget.isUser}');
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => PlaceDetailScreen(
-              isAdmin: widget.isAdmin ?? true,
-              isUser: widget.isUser ?? false,
-              placeid: widget.placeid,
-            ),
+        nextScreen(
+          context,
+          PlaceDetailScreen(
+            isAdmin: widget.isAdmin ?? true,
+            isUser: widget.isUser ?? false,
+            placeid: widget.placeid,
           ),
         );
       },
@@ -178,18 +178,17 @@ class _PopularCardState extends State<PopularCard> {
                       top: 20,
                       left: 20,
                       child: GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => UpdatePlaceScreen(
-                                    placeid: widget.placeid,
-                                    placeImage: widget.popularCardImage,
-                                    placeCategory: widget.placeCategory,
-                                    placeState: widget.placeState,
-                                    placeTitle: widget.placeName,
-                                    placeDescription: widget.placeDescripton,
-                                    placeLocation: widget.placeLocation,
-                                    placeRating: widget.ratingCount,
-                                  ),
+                          onTap: () => nextScreen(
+                                context,
+                                UpdatePlaceScreen(
+                                  placeid: widget.placeid,
+                                  placeImage: widget.popularCardImage,
+                                  placeCategory: widget.placeCategory,
+                                  placeState: widget.placeState,
+                                  placeTitle: widget.placeName,
+                                  placeDescription: widget.placeDescripton,
+                                  placeLocation: widget.placeLocation,
+                                  placeRating: widget.ratingCount,
                                 ),
                               ),
                           child: const PlaceCardButton(buttonText: 'UPDATE')),
@@ -228,29 +227,6 @@ class _PopularCardState extends State<PopularCard> {
 }
 
 Future<T?> deleteDestination<T>(String placeId, BuildContext context) async {
-  // return showDialog(
-  //   context: context,
-  //   builder: (context) => AlertDialog(
-  //     title: const Text('Are you sure want to delete'),
-  //     actions: [
-  //       TextButton(
-  //         onPressed: () {
-  //           Navigator.of(context).pop();
-  //         },
-  //         child: const Text('No'),
-  //       ),
-  //       TextButton(
-  //         onPressed: () async {
-  //           await DatabaseService().destinationCollection.doc(placeId).delete();
-  //           debugPrint('Deleted successfully');
-  //           // ignore: use_build_context_synchronously
-  //           Navigator.of(context).pop();
-  //         },
-  //         child: const Text('Yes'),
-  //       )
-  //     ],
-  //   ),
-  // );
   return showDialog(
     context: context,
     builder: (context) {

@@ -5,6 +5,7 @@ import 'package:trekmate_project/screens/main_pages/home_screen_copy.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   final bool? isAdmin;
@@ -82,13 +83,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
               ),
               BottomNavigationBarItem(
                 icon: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const AddWishlistScreen(),
-                      ),
-                    );
-                  },
+                  onTap: () => nextScreen(context, const AddWishlistScreen()),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.09,
                     height: MediaQuery.of(context).size.height * 0.04,

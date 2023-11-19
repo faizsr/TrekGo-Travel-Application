@@ -60,9 +60,10 @@ class ButtonsWidget extends StatelessWidget {
                   Text(
                     buttonText,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        color: Colors.white),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
                   ),
             ),
     );

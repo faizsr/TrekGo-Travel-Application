@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 
 class RecommendedCard extends StatelessWidget {
@@ -36,17 +37,14 @@ class RecommendedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => PlaceDetailScreen(
-              isAdmin: isAdmin ?? true,
-              isUser: isUser ?? false,
-              placeid: placeid,
-            ),
-          ),
-        );
-      },
+      onTap: () => nextScreen(
+        context,
+        PlaceDetailScreen(
+          isAdmin: isAdmin ?? true,
+          isUser: isUser ?? false,
+          placeid: placeid,
+        ),
+      ),
       child: Container(
         margin: const EdgeInsets.only(
           right: 15,
@@ -86,10 +84,6 @@ class RecommendedCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(
-                          // blurRadius: 4,
-                          // offset: Offset(0, -6),
-                          // spreadRadius: 0,
-                          // color: Color(0x40000000),
                           blurRadius: 10,
                           offset: Offset(0, 4),
                           spreadRadius: 2,

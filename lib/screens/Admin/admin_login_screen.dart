@@ -7,6 +7,7 @@ import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_naviga
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/title.dart';
@@ -111,8 +112,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             });
                           },
                           validator: (val) {
-                            if (val == null) {
-                              return 'This field is required';
+                            if (val!.isEmpty) {
+                              customSnackbar(context, 'Please enter a valid id',
+                                  140, 55, 55);
+                              return;
                             } else {
                               return null;
                             }
@@ -142,11 +145,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                 .hasMatch(val!))) {
                               return null;
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please enter a valid email'),
-                                ),
-                              );
+                              customSnackbar(context,
+                                  'Please enter a valid email', 140, 55, 55);
                               return;
                             }
                           },
@@ -172,12 +172,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           },
                           validator: (val) {
                             if (val!.length < 6) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Password must be at least 6 character'),
-                                ),
-                              );
+                              customSnackbar(
+                                  context,
+                                  'Password must be at least 6 characters',
+                                  140,
+                                  55,
+                                  55);
                               return;
                             } else {
                               return null;
@@ -240,23 +240,18 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             await HelperFunctions.saveAdminId(snapshot.docs[0]["admin_id"]);
 
             // ignore: use_build_context_synchronously
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (context) => const NavigationBottomBar(
-                    isAdmin: true,
-                    isUser: false,
-                  ),
-                ),
-                (route) => false);
+            nextScreenRemoveUntil(
+                context,
+                const NavigationBottomBar(
+                  isAdmin: true,
+                  isUser: false,
+                ));
           } else {
             setState(() {
               isLoading = false;
             });
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Enter login details correctly'),
-              ),
-            );
+            customSnackbar(
+                context, 'Enter login details correctly', 140, 55, 55);
             debugPrint('Enter admin id correctly');
             debugPrint('$context');
           }

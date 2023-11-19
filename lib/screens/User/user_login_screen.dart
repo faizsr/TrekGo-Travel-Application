@@ -9,11 +9,12 @@ import 'package:trekmate_project/screens/user/user_signup_screen.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/title.dart';
-
 
 class UserLoginScreen extends StatefulWidget {
   const UserLoginScreen({super.key});
@@ -76,13 +77,14 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                       children: [
                         // ===== Title =====
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const AdminLoginScreen(),
-                              ),
-                            );
+                          onLongPress: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const AdminLoginScreen(),
+                            //   ),
+                            // );
+                            nextScreen(context, const AdminLoginScreen());
                           },
                           child: const TitleWidget(
                             mainText: 'login',
@@ -111,11 +113,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                 .hasMatch(val!))) {
                               return null;
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please enter a valid email'),
-                                ),
-                              );
+                              customSnackbar(context,
+                                  'Please enter a valid email', 150, 55, 55);
                               return;
                             }
                           },
@@ -142,12 +141,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                               },
                               validator: (val) {
                                 if (val!.length < 6) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Password must be at least 6 character'),
-                                    ),
-                                  );
+                                  customSnackbar(
+                                      context,
+                                      'Password must be at least 6 characters!',
+                                      150,
+                                      55,
+                                      55);
                                   return;
                                 } else {
                                   return null;
@@ -208,19 +207,13 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
 
                         // ===== Help text (sign up) =====
                         GestureDetector(
-                          onTap: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const UserSignUpScreen(),
-                            ),
-                          ),
+                          onTap: () => nextScreenReplace(
+                              context, const UserSignUpScreen()),
                           child: HelpTextWidget(
                             firstText: "Don't Have An Account? ",
                             secondText: 'Sign Up?',
-                            onPressedSignUp: () => Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) => const UserSignUpScreen(),
-                            )),
+                            onPressedSignUp: () => nextScreenReplace(
+                                context, const UserSignUpScreen()),
                           ),
                         ),
                         // const SizedBox(
@@ -274,11 +267,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             await HelperFunctions.saveUserEmail(email);
 
             // ignore: use_build_context_synchronously
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => const NavigationBottomBar(
-                        isAdmin: false, isUser: true)),
-                (route) => false);
+            nextScreenRemoveUntil(context,
+                const NavigationBottomBar(isAdmin: false, isUser: true));
           } else {
             setState(() {
               isLoading = false;
@@ -287,21 +277,15 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog(
-                  title: const Text('Incorrect Login Details'),
-                  content: const Text(
-                      'The email and password you entered is incorrect. Please try again.'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'))
-                  ],
+                return const CustomAlertDialog(
+                  title: 'Incorrect Login Details',
+                  description:
+                      'The email and password you entered is incorrect. Please try again.',
+                  disableActionBtn: true,
+                  popBtnText: 'OK',
                 );
               },
             );
-
             debugPrint('Error login in');
           }
         },

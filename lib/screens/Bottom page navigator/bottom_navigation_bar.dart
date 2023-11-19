@@ -5,7 +5,7 @@ import 'package:trekmate_project/screens/main_pages/home_screen_copy.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
-import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   final bool? isAdmin;

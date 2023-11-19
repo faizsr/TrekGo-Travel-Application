@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
-import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/favorite_card.dart';
 
 class FavoritesCarouselSlider extends StatefulWidget {

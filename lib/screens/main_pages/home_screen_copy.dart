@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
-import 'package:trekmate_project/widgets/Carousel%20slider/popular_carousel_slider_copy.dart';
-import 'package:trekmate_project/widgets/Carousel%20slider/recommended_slider.dart';
-import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/carousel_slider/popular_carousel_slider_copy.dart';
+import 'package:trekmate_project/widgets/carousel_slider/recommended_slider.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/main_subtitle.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/top_bar_items.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/appbar_subtitles.dart';
-import 'package:trekmate_project/widgets/Carousel%20slider/favorites_carousel_slider.dart';
+import 'package:trekmate_project/widgets/carousel_slider/favorites_carousel_slider.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/choice_chips.dart';
 
 class HomeScreenCopy extends StatefulWidget {

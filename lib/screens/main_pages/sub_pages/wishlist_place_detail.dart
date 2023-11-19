@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
-import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alert_dialog/custom_alert.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final int? index;

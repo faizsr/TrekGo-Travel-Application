@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
-import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/favorite_card_all.dart';

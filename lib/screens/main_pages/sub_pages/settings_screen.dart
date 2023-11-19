@@ -4,7 +4,7 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/add_place_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
-import 'package:trekmate_project/widgets/alert_dialog/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';

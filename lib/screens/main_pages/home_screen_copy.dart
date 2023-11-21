@@ -38,12 +38,6 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
     favoriteList = favoriteBox.values.toList();
   }
 
-  updateData() {
-    setState(() {
-      favoriteList = favoriteBox.values.toList();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,11 +184,8 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                           children: [
                             MainSubtitles(
                               subtitleText: 'Travel Wishlist',
-                              viewAllPlaces: () async {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const WishlistScreen(),
-                                ));
-                              },
+                              viewAllPlaces: () =>
+                                  nextScreen(context, const WishlistScreen()),
                             ),
                             const FavoritesCarouselSlider(),
                           ],

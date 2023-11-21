@@ -5,7 +5,6 @@ import 'package:trekmate_project/screens/main_pages/home_screen_copy.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   final bool? isAdmin;
@@ -33,7 +32,10 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
       ),
-      const SearchScreen(),
+      SearchScreen(
+        isAdmin: widget.isAdmin,
+        isUser: widget.isUser,
+      ),
       const AddWishlistScreen(),
       const SavedPlacesScreen(),
       ProfileScreen(),
@@ -82,21 +84,18 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: GestureDetector(
-                  onTap: () => nextScreen(context, const AddWishlistScreen()),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.09,
-                    height: MediaQuery.of(context).size.height * 0.04,
-                    decoration: const BoxDecoration(
-                        color: Color(0xFF1285b9),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(70),
-                        )),
-                    child: const Icon(
-                      Icons.add,
-                      size: 25,
-                      color: Colors.white,
-                    ),
+                icon: Container(
+                  width: MediaQuery.of(context).size.width * 0.09,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFF1285b9),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(70),
+                      )),
+                  child: const Icon(
+                    Icons.add,
+                    size: 25,
+                    color: Colors.white,
                   ),
                 ),
                 label: '',

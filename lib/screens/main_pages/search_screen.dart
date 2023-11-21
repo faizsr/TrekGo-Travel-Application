@@ -3,10 +3,16 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/resent_search_card.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/recent_search_card.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final bool? isAdmin;
+  final bool? isUser;
+  const SearchScreen({
+    super.key,
+    this.isAdmin,
+    this.isUser,
+  });
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -126,10 +132,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 var data =
                     snapshot.data!.docs[index].data() as Map<String, dynamic>;
 
+                DocumentSnapshot destinationSnapshot =
+                    snapshot.data!.docs[index];
+
                 // ========== When no filtering ==========
                 if (name.isEmpty) {
                   debugPrint('No Sorting');
                   return RecentSearchCard(
+                    isAdmin: widget.isAdmin,
+                    isUser: widget.isAdmin,
+                    placeId: destinationSnapshot.id,
                     cardImage: data['place_image'],
                     cardTitle: data['place_name'],
                     ratingCount: data['place_rating'],
@@ -147,6 +159,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         .startsWith(name.toLowerCase())) {
                   debugPrint('Search Sorting');
                   return RecentSearchCard(
+                    isAdmin: widget.isAdmin,
+                    isUser: widget.isAdmin,
+                    placeId: destinationSnapshot.id,
                     cardImage: data['place_image'],
                     cardTitle: data['place_name'],
                     ratingCount: data['place_rating'],

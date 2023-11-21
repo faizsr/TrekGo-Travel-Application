@@ -15,11 +15,25 @@ class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;
   final bool? isAdmin;
   final bool? isUser;
+  final String? searchImage;
+  final String? searchName;
+  final String? searchDescription;
+  final String? searchLocation;
+  final String? searchMap;
+  final double? searchRating;
+  final bool isSearch;
   const PlaceDetailScreen({
     super.key,
     this.placeid,
     this.isAdmin,
     this.isUser,
+    this.searchImage,
+    this.searchName,
+    this.searchDescription,
+    this.searchLocation,
+    this.searchMap,
+    this.searchRating,
+    this.isSearch = false,
   });
 
   @override

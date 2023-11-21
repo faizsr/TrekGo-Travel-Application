@@ -6,7 +6,7 @@ import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/Admin/admin_login_screen.dart';
 import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
 import 'package:trekmate_project/screens/user/user_signup_screen.dart';
-import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
+import 'package:trekmate_project/screens/Bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';

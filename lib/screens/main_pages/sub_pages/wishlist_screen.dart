@@ -2,7 +2,7 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
-import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
+import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
@@ -46,7 +46,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     searchValue = '';
   }
 
-  void updateData() {
+  updateData() {
     setState(() {
       filteredList = favoriteBox.values.toList();
       selectedState;
@@ -96,7 +96,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
               );
             }
           },
-          onTap: () => Navigator.of(context).pop(),
+          onTap: () async {
+            Navigator.of(context).pop('refresh');
+            await updateData();
+          },
           child: const Padding(
             padding: EdgeInsets.only(top: 25),
             child: Icon(
@@ -199,16 +202,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     setState(() {
                       indexValue = index;
                     });
-                    String refresh = await nextScreen(
-                      context,
-                      WishlistPlaceDetail(
-                        index: index,
+                    String refresh = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WishlistPlaceDetail(index: index),
                       ),
                     );
                     if (refresh == 'refresh') {
                       updateData();
+                      debugPrint('refreshedd!!!!!!!!!!!!!!1');
                     }
-                    debugPrint(refresh);
+                    debugPrint('refresh : $refresh');
                   },
                   child: FavoriteCardAll(
                     backgroundImage: favorites.image.toString(),

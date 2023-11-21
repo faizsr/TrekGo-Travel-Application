@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
 part 'favorite.g.dart';
 
 @HiveType(typeId: 0)
-class Favorites {
+class Favorites extends ChangeNotifier with HiveObjectMixin{
   @HiveField(0)
   final String? state;
 

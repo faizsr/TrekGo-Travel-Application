@@ -288,8 +288,13 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
         'place_state': selectedState ?? widget.placeState,
       });
       debugPrint('Updated');
+      // customSnackbar(context, 'Updated successfully', 20, 20, 20);
       // ignore: use_build_context_synchronously
-      customSnackbar(context, 'Updated successfully', 20, 20, 20);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Updated successfully'),
+        ),
+      );
     } else {
       debugPrint('Not updated');
     }

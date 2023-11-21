@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
@@ -26,6 +28,21 @@ class HomeScreenCopy extends StatefulWidget {
 
 class _HomeScreenCopyState extends State<HomeScreenCopy> {
   String? sortName;
+  late Box<Favorites> favoriteBox;
+  List<Favorites>? favoriteList;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteBox = Hive.box('favorites');
+    favoriteList = favoriteBox.values.toList();
+  }
+
+  updateData() {
+    setState(() {
+      favoriteList = favoriteBox.values.toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,20 +182,25 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                 ),
 
                 // ===== Favorite screen section =====
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      MainSubtitles(
-                        subtitleText: 'Travel Wishlist',
-                        viewAllPlaces: () =>
-                            nextScreen(context, const WishlistScreen()),
-                      ),
-                      const FavoritesCarouselSlider(),
-                    ],
-                  ),
-                ),
+                favoriteList!.isNotEmpty
+                    ? SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            MainSubtitles(
+                              subtitleText: 'Travel Wishlist',
+                              viewAllPlaces: () async {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const WishlistScreen(),
+                                ));
+                              },
+                            ),
+                            const FavoritesCarouselSlider(),
+                          ],
+                        ),
+                      )
+                    : const SizedBox()
               ],
             ),
             SizedBox(

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/favorite.dart';
 import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+// import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
@@ -120,18 +120,32 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                     left: 15,
                     child: GestureDetector(
                       onTap: () async {
-                        await nextScreen(
-                          context,
-                          UpdateWishlistScreen(
-                            index: widget.index,
-                            image: favorites.image.toString(),
-                            name: favorites.name,
-                            state: favorites.state,
-                            description: favorites.description,
-                            location: favorites.location,
+                        // String? refresh = await nextScreen(
+                        //   context,
+                        //   UpdateWishlistScreen(
+                        // index: widget.index,
+                        // image: favorites.image.toString(),
+                        // name: favorites.name,
+                        // state: favorites.state,
+                        // description: favorites.description,
+                        // location: favorites.location,
+                        //   ),
+                        // );
+                        String refresh = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UpdateWishlistScreen(
+                              index: widget.index,
+                              image: favorites.image.toString(),
+                              name: favorites.name,
+                              state: favorites.state,
+                              description: favorites.description,
+                              location: favorites.location,
+                            ),
                           ),
                         );
-                        updateData();
+                        if (refresh == 'refresh') {
+                          updateData();
+                        }
                       },
                       child: const CircleAvatar(
                         backgroundColor: Color(0xFFe5e6f6),

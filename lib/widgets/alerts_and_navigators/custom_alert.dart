@@ -78,7 +78,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             ),
             highlightColor: Colors.grey[200],
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop('refresh');
             },
             child: Center(
               child: Text(

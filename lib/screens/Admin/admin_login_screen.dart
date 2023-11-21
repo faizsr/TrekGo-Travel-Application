@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/Bottom%20page%20navigator/bottom_navigation_bar.dart';
+import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';

@@ -35,14 +35,15 @@ class UpdateWishlistScreen extends StatefulWidget {
 class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
   String? selectedState;
   String? initialState;
+  String? imageUrl;
 
   void updateStateSelection(String? category) {
     selectedState = category;
   }
 
-  late final TextEditingController nameController;
-  late final TextEditingController descriptionController;
-  late final TextEditingController locationController;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -53,10 +54,12 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorites');
-    nameController = TextEditingController(text: widget.name);
-    descriptionController = TextEditingController(text: widget.description);
-    locationController = TextEditingController(text: widget.location);
+    nameController.text = widget.name ?? '';
+    descriptionController.text = widget.description ?? '';
+    locationController.text = widget.location ?? '';
     initialState = widget.state;
+    imageUrl = widget.image.toString();
+    print(imageUrl);
   }
 
   @override
@@ -109,6 +112,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: DropDownWidget(
                   updateState: initialState,
+                  updateCategory: '',
                   hintText: 'Select State',
                   rightPadding: 20,
                   leftPadding: 20,
@@ -208,20 +212,34 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
     return null;
   }
 
-  updateData() {
-    if (_formKey.currentState!.validate()) {
+  updateData() async {
+    debugPrint(selectedState);
+    debugPrint(nameController.text);
+    debugPrint(descriptionController.text);
+    debugPrint(locationController.text);
+    debugPrint(_selectedImage != null ? 'true' : 'false');
+    if (nameController.text.isNotEmpty &&
+        descriptionController.text.isNotEmpty &&
+        locationController.text.isNotEmpty &&
+        initialState != null &&
+        imageUrl != null) {
       _formKey.currentState?.save();
-      favoriteBox.putAt(
+      await favoriteBox.putAt(
           widget.index ?? 0,
           Favorites(
             image: _selectedImage?.path ?? widget.image,
-            state: selectedState,
+            state: selectedState ?? initialState,
             name: nameController.text,
             description: descriptionController.text,
             location: locationController.text,
           ));
-      debugPrint('Data added');
+      // ignore: use_build_context_synchronously
+      customSnackbar(context, 'Updated successfully', 20, 20, 20);
+      debugPrint('Data updated');
+      debugPrint('Selected state in update: $selectedState');
+    } else {
+      debugPrint('Data not updated');
+      debugPrint(selectedState);
     }
-    debugPrint(selectedState);
   }
 }

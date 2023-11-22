@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 
 class ButtonsWidget extends StatelessWidget {
   final String buttonText;
-  // final Color? buttonBgColor;
   final double? buttonWidth;
   final bool isOutlinedButton;
   final Function()? buttonOnPressed;
   final Widget? loadingWidget;
+  final double? buttonBorderRadius;
+  final double? buttonTextSize;
+  final FontWeight? buttonTextWeight;
 
   const ButtonsWidget({
     super.key,
     required this.buttonText,
-    // this.buttonBgColor,
     this.buttonWidth,
     this.isOutlinedButton = false,
     this.buttonOnPressed,
     this.loadingWidget,
+    this.buttonBorderRadius,
+    this.buttonTextSize,
+    this.buttonTextWeight,
   });
 
   @override
@@ -51,7 +55,9 @@ class ButtonsWidget extends StatelessWidget {
                 elevation: 0,
                 backgroundColor: const Color(0xFF1285b9),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.65),
+                  borderRadius: buttonBorderRadius == null
+                      ? BorderRadius.circular(7.65)
+                      : BorderRadius.circular(buttonBorderRadius ?? 0),
                 ),
                 disabledBackgroundColor: const Color(0xB31285b9),
               ),
@@ -59,9 +65,9 @@ class ButtonsWidget extends StatelessWidget {
               child: loadingWidget ??
                   Text(
                     buttonText,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
+                    style: TextStyle(
+                      fontWeight: buttonTextWeight ?? FontWeight.w700,
+                      fontSize: buttonTextSize ?? 12,
                       color: Colors.white,
                     ),
                   ),

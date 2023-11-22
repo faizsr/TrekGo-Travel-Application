@@ -72,6 +72,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
     ratingCount = widget.placeRating;
     initialCategory = widget.placeCategory;
     initialState = widget.placeState;
+    imageUrl = widget.placeImage;
     super.initState();
   }
 
@@ -257,6 +258,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
 
   // ===== Function for updating the detials =====
   updateDetails() async {
+    debugPrint(selectedState);
     Reference referenceImageToUpload =
         FirebaseStorage.instance.refFromURL(widget.placeImage!);
 
@@ -268,13 +270,13 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
     }
 
     // ===== Saving to the database =====
-    if (titleController.text.isNotEmpty ||
-        descriptionController.text.isNotEmpty ||
-        locationController.text.isNotEmpty ||
-        ratingCount != null ||
-        imageUrl != null ||
-        selectedCategory != null ||
-        selectedState != null) {
+    if (titleController.text.isNotEmpty &&
+        descriptionController.text.isNotEmpty &&
+        locationController.text.isNotEmpty &&
+        ratingCount != null &&
+        imageUrl != null &&
+        initialCategory != null &&
+        initialState != null) {
       setState(() {
         isLoading = true;
       });
@@ -290,11 +292,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
       debugPrint('Updated');
       // customSnackbar(context, 'Updated successfully', 20, 20, 20);
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Updated successfully'),
-        ),
-      );
+      customSnackbar(context, 'Updated successfully', 20, 20, 20);
     } else {
       debugPrint('Not updated');
     }

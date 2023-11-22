@@ -36,6 +36,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: MaterialApp(
+        builder: (context, child) {
+          return ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: child!,
+          );
+        },
         theme: ThemeData(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -46,5 +52,13 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
       ),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }

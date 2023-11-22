@@ -10,7 +10,8 @@ import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.da
 import 'package:trekmate_project/widgets/reusable_widgets/favorite_card_all.dart';
 
 class WishlistScreen extends StatefulWidget {
-  const WishlistScreen({super.key});
+  final String? currentUserId;
+  const WishlistScreen({super.key, this.currentUserId});
 
   @override
   State<WishlistScreen> createState() => _WishlistScreenState();
@@ -197,27 +198,31 @@ class _WishlistScreenState extends State<WishlistScreen> {
               itemBuilder: (context, index) {
                 final favorites = filterPlaces[index];
 
-                return GestureDetector(
-                  onTap: () async {
-                    setState(() {
-                      indexValue = index;
-                    });
-                    String refresh = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => WishlistPlaceDetail(index: index),
-                      ),
-                    );
-                    if (refresh == 'refresh') {
-                      updateData();
-                      debugPrint('refreshedd!!!!!!!!!!!!!!1');
-                    }
-                    debugPrint('refresh : $refresh');
-                  },
-                  child: FavoriteCardAll(
-                    backgroundImage: favorites.image.toString(),
-                    placeName: favorites.name.toString(),
-                  ),
-                );
+                if (favorites.userId == widget.currentUserId) {
+                  return GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        indexValue = index;
+                      });
+                      String refresh = await Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              WishlistPlaceDetail(index: index),
+                        ),
+                      );
+                      if (refresh == 'refresh') {
+                        updateData();
+                        debugPrint('refreshedd!!!!!!!!!!!!!!1');
+                      }
+                      debugPrint('refresh : $refresh');
+                    },
+                    child: FavoriteCardAll(
+                      backgroundImage: favorites.image.toString(),
+                      placeName: favorites.name.toString(),
+                    ),
+                  );
+                }
+                return Container();
               },
             ),
           ),

@@ -188,10 +188,14 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                           children: [
                             MainSubtitles(
                               subtitleText: 'Travel Wishlist',
-                              viewAllPlaces: () =>
-                                  nextScreen(context, const WishlistScreen()),
+                              viewAllPlaces: () => nextScreen(
+                                  context,
+                                  WishlistScreen(
+                                    currentUserId: widget.userId,
+                                  )),
                             ),
-                            const FavoritesCarouselSlider(),
+                            FavoritesCarouselSlider(
+                                currentUserId: widget.userId),
                           ],
                         ),
                       )
@@ -207,3 +211,4 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
     );
   }
 }
+

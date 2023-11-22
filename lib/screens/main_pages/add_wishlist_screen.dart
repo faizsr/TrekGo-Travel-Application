@@ -236,6 +236,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState?.save();
       favoriteBox.add(Favorites(
+        userId: widget.userId,
         state: selectedState,
         name: nameController.text,
         description: descriptionController.text,

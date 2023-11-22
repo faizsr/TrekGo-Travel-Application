@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
@@ -75,7 +76,10 @@ class _SplashScreenState extends State<SplashScreen> {
           ? nextScreenReplace(
               context,
               NavigationBottomBar(
-                  isUser: _isUserSignedIn, isAdmin: _isAdminSignedIn),
+                isUser: _isUserSignedIn,
+                isAdmin: _isAdminSignedIn,
+                userId: FirebaseAuth.instance.currentUser!.uid,
+              ),
             )
           : _isAdminSignedIn
               ? nextScreenReplace(

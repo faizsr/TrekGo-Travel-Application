@@ -7,10 +7,12 @@ import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
 
 class NavigationBottomBar extends StatefulWidget {
+  final String? userId;
   final bool? isAdmin;
   final bool? isUser;
   const NavigationBottomBar({
     super.key,
+    this.userId,
     this.isAdmin,
     this.isUser,
   });
@@ -29,6 +31,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
     super.initState();
     pages = [
       HomeScreenCopy(
+        userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
       ),
@@ -36,7 +39,9 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
       ),
-      const AddWishlistScreen(),
+      AddWishlistScreen(
+        userId: widget.userId,
+      ),
       const SavedPlacesScreen(),
       ProfileScreen(),
     ];

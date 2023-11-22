@@ -86,12 +86,15 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
               itemBuilder: (context, index) {
                 final saved = savedPlaces[index];
 
-                return PopularCard(
-                  popularCardImage: saved.image,
-                  placeName: saved.name,
-                  ratingCount: saved.rating,
-                  placeDescripton: saved.description,
-                  placeLocation: saved.location,
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: PopularCard(
+                    popularCardImage: saved.image,
+                    placeName: saved.name,
+                    ratingCount: saved.rating,
+                    placeDescripton: saved.description,
+                    placeLocation: saved.location,
+                  ),
                 );
               },
             ),

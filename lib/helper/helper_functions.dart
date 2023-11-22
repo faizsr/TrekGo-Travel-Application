@@ -7,6 +7,7 @@ class HelperFunctions {
   static String userLoggedInKey = 'USERLOGGEDINKEY';
   static String userFullNameKey = 'USERNAMEKEY';
   static String userEmailKey = 'USEREMAILKEY';
+  static String userIdKey = 'USERIDKEY';
 
   // ===== Saving the user data to shared preference =====
   static Future<bool> saveUserLoggedInStatus(bool isUserLoggedIn) async {

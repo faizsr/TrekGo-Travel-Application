@@ -267,8 +267,13 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
             await HelperFunctions.saveUserEmail(email);
 
             // ignore: use_build_context_synchronously
-            nextScreenRemoveUntil(context,
-                const NavigationBottomBar(isAdmin: false, isUser: true));
+            nextScreenRemoveUntil(
+                context,
+                NavigationBottomBar(
+                  isAdmin: false,
+                  isUser: true,
+                  userId: FirebaseAuth.instance.currentUser!.uid,
+                ));
           } else {
             setState(() {
               isLoading = false;

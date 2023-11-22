@@ -37,6 +37,8 @@ class _MyAppState extends State<MyApp> {
     return SafeArea(
       child: MaterialApp(
         theme: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           fontFamily: 'Poppins',
           scaffoldBackgroundColor: const Color(0xFFf0f3f7),
         ),

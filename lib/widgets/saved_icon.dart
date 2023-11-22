@@ -37,9 +37,14 @@ class _SavedIconState extends State<SavedIcon> {
     savedBox = Hive.box('saved');
     savedFidList = savedBox.values.toList();
     updateSavedIdList();
-    // debugPrint('id: ${widget.id}');
+    debugPrint('id: ${widget.id}');
   }
 
+  int getIndex(String? id) {
+    return savedFidList.indexWhere((savedItem) => savedItem.firebaseid == id);
+  }
+
+  // ============ Update List ============
   void updateSavedIdList() {
     savedid = savedFidList
         .where((savedItem) => savedItem.firebaseid != null)
@@ -58,7 +63,9 @@ class _SavedIconState extends State<SavedIcon> {
 
         if (newIconFill) {
           if (!savedid.contains(widget.id)) {
-            savedBox.add(Saved(
+            // ============ Adding the data to the Saved ============
+
+            int indexAdd = await savedBox.add(Saved(
               firebaseid: widget.id,
               image: widget.image,
               name: widget.name,
@@ -66,25 +73,24 @@ class _SavedIconState extends State<SavedIcon> {
               description: widget.description,
               location: widget.location,
             ));
+            debugPrint('index add: $indexAdd');
             debugPrint('Added successfully');
           } else {
-            savedid.remove(widget.id);
-            if (savedFidList.isNotEmpty) {
-              int indexToDelete = savedFidList
-                  .indexWhere((savedItem) => savedItem.firebaseid == widget.id);
-              if (indexToDelete != -1 && indexToDelete < savedFidList.length) {
-                await savedBox.deleteAt(indexToDelete);
-                updateSavedIdList();
-                debugPrint('Deleted successfully');
-              } else {
-                debugPrint('No items in the list');
-              }
+            int indexDel = getIndex(widget.id);
+            debugPrint('index del: $indexDel');
+            // ============ Delete the data in the Saved ============
+            int index = savedid.indexOf(widget.id ?? '');
+            if (index > -1) {
+              savedBox.deleteAt(index);
+              debugPrint('Deleted successfully');
+              savedBox.compact();
             } else {
-              debugPrint('No items in the list to delete');
+              debugPrint('No element to delete');
             }
           }
         }
 
+        // ============ Setting the icon back to normal ============
         setState(() {
           iconFill = newIconFill;
         });

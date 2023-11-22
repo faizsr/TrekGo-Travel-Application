@@ -14,10 +14,12 @@ import 'package:trekmate_project/widgets/carousel_slider/favorites_carousel_slid
 import 'package:trekmate_project/widgets/chips_and_drop_downs/choice_chips.dart';
 
 class HomeScreenCopy extends StatefulWidget {
+  final String? userId;
   final bool? isAdmin;
   final bool? isUser;
   const HomeScreenCopy({
     super.key,
+    this.userId,
     this.isAdmin,
     this.isUser,
   });
@@ -36,12 +38,14 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
     super.initState();
     favoriteBox = Hive.box('favorites');
     favoriteList = favoriteBox.values.toList();
+    debugPrint('User id: ${widget.userId}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        // physics: FixedExtentScrollPhysics(),
         child: Column(
           children: [
             // ===== Custom appbar =====

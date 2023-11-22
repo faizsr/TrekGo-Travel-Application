@@ -12,8 +12,10 @@ import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class AddWishlistScreen extends StatefulWidget {
+  final String? userId;
   const AddWishlistScreen({
     super.key,
+    this.userId,
   });
 
   @override
@@ -40,6 +42,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorites');
+    debugPrint('User id on Add Wishlist page: ${widget.userId}');
   }
 
   void updateData() {

@@ -224,6 +224,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
         initialState != null &&
         imageUrl != null) {
       _formKey.currentState?.save();
+      debugPrint('index in update : ${widget.index}');
       await favoriteBox.putAt(
           widget.index ?? 0,
           Favorites(
@@ -236,10 +237,10 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
       // ignore: use_build_context_synchronously
       customSnackbar(context, 'Updated successfully', 20, 20, 20);
       debugPrint('Data updated');
-      debugPrint('Selected state in update: $selectedState');
+      debugPrint('Selected state in update: ${selectedState ?? initialState}');
     } else {
       debugPrint('Data not updated');
-      debugPrint(selectedState);
+      debugPrint(selectedState ?? initialState);
     }
   }
 }

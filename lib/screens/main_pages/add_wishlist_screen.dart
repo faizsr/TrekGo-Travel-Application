@@ -25,6 +25,7 @@ class AddWishlistScreen extends StatefulWidget {
 
 class _AddWishlistScreenState extends State<AddWishlistScreen> {
   String? selectedState;
+  bool isLoading = false;
 
   void updateStateSelection(String? category) {
     selectedState = category;
@@ -216,7 +217,8 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   buttonTextSize: 16,
                   buttonBorderRadius: 15,
                   buttonTextWeight: FontWeight.w600,
-                  buttonText: 'SAVE WISHLIST',
+                  buttonText:
+                      isLoading ? 'NEW WISHLIST CREATED' : 'SAVE WISHLIST',
                   buttonOnPressed: () {
                     addData();
                   },
@@ -246,6 +248,9 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
 
   addData() {
     if (_formKey.currentState!.validate() && _selectedImage != null) {
+      setState(() {
+        isLoading = true;
+      });
       _formKey.currentState?.save();
       favoriteBox.add(Favorites(
         userId: widget.userId,
@@ -255,9 +260,17 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
         location: locationController.text,
         image: _selectedImage?.path,
       ));
-      customSnackbar(context, 'New wishlist created!', 0, 20, 20);
+      int? index =
+          favoriteBox.keyAt(favoriteBox.keys.toList().indexOf(widget.userId));
+
+      index != null
+          ? debugPrint('index on add $index')
+          : debugPrint('No index');
       debugPrint('Data added');
     } else {
+      setState(() {
+        isLoading = false;
+      });
       customSnackbar(context, 'Fill all forms!', 0, 20, 20);
       debugPrint('Details not updated');
     }

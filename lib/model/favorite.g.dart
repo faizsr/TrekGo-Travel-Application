@@ -17,27 +17,30 @@ class FavoritesAdapter extends TypeAdapter<Favorites> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Favorites(
-      state: fields[0] as String?,
-      name: fields[1] as String?,
-      description: fields[2] as String?,
-      location: fields[3] as String?,
-      image: fields[4] as String?,
+      userId: fields[0] as String?,
+      state: fields[1] as String?,
+      name: fields[2] as String?,
+      description: fields[3] as String?,
+      location: fields[4] as String?,
+      image: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Favorites obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.state)
+      ..write(obj.userId)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.state)
       ..writeByte(2)
-      ..write(obj.description)
+      ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.location)
+      ..write(obj.description)
       ..writeByte(4)
+      ..write(obj.location)
+      ..writeByte(5)
       ..write(obj.image);
   }
 

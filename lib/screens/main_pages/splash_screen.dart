@@ -69,8 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   // ===== Function for navigating based on roles =====
-  Future<void> checkLoginStatus() async { 
-
+  Future<void> checkLoginStatus() async {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       _isUserSignedIn
@@ -82,17 +81,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 userId: FirebaseAuth.instance.currentUser!.uid,
               ),
             )
-
-            // Zt6zXhESqHTiLfnObFnRIeLQo1Y2
-            // Zt6zXhESqHTiLfnObFnRIeLQo1Y2
-
-            // xcCyL0asm0Z0RVv7cb3aBoFl6Zt1
-            // xcCyL0asm0Z0RVv7cb3aBoFl6Zt1
           : _isAdminSignedIn
               ? nextScreenReplace(
                   context,
                   NavigationBottomBar(
-                      isAdmin: _isAdminSignedIn, isUser: _isUserSignedIn),
+                    isAdmin: _isAdminSignedIn,
+                    isUser: _isUserSignedIn,
+                    userId: FirebaseAuth.instance.currentUser!.uid,
+                  ),
                 )
               : nextScreenReplace(context, const UserLoginScreen());
     }

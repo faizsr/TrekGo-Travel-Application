@@ -113,9 +113,9 @@ class ProfileScreen extends StatelessWidget {
                     endIndent: 15,
                   ),
 
-                  // ===== Favorite places button =====
+                  // ===== Wishlist places button =====
                   UserProfileListtile(
-                    titleText: 'Your Favorites',
+                    titleText: 'Your Wishlists',
                     onTapIcon: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const WishlistScreen(),

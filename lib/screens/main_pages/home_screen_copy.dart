@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
@@ -10,14 +10,14 @@ import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_naviga
 import 'package:trekmate_project/widgets/home_screen_widgets/main_subtitle.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/top_bar_items.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/appbar_subtitles.dart';
-import 'package:trekmate_project/widgets/carousel_slider/favorites_carousel_slider.dart';
+import 'package:trekmate_project/widgets/carousel_slider/wishlist_carousel_slider.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/choice_chips.dart';
 
-class HomeScreenCopy extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final String? userId;
   final bool? isAdmin;
   final bool? isUser;
-  const HomeScreenCopy({
+  const HomeScreen({
     super.key,
     this.userId,
     this.isAdmin,
@@ -25,24 +25,31 @@ class HomeScreenCopy extends StatefulWidget {
   });
 
   @override
-  State<HomeScreenCopy> createState() => _HomeScreenCopyState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenCopyState extends State<HomeScreenCopy> {
+class _HomeScreenState extends State<HomeScreen> {
   String? sortName;
-  late Box<Favorites> favoriteBox;
-  List<Favorites>? favoriteList;
+  late Box<Wishlist> wishlistBox;
+  List<Wishlist>? wishlistList;
 
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box('favorites');
-    favoriteList = favoriteBox.values.toList();
+    wishlistBox = Hive.box('wishlists');
+    wishlistList = wishlistBox.values.toList();
     debugPrint('User id: ${widget.userId}');
+    if (wishlistList!.isNotEmpty) {
+      debugPrint('not empty');
+      debugPrint('Data in the list ${wishlistList!.length}');
+    } else {
+      debugPrint('empty');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    var wishlist = wishlistList?.toList() ?? [];
     return Scaffold(
       body: SingleChildScrollView(
         // physics: FixedExtentScrollPhysics(),
@@ -179,8 +186,8 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                   height: 20,
                 ),
 
-                // ===== Favorite screen section =====
-                favoriteList!.isNotEmpty
+                // ===== Wishlist screen section =====
+                wishlist.isNotEmpty
                     ? SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: Column(
@@ -194,7 +201,7 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
                                     currentUserId: widget.userId,
                                   )),
                             ),
-                            FavoritesCarouselSlider(
+                            WishlistCarouselSlider(
                                 currentUserId: widget.userId),
                           ],
                         ),
@@ -211,4 +218,3 @@ class _HomeScreenCopyState extends State<HomeScreenCopy> {
     );
   }
 }
-

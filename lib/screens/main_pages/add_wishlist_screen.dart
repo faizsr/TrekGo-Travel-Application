@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
@@ -24,6 +24,8 @@ class AddWishlistScreen extends StatefulWidget {
 
 class _AddWishlistScreenState extends State<AddWishlistScreen> {
   String? selectedState;
+  int inthiveKey = 0;
+  String? hiveKey;
 
   void updateStateSelection(String? category) {
     selectedState = category;
@@ -36,18 +38,18 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
   final _formKey = GlobalKey<FormState>();
 
   XFile? _selectedImage;
-  late Box<Favorites> favoriteBox;
+  late Box<Wishlist> wishlistBox;
 
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box('favorites');
+    wishlistBox = Hive.box('wishlists');
     debugPrint('User id on Add Wishlist page: ${widget.userId}');
   }
 
   void updateData() {
     setState(() {
-      favoriteBox.values.toList();
+      wishlistBox.values.toList();
     });
     debugPrint('Details updated');
   }
@@ -234,15 +236,21 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
 
   addData() {
     if (_formKey.currentState!.validate()) {
+      inthiveKey = DateTime.now().millisecondsSinceEpoch;
       _formKey.currentState?.save();
-      favoriteBox.add(Favorites(
-        userId: widget.userId,
-        state: selectedState,
-        name: nameController.text,
-        description: descriptionController.text,
-        location: locationController.text,
-        image: _selectedImage?.path,
-      ));
+      hiveKey = inthiveKey.toString();
+      debugPrint('Added at hive key: $hiveKey');
+      wishlistBox.put(
+          hiveKey,
+          Wishlist(
+            hiveKey: hiveKey,
+            userId: widget.userId,
+            state: selectedState,
+            name: nameController.text,
+            image: _selectedImage?.path,
+            description: descriptionController.text,
+            location: locationController.text,
+          ));
       customSnackbar(context, 'New wishlist created!', 20, 20, 20);
       debugPrint('Data added');
     }

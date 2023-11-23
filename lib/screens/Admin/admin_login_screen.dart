@@ -242,9 +242,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             // ignore: use_build_context_synchronously
             nextScreenRemoveUntil(
                 context,
-                const NavigationBottomBar(
+                NavigationBottomBar(
                   isAdmin: true,
                   isUser: false,
+                  userId: FirebaseAuth.instance.currentUser!.uid,
                 ));
           } else {
             setState(() {

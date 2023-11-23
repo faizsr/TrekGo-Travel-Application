@@ -216,25 +216,6 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                 context, const UserSignUpScreen()),
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        // GestureDetector(
-                        //   onTap: () => Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const UserSignUpScreen(),
-                        //     ),
-                        //   ),
-                        //   child: HelpTextWidget(
-                        //     firstText: "Are you a admin? ",
-                        //     secondText: 'Login?',
-                        //     onPressedSignUp: () => Navigator.of(context)
-                        //         .pushReplacement(MaterialPageRoute(
-                        //       builder: (context) => const UserSignUpScreen(),
-                        //     )),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

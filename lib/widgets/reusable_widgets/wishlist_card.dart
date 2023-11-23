@@ -2,25 +2,21 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class FavoriteCardAll extends StatelessWidget {
-  final String backgroundImage;
-  final String placeName;
-
-  const FavoriteCardAll({
+class WishlistCard extends StatelessWidget {
+  final String? wishlistCardImage;
+  final String? name;
+  const WishlistCard({
     super.key,
-    required this.backgroundImage,
-    required this.placeName,
+    this.wishlistCardImage,
+    this.name,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-        bottom: 20,
-        left: 20,
-        right: 20,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 10,
       ),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height / 3.2,
@@ -31,61 +27,37 @@ class FavoriteCardAll extends StatelessWidget {
             offset: Offset(0, 10),
             spreadRadius: 0,
             color: Color(0x1A000000),
-          ),
+          )
         ],
         borderRadius: const BorderRadius.all(
           Radius.circular(25),
         ),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: FileImage(File(backgroundImage)),
+          image: FileImage(File(wishlistCardImage ?? '')),
         ),
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Positioned(
-          //   top: 10,
-          //   right: 10,
-          //   child: ClipRRect(
-          //     child: BackdropFilter(
-          //       filter: ImageFilter.blur(
-          //         sigmaX: 7.0,
-          //         sigmaY: 4.0,
-          //       ),
-          //       child: Container(
-          //         width: MediaQuery.of(context).size.width * 0.13,
-          //         height: MediaQuery.of(context).size.height * 0.06,
-          //         decoration: BoxDecoration(
-          //           color: Colors.white12,
-          //           borderRadius: BorderRadius.circular(50),
-          //         ),
-          //         child: Icon(
-          //           MdiIcons.heart,
-          //           color: Colors.white,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.018,
+            bottom: MediaQuery.of(context).size.height * 0.013,
             left: 18,
             right: 18,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(
-                Radius.circular(25),
+                Radius.circular(20),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(
-                  sigmaX: 7.0,
+                  sigmaX: 3.0,
                   sigmaY: 4.0,
                 ),
                 child: Container(
                   width: MediaQuery.of(context).size.width / 1.26,
-                  height: MediaQuery.of(context).size.height * 0.04,
-                  decoration: const BoxDecoration(
-                    boxShadow: [
+                  height: MediaQuery.of(context).size.height * 0.035,
+                  decoration: BoxDecoration(
+                    boxShadow: const [
                       BoxShadow(
                         blurRadius: 10,
                         offset: Offset(0, 2),
@@ -93,7 +65,7 @@ class FavoriteCardAll extends StatelessWidget {
                         color: Color(0x1A000000),
                       ),
                     ],
-                    color: Colors.white12,
+                    color: Colors.white.withOpacity(0.1),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -104,16 +76,16 @@ class FavoriteCardAll extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          placeName,
+                          name ?? '',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
                           ),
                         ),
                         const Icon(
                           Icons.arrow_forward_ios,
-                          size: 16,
+                          size: 15,
                           color: Colors.white,
                         ),
                       ],

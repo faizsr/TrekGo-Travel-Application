@@ -1,13 +1,14 @@
 import 'package:feather_icons/feather_icons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/favorite_card_all.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/wishlist_card_all.dart';
 
 class WishlistScreen extends StatefulWidget {
   final String? currentUserId;
@@ -19,9 +20,9 @@ class WishlistScreen extends StatefulWidget {
 
 class _WishlistScreenState extends State<WishlistScreen> {
   final TextEditingController searchController = TextEditingController();
-  late Box<Favorites> favoriteBox;
+  late Box<Wishlist> wishlistBox;
   late int indexValue = 0;
-  List<Favorites>? filteredList;
+  List<Wishlist>? filteredList;
   List<String> selectedState = [];
   late String searchValue;
 
@@ -42,14 +43,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box('favorites');
-    filteredList = favoriteBox.values.toList();
+    wishlistBox = Hive.box('wishlists');
+    filteredList = wishlistBox.values.toList();
     searchValue = '';
   }
 
   updateData() {
     setState(() {
-      filteredList = favoriteBox.values.toList();
+      filteredList = wishlistBox.values.toList();
       selectedState;
     });
   }
@@ -57,11 +58,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
   searchFilter(String value) {
     if (value.isEmpty) {
       setState(() {
-        filteredList = favoriteBox.values.toList();
+        filteredList = wishlistBox.values.toList();
       });
     } else {
       setState(() {
-        filteredList = favoriteBox.values
+        filteredList = wishlistBox.values
             .where((place) =>
                 (place.state ?? '')
                     .toLowerCase()
@@ -70,17 +71,20 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     .toLowerCase()
                     .contains(searchValue.toLowerCase()))
             .toList();
-        debugPrint('filter: $filteredList');
+        // debugPrint('filter: $filteredList');
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final filterPlaces = filteredList?.where((place) {
-      return selectedState.isEmpty ||
-          selectedState.contains(place.state?.toLowerCase());
-    }).toList();
+    final filterPlaces = filteredList
+        ?.where((place) {
+          return selectedState.isEmpty ||
+              selectedState.contains(place.state?.toLowerCase());
+        })
+        .where((wishlist) => wishlist.userId == widget.currentUserId)
+        .toList();
     return Scaffold(
       // ===== Appbar =====
       appBar: AppBar(
@@ -90,9 +94,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
             if (details.delta.direction <= 0) {
               nextScreenRemoveUntil(
                 context,
-                const NavigationBottomBar(
+                NavigationBottomBar(
                   isAdmin: true,
                   isUser: false,
+                  userId: FirebaseAuth.instance.currentUser!.uid,
                 ),
               );
             }
@@ -168,7 +173,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           );
                         },
                       );
-                      debugPrint('$selectedState');
+                      // debugPrint('$selectedState');
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -196,33 +201,37 @@ class _WishlistScreenState extends State<WishlistScreen> {
               padding: const EdgeInsets.only(top: 20),
               itemCount: filterPlaces!.length,
               itemBuilder: (context, index) {
-                final favorites = filterPlaces[index];
+                final wishlists = filterPlaces[index];
 
-                if (favorites.userId == widget.currentUserId) {
-                  return GestureDetector(
-                    onTap: () async {
-                      setState(() {
-                        indexValue = index;
-                      });
-                      String refresh = await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              WishlistPlaceDetail(index: index),
+                return GestureDetector(
+                  onTap: () async {
+                    debugPrint('index on wishlist screen: $index');
+                    setState(() {
+                      indexValue = index;
+                    });
+                    String refresh = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WishlistPlaceDetail(
+                          hiveKey: wishlists.hiveKey,
+                          userId: wishlists.userId,
+                          name: wishlists.name,
+                          state: wishlists.state,
+                          image: wishlists.image,
+                          description: wishlists.location,
+                          location: wishlists.location,
                         ),
-                      );
-                      if (refresh == 'refresh') {
-                        updateData();
-                        debugPrint('refreshedd!!!!!!!!!!!!!!1');
-                      }
-                      debugPrint('refresh : $refresh');
-                    },
-                    child: FavoriteCardAll(
-                      backgroundImage: favorites.image.toString(),
-                      placeName: favorites.name.toString(),
-                    ),
-                  );
-                }
-                return Container();
+                      ),
+                    );
+                    if (refresh == 'refresh') {
+                      updateData();
+                      debugPrint('refreshedd!!!!!!!!!!!!!!1');
+                    }
+                  },
+                  child: WishlistCardAll(
+                    backgroundImage: wishlists.image.toString(),
+                    placeName: wishlists.name.toString(),
+                  ),
+                );
               },
             ),
           ),

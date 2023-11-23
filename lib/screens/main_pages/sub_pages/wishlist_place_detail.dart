@@ -1,18 +1,33 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
 // import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final int? index;
+  final String? hiveKey;
+  final String? userId;
+  final String? image;
+  final String? name;
+  final String? state;
+  final String? description;
+  final String? location;
   const WishlistPlaceDetail({
     super.key,
+    this.hiveKey,
+    this.userId,
     this.index,
+    this.image,
+    this.name,
+    this.state,
+    this.description,
+    this.location,
   });
 
   @override
@@ -20,25 +35,27 @@ class WishlistPlaceDetail extends StatefulWidget {
 }
 
 class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
-  late Box<Favorites> favoriteBox;
-  late List<Favorites>? filteredPlace;
+  late Box<Wishlist> wishlistBox;
+  late List<Wishlist>? filteredPlace;
+  String? userId;
 
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box('favorites');
-    filteredPlace = favoriteBox.values.toList();
+    userId = FirebaseAuth.instance.currentUser!.uid;
+    wishlistBox = Hive.box('wishlists');
+    filteredPlace = wishlistBox.values.toList();
+    debugPrint('Key on wishlist detail screen : ${widget.hiveKey}');
   }
 
   void updateData() {
     setState(() {
-      filteredPlace = favoriteBox.values.toList();
+      filteredPlace = wishlistBox.values.toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final favorites = filteredPlace![widget.index!];
     return Scaffold(
       extendBodyBehindAppBar: true,
 
@@ -110,7 +127,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                 borderRadius: BorderRadius.circular(35),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: FileImage(File(favorites.image.toString())),
+                  image: FileImage(File(widget.image.toString())),
                 ),
               ),
               child: Stack(
@@ -120,26 +137,16 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                     left: 15,
                     child: GestureDetector(
                       onTap: () async {
-                        // String? refresh = await nextScreen(
-                        //   context,
-                        //   UpdateWishlistScreen(
-                        // index: widget.index,
-                        // image: favorites.image.toString(),
-                        // name: favorites.name,
-                        // state: favorites.state,
-                        // description: favorites.description,
-                        // location: favorites.location,
-                        //   ),
-                        // );
                         String refresh = await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => UpdateWishlistScreen(
-                              index: widget.index,
-                              image: favorites.image.toString(),
-                              name: favorites.name,
-                              state: favorites.state,
-                              description: favorites.description,
-                              location: favorites.location,
+                              hiveKey: widget.hiveKey,
+                              userId: widget.userId,
+                              image: widget.image,
+                              name: widget.name,
+                              state: widget.state,
+                              description: widget.description,
+                              location: widget.location,
                             ),
                           ),
                         );
@@ -171,8 +178,9 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                               description:
                                   'This place will be permanently deleted from this list',
                               onTap: () async {
-                                await favoriteBox.deleteAt(widget.index ?? 0);
-                                debugPrint('Deleted successfully');
+                                await wishlistBox.delete(widget.hiveKey ?? '');
+                                debugPrint(
+                                    'Deleted successfully at index ${widget.hiveKey}');
                                 // ignore: use_build_context_synchronously
                                 Navigator.of(context).pop('refresh');
 
@@ -204,7 +212,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Text(
-                  favorites.name ?? '',
+                  widget.name ?? '',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -266,7 +274,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: Text(
-                          favorites.description ?? '',
+                          widget.description ?? '',
                           style: const TextStyle(fontSize: 13),
                         ),
                       ),
@@ -290,7 +298,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                               margin: const EdgeInsets.only(left: 10),
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: Text(
-                                favorites.location ?? '',
+                                widget.location ?? '',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w500,
                                 ),

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trekmate_project/model/favorite.dart';
+import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
@@ -12,7 +12,8 @@ import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class UpdateWishlistScreen extends StatefulWidget {
-  final int? index;
+  final String? hiveKey;
+  final String? userId;
   final String? image;
   final String? name;
   final String? state;
@@ -20,7 +21,8 @@ class UpdateWishlistScreen extends StatefulWidget {
   final String? location;
   const UpdateWishlistScreen({
     super.key,
-    this.index,
+    this.hiveKey,
+    this.userId,
     this.image,
     this.name,
     this.state,
@@ -47,16 +49,26 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
   final _formKey = GlobalKey<FormState>();
 
   XFile? _selectedImage;
-  late Box<Favorites> favoriteBox;
+  late Box<Wishlist> wishlistBox;
+  List<Wishlist>? filteredPlace;
 
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box('favorites');
+    wishlistBox = Hive.box('wishlists');
+    filteredPlace = wishlistBox.values.toList();
     nameController = TextEditingController(text: widget.name);
     descriptionController = TextEditingController(text: widget.description);
     locationController = TextEditingController(text: widget.location);
     initialState = widget.state;
+    debugPrint('index on update wishlist: ${widget.hiveKey}');
+    debugPrint('user id on update wishlist: ${widget.userId}');
+  }
+
+  void updateDataInHive() {
+    setState(() {
+      filteredPlace = wishlistBox.values.toList();
+    });
   }
 
   @override
@@ -210,17 +222,24 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
 
   updateData() {
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState?.save();
-      favoriteBox.putAt(
-          widget.index ?? 0,
-          Favorites(
+      // _formKey.currentState?.save();
+      wishlistBox.put(
+          widget.hiveKey ?? '',
+          Wishlist(
+            userId: widget.userId,
+            hiveKey: widget.hiveKey,
             image: _selectedImage?.path ?? widget.image,
             state: selectedState,
             name: nameController.text,
             description: descriptionController.text,
             location: locationController.text,
           ));
-      debugPrint('Data added');
+      // debugPrint('Data added');
+      setState(() {
+        updateDataInHive();
+        debugPrint('Updated in hive');
+      });
+      debugPrint('Updated at hive key ${widget.hiveKey}');
     }
     debugPrint(selectedState);
   }

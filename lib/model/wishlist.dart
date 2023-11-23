@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
-part 'favorite.g.dart';
+part 'wishlist.g.dart';
 
 @HiveType(typeId: 0)
-class Favorites extends ChangeNotifier with HiveObjectMixin {
-  @HiveField(0)
-  final String? userId;
-
+class Wishlist extends ChangeNotifier with HiveObjectMixin {
   @HiveField(1)
-  final String? state;
+  final String? hiveKey;
 
   @HiveField(2)
-  final String? name;
+  final String? userId;
 
   @HiveField(3)
-  final String? description;
+  final String? state;
 
   @HiveField(4)
-  final String? location;
+  final String? name;
 
   @HiveField(5)
+  final String? description;
+
+  @HiveField(6)
+  final String? location;
+
+  @HiveField(7)
   final String? image;
 
-
-  Favorites({
+  Wishlist({
+    this.hiveKey,
     this.userId,
     this.state,
     this.name,

@@ -30,7 +30,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   void initState() {
     super.initState();
     pages = [
-      HomeScreenCopy(
+      HomeScreen(
         userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,

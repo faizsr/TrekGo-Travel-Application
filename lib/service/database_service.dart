@@ -19,12 +19,20 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('destination');
 
   // ===== Saving the user data =====
-  Future savingUserData(String name, String email) async {
+  Future savingUserData(
+    String name,
+    String email,
+    String profilePic,
+    String username,
+    String gender,
+  ) async {
     return await userCollection.doc(uid).set({
       "fullname": name,
       "email": email,
-      "profilePic": "",
+      "profilePic": profilePic,
       "uid": uid,
+      "username": username,
+      "gender": gender,
     });
   }
 
@@ -53,7 +61,8 @@ class DatabaseService {
 
   // ===== Getting user data =====
   Future gettingUserData(String email) async {
-    QuerySnapshot snapshot = await userCollection.where("email").get();
+    QuerySnapshot snapshot =
+        await userCollection.where("email", isEqualTo: email).get();
     return snapshot;
   }
 
@@ -66,6 +75,14 @@ class DatabaseService {
   Stream<DocumentSnapshot> getdestinationData(String placeId) {
     if (placeId.isNotEmpty) {
       return destinationCollection.doc(placeId).snapshots();
+    } else {
+      return const Stream.empty();
+    }
+  }
+
+  Stream<DocumentSnapshot> getUserDetails(String uid) {
+    if (uid.isNotEmpty) {
+      return userCollection.doc(uid).snapshots();
     } else {
       return const Stream.empty();
     }

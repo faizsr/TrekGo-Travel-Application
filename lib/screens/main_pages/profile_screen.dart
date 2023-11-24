@@ -1,17 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
+import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/home_screen_widgets/appbar_subtitles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/user_profile_listtile.dart';
 
-class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  final String? userId;
+  final String? userProfilePic;
+  final String? userFullname;
+  final String? userGender;
+  final String? username;
+  final String? userEmail;
+  const ProfileScreen({
+    super.key,
+    this.userId,
+    this.userProfilePic,
+    this.userFullname,
+    this.userGender,
+    this.username,
+    this.userEmail,
+  });
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final AuthService authService = AuthService();
+  Stream<DocumentSnapshot>? userDataStream;
+
+  @override
+  void initState() {
+    userDataStream = DatabaseService().getUserDetails(widget.userId ?? '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,46 +51,63 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           // ===== Profile photo =====
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(100),
-              boxShadow: const [
-                BoxShadow(
-                  blurRadius: 18,
-                  spreadRadius: 2,
-                  color: Color(0x1A000000),
-                )
-              ],
-            ),
-            child: CircleAvatar(
-              radius: 90,
-              backgroundImage: AssetImage(userProfile),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
+          StreamBuilder(
+            stream: userDataStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final userDataSnapshot =
+                    snapshot.data?.data() as Map<String, dynamic>;
+                String fullname =
+                    (userDataSnapshot['fullname'] as String).capitalise();
+                return Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 18,
+                            spreadRadius: 2,
+                            color: Color(0x1A000000),
+                          )
+                        ],
+                      ),
+                      child: CircleAvatar(
+                        radius: 90,
+                        backgroundImage: NetworkImage(userDataSnapshot['profilePic'].toString()),
+                      ),
+                    ),
 
-          // ===== Name of the user =====
-          const Text(
-            'Adam Bekh',
-            style: TextStyle(
-              fontSize: 23.5,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
 
-          // ===== Email of the user =====
-          const Text(
-            'adambekh@gmail.com',
-            style: TextStyle(
-                fontSize: 11.5,
-                color: Color(0x80000000),
-                fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(
-            height: 50,
+                    // ===== Name of the user =====
+                    Text(
+                      fullname,
+                      style: const TextStyle(
+                        fontSize: 23.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    // ===== Email of the user =====
+                    Text(
+                      userDataSnapshot['email'],
+                      style: const TextStyle(
+                          fontSize: 11.5,
+                          color: Color(0x80000000),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                );
+              }
+              return Container();
+            },
           ),
 
           // ===== Bottom card =====
@@ -84,7 +129,6 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-
                   // ===== Edit profile button =====
                   UserProfileListtile(
                     titleText: 'Edit Profile',

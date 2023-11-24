@@ -17,11 +17,13 @@ class HomeScreen extends StatefulWidget {
   final String? userId;
   final bool? isAdmin;
   final bool? isUser;
+  final String? userFullname;
   const HomeScreen({
     super.key,
     this.userId,
     this.isAdmin,
     this.isUser,
+    this.userFullname,
   });
 
   @override
@@ -88,14 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       Positioned(
                         top: MediaQuery.of(context).size.width * 0.24,
                         left: 25,
-                        child: const Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AppbarSubtitles(
-                              subtitleText: 'Hello Adam',
+                            AppbarSubtitlesStream(
+                              userId: widget.userId,
                               subtitleSize: 14,
                             ),
-                            AppbarSubtitles(
+                            const AppbarSubtitles(
                               subtitleText: 'Find Your Dream \nDestination',
                               subtitleSize: 23,
                               subtitleColor: Color(0xFF1285b9),

@@ -10,11 +10,19 @@ class NavigationBottomBar extends StatefulWidget {
   final String? userId;
   final bool? isAdmin;
   final bool? isUser;
+  final String? userProfilePic;
+  final String? userFullname;
+  final String? userGender;
+  final String? userEmail;
   const NavigationBottomBar({
     super.key,
     this.userId,
     this.isAdmin,
     this.isUser,
+    this.userProfilePic,
+    this.userFullname,
+    this.userGender,
+    this.userEmail,
   });
 
   @override
@@ -34,6 +42,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
+        userFullname: widget.userFullname,
+
       ),
       SearchScreen(
         isAdmin: widget.isAdmin,
@@ -43,11 +53,23 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         userId: widget.userId,
       ),
       const SavedPlacesScreen(),
-      ProfileScreen(),
+      ProfileScreen(
+        userId: widget.userId,
+        userEmail: widget.userEmail,
+        userFullname: widget.userFullname,
+        userProfilePic: widget.userProfilePic,
+        userGender: widget.userGender,
+      ),
     ];
     debugPrint('Admin logged in ${widget.isAdmin}');
     debugPrint('User logged in ${widget.isUser}');
     debugPrint('User id on navigation : ${widget.userId}');
+
+    debugPrint('======= User Details =======');
+    debugPrint('Full name ${widget.userFullname}');
+    debugPrint('Email ${widget.userEmail}');
+    debugPrint('profile picture: ${widget.userProfilePic}');
+    debugPrint('Gender : ${widget.userGender}');
   }
 
   @override

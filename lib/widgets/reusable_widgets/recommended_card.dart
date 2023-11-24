@@ -46,20 +46,30 @@ class RecommendedCard extends StatelessWidget {
         ),
       ),
       child: Container(
-        margin: const EdgeInsets.only(
-          right: 15,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 10,
+              offset: Offset(0, 2),
+              spreadRadius: 2,
+              color: Color(0x0D000000),
+            )
+          ],
         ),
-        width: MediaQuery.of(context).size.width / 2.2,
-        height: MediaQuery.of(context).size.height / 5.0,
-        child: Stack(
+        width: MediaQuery.of(context).size.width / 2.3,
+        child: Column(
           children: [
-            Positioned(
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2.3,
+              height: MediaQuery.of(context).size.height / 5.1,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
                 child: FadeInImage(
                   placeholder: AssetImage(lazyLoading),
                   image: NetworkImage(recommendedCardImage),
@@ -67,61 +77,28 @@ class RecommendedCard extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 30.0,
-                    sigmaY: 5.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 5, left: 10, bottom: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    placeName ?? '',
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 20, 106, 146),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        overflow: TextOverflow.ellipsis),
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 10,
-                          offset: Offset(0, 4),
-                          spreadRadius: 2,
-                          color: Color(0x0D000000),
-                        ),
-                      ],
-                      color: Colors.black.withOpacity(0.1),
-                      // color: Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.04,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          // color: Colors.black,
-                          width: MediaQuery.of(context).size.width * 0.22,
-                          child: Text(
-                            placeName ?? '',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                        ),
-                        CardRatingBar(
-                          ratingCount: ratingCount ?? 0,
-                          itemSize: 11,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(
+                    height: 1,
                   ),
-                ),
+                  CardRatingBar(
+                    ratingCount: ratingCount ?? 0,
+                    itemSize: 16,
+                  ),
+                ],
               ),
             ),
           ],

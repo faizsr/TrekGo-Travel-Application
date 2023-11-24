@@ -254,6 +254,10 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                   isAdmin: false,
                   isUser: true,
                   userId: FirebaseAuth.instance.currentUser!.uid,
+                  userProfilePic: snapshot.docs[0]['profilePic'],
+                  userEmail: snapshot.docs[0]['email'],
+                  userFullname: snapshot.docs[0]['fullname'],
+                  userGender: snapshot.docs[0]['gender'],
                 ));
           } else {
             setState(() {

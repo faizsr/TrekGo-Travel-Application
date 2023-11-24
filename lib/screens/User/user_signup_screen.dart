@@ -231,7 +231,14 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
       });
       await authService
           .registerUserWithEmailandPassword(
-              fullName.trim(), email.trim(), password.trim(), context)
+        fullName.trim(),
+        email.trim(),
+        password.trim(),
+        '',
+        '',
+        '',
+        context,
+      )
           .then(
         (value) async {
           if (value == true && email != 'adminlogin@gmail.com') {

@@ -24,12 +24,14 @@ class _CardRatingBarState extends State<CardRatingBar> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: widget.isMainAlignCenter? MainAxisAlignment.center : MainAxisAlignment.start,
+      mainAxisAlignment: widget.isMainAlignCenter
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         RatingBar(
           ignoreGestures: true,
-          
+
           itemSize: widget.itemSize ?? 0,
           initialRating: widget.ratingCount ?? 0,
           unratedColor: Colors.grey.shade300,

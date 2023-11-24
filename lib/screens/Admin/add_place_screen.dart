@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,7 +58,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           title: 'Add Destination',
           isLocationEnable: false,
           showCheckIcon: true,
-          onTap: () => addPlace(),
+          onTap: () => addNewDestination(),
           isLoading: isLoading,
         ),
       ),
@@ -242,7 +243,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   }
 
   // ====== Adding new place function ======
-  addPlace() async {
+  addNewDestination() async {
     if (_formKey.currentState!.validate() &&
         _selectedImage != null &&
         ratingCount != null) {
@@ -285,9 +286,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       // ignore: use_build_context_synchronously
       nextScreen(
         context,
-        const NavigationBottomBar(
+        NavigationBottomBar(
           isAdmin: true,
           isUser: false,
+          userId: FirebaseAuth.instance.currentUser!.uid,
         ),
       );
     } else {

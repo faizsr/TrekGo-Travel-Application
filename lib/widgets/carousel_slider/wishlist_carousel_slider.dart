@@ -26,6 +26,7 @@ class _WishlistCarouselSliderState extends State<WishlistCarouselSlider> {
     super.initState();
     wishlistBox = Hive.box('wishlists');
     filteredList = wishlistBox.values.toList();
+    debugPrint('User id on wislist slider: ${widget.currentUserId}');
   }
 
   @override

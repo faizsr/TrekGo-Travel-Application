@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     getUserLoggedInStatus();
     getAdminLoggedInStatus();
     super.initState();
+    debugPrint('User id on splash ${FirebaseAuth.instance.currentUser?.uid}');
   }
 
   // ===== Checking if user login =====
@@ -94,3 +95,9 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 }
+
+
+// Zt6zXhESqHTiLfnObFnRIeLQo1Y2
+
+// 1700796670723
+// 1700797060808

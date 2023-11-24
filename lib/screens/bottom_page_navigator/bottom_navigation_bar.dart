@@ -1,7 +1,7 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
-import 'package:trekmate_project/screens/main_pages/home_screen_copy.dart';
+import 'package:trekmate_project/screens/main_pages/home_screen.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
@@ -47,6 +47,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
     ];
     debugPrint('Admin logged in ${widget.isAdmin}');
     debugPrint('User logged in ${widget.isUser}');
+    debugPrint('User id on navigation : ${widget.userId}');
   }
 
   @override

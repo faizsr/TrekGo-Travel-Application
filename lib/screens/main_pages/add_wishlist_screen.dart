@@ -7,6 +7,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
@@ -26,14 +27,15 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
   String? selectedState;
   int inthiveKey = 0;
   String? hiveKey;
+  bool isLoading = false;
 
   void updateStateSelection(String? category) {
     selectedState = category;
   }
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -82,19 +84,16 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
               Positioned(
                 bottom: 30,
                 right: 20,
-                child: GestureDetector(
-                  onTap: () => addData(),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Icon(
-                      MdiIcons.contentSaveCheck,
-                      size: 28,
-                      color: const Color(0xFF1285b9),
-                    ),
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Icon(
+                    MdiIcons.contentSaveCheck,
+                    size: 28,
+                    color: const Color(0xFF1285b9),
                   ),
                 ),
               )
@@ -142,7 +141,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   validator: (val) {
                     if (val == null) {
                       customSnackbar(
-                          context, 'Please select a category', 20, 20, 20);
+                          context, 'Please select a category', 0, 20, 20);
                       return;
                     } else {
                       return null;
@@ -164,7 +163,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 minmaxLine: false,
                 validator: (val) {
                   if (val!.isEmpty) {
-                    customSnackbar(context, 'Title is required', 20, 20, 20);
+                    customSnackbar(context, 'Title is required', 0, 20, 20);
                     return;
                   } else {
                     return null;
@@ -184,7 +183,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(
-                        context, 'Description is required', 20, 20, 20);
+                        context, 'Description is required', 0, 20, 20);
                     return;
                   } else {
                     return null;
@@ -205,12 +204,28 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 minmaxLine: false,
                 validator: (val) {
                   if (val!.isEmpty) {
-                    customSnackbar(context, 'Location is required', 20, 20, 20);
+                    customSnackbar(context, 'Location is required', 0, 20, 20);
                     return;
                   } else {
                     return null;
                   }
                 },
+              ),
+
+              Container(
+                padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.085,
+                child: ButtonsWidget(
+                  buttonTextSize: 16,
+                  buttonBorderRadius: 15,
+                  buttonTextWeight: FontWeight.w600,
+                  buttonText:
+                      isLoading ? 'NEW WISHLIST CREATED' : 'SAVE WISHLIST',
+                  buttonOnPressed: () {
+                    addData();
+                  },
+                ),
               ),
 
               SizedBox(
@@ -235,11 +250,17 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
   }
 
   addData() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() &&
+        _selectedImage != null &&
+        selectedState != null) {
+      setState(() {
+        isLoading = true;
+      });
       inthiveKey = DateTime.now().millisecondsSinceEpoch;
       _formKey.currentState?.save();
       hiveKey = inthiveKey.toString();
       debugPrint('Added at hive key: $hiveKey');
+      debugPrint('Added in the user id ${widget.userId}');
       wishlistBox.put(
           hiveKey,
           Wishlist(
@@ -251,9 +272,12 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
             description: descriptionController.text,
             location: locationController.text,
           ));
-      customSnackbar(context, 'New wishlist created!', 20, 20, 20);
+      customSnackbar(context, 'New wishlist created!', 0, 20, 20);
       debugPrint('Data added');
     }
+    setState(() {
+      isLoading = false;
+    });
     debugPrint(selectedState);
     updateData();
   }

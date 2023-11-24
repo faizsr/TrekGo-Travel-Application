@@ -1,5 +1,4 @@
 import 'package:feather_icons/feather_icons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/wishlist.dart';
@@ -46,6 +45,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     wishlistBox = Hive.box('wishlists');
     filteredList = wishlistBox.values.toList();
     searchValue = '';
+    debugPrint('user id on wishlist screen: ${widget.currentUserId}');
   }
 
   updateData() {
@@ -97,7 +97,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 NavigationBottomBar(
                   isAdmin: true,
                   isUser: false,
-                  userId: FirebaseAuth.instance.currentUser!.uid,
+                  userId: widget.currentUserId,
                 ),
               );
             }

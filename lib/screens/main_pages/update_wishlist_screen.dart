@@ -35,32 +35,33 @@ class UpdateWishlistScreen extends StatefulWidget {
 }
 
 class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
+  XFile? _selectedImage;
   String? selectedState;
   String? initialState;
+  String? imageUrl;
+  late Box<Wishlist> wishlistBox;
+  List<Wishlist>? filteredPlace;
 
   void updateStateSelection(String? category) {
     selectedState = category;
   }
 
-  late final TextEditingController nameController;
-  late final TextEditingController descriptionController;
-  late final TextEditingController locationController;
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
-  XFile? _selectedImage;
-  late Box<Wishlist> wishlistBox;
-  List<Wishlist>? filteredPlace;
 
   @override
   void initState() {
     super.initState();
     wishlistBox = Hive.box('wishlists');
     filteredPlace = wishlistBox.values.toList();
-    nameController = TextEditingController(text: widget.name);
-    descriptionController = TextEditingController(text: widget.description);
-    locationController = TextEditingController(text: widget.location);
+    nameController.text = widget.name ?? '';
+    descriptionController.text = widget.description ?? '';
+    locationController.text = widget.location ?? '';
     initialState = widget.state;
+    imageUrl = widget.image.toString();
     debugPrint('index on update wishlist: ${widget.hiveKey}');
     debugPrint('user id on update wishlist: ${widget.userId}');
   }
@@ -121,6 +122,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: DropDownWidget(
                   updateState: initialState,
+                  updateCategory: '',
                   hintText: 'Select State',
                   rightPadding: 20,
                   leftPadding: 20,
@@ -221,20 +223,22 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
   }
 
   updateData() {
-    if (_formKey.currentState!.validate()) {
-      // _formKey.currentState?.save();
+    if (nameController.text.isNotEmpty &&
+        descriptionController.text.isNotEmpty &&
+        locationController.text.isNotEmpty &&
+        initialState != null &&
+        imageUrl != null) {
       wishlistBox.put(
           widget.hiveKey ?? '',
           Wishlist(
             userId: widget.userId,
             hiveKey: widget.hiveKey,
             image: _selectedImage?.path ?? widget.image,
-            state: selectedState,
+            state: selectedState ?? initialState,
             name: nameController.text,
             description: descriptionController.text,
             location: locationController.text,
           ));
-      // debugPrint('Data added');
       setState(() {
         updateDataInHive();
         debugPrint('Updated in hive');

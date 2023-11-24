@@ -21,6 +21,11 @@ class PopularCarouselSlider extends StatefulWidget {
 }
 
 class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     // ===== Popular places carousel slider =====

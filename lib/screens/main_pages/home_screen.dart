@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     wishlistBox = Hive.box('wishlists');
     wishlistList = wishlistBox.values.toList();
-    debugPrint('User id: ${widget.userId}');
+    debugPrint('User id on home: ${widget.userId}');
     if (wishlistList!.isNotEmpty) {
       debugPrint('not empty');
       debugPrint('Data in the list ${wishlistList!.length}');
@@ -49,7 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var wishlist = wishlistList?.toList() ?? [];
+    var wishlist = wishlistList
+            ?.where((wishlists) => wishlists.userId == widget.userId)
+            .toList() ??
+        [];
+
+    wishlist.isNotEmpty
+        ? debugPrint('Contains data ${wishlist.length}')
+        : debugPrint('No data ${wishlist.length}');
     return Scaffold(
       body: SingleChildScrollView(
         // physics: FixedExtentScrollPhysics(),
@@ -194,13 +201,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             MainSubtitles(
-                              subtitleText: 'Travel Wishlist',
-                              viewAllPlaces: () => nextScreen(
-                                  context,
-                                  WishlistScreen(
-                                    currentUserId: widget.userId,
-                                  )),
-                            ),
+                                subtitleText: 'Travel Wishlist',
+                                viewAllPlaces: () {
+                                  nextScreen(
+                                    context,
+                                    WishlistScreen(
+                                      currentUserId: widget.userId,
+                                    ),
+                                  );
+                                }),
                             WishlistCarouselSlider(
                                 currentUserId: widget.userId),
                           ],

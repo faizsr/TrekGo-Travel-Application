@@ -12,7 +12,19 @@ class WishlistAdapter extends TypeAdapter<Wishlist> {
 
   @override
   Wishlist read(BinaryReader reader) {
-    return Wishlist();
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Wishlist(
+      hiveKey: fields[1] as String?,
+      userId: fields[2] as String?,
+      state: fields[3] as String?,
+      name: fields[4] as String?,
+      description: fields[5] as String?,
+      location: fields[6] as String?,
+      image: fields[7] as String?,
+    );
   }
 
   @override

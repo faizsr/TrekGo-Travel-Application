@@ -245,6 +245,5 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
       });
       debugPrint('Updated at hive key ${widget.hiveKey}');
     }
-    debugPrint(selectedState);
   }
 }

@@ -211,6 +211,21 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   }
                 },
               ),
+              Container(
+                padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.085,
+                child: ButtonsWidget(
+                  buttonTextSize: 16,
+                  buttonBorderRadius: 15,
+                  buttonTextWeight: FontWeight.w600,
+                  buttonText:
+                      isLoading ? 'NEW WISHLIST CREATED' : 'SAVE WISHLIST',
+                  buttonOnPressed: () {
+                    addData();
+                  },
+                ),
+              ),
 
               Container(
                 padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
@@ -274,6 +289,12 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
           ));
       customSnackbar(context, 'New wishlist created!', 0, 20, 20);
       debugPrint('Data added');
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      customSnackbar(context, 'Fill all forms!', 0, 20, 20);
+      debugPrint('Details not updated');
     }
     setState(() {
       isLoading = false;

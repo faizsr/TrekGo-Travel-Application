@@ -103,6 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     userFullname: userDataSnapshot.docs[0]['fullname'],
                     userProfilePic: userDataSnapshot.docs[0]['profilePic'],
                     userGender: userDataSnapshot.docs[0]['gender'],
+
                   ),
                 )
               : nextScreenReplace(context, const UserLoginScreen());

@@ -116,10 +116,11 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
                   width: MediaQuery.of(context).size.width * 0.09,
                   height: MediaQuery.of(context).size.height * 0.04,
                   decoration: const BoxDecoration(
-                      color: Color(0xFF1285b9),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(70),
-                      )),
+                    color: Color(0xFF1285b9),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(70),
+                    ),
+                  ),
                   child: const Icon(
                     Icons.add,
                     size: 25,

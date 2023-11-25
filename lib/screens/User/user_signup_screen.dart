@@ -236,7 +236,6 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
         password.trim(),
         '',
         '',
-        '',
         context,
       )
           .then(

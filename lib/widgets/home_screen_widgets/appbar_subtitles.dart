@@ -34,9 +34,9 @@ class _AppbarSubtitlesStreamState extends State<AppbarSubtitlesStream> {
     return StreamBuilder(
       stream: userDataStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data != null) {
           final userDataSnapshot =
-              snapshot.data?.data() as Map<String, dynamic>;
+              snapshot.data!.data() as Map<String, dynamic>;
           String fullname =
               (userDataSnapshot['fullname'] as String).capitalise();
           return Row(

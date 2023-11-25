@@ -120,240 +120,238 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
           if (snapshot.hasData && snapshot.data?.data() != null) {
             var destinationSnapshot =
                 snapshot.data?.data() as Map<String, dynamic>;
-            return Container(
-              margin: const EdgeInsets.only(top: 25),
-              child: ScrollConfiguration(
-                behavior: const ScrollBehavior().copyWith(overscroll: false),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // ============ Place Image ============
-                      Container(
-                        margin: const EdgeInsets.only(
-                          bottom: 20,
-                          left: 25,
-                          right: 25,
+            return ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // ============ Place Image ============
+                    Container(
+                      margin: const EdgeInsets.only(
+                        top: 25,
+                        bottom: 20,
+                        left: 25,
+                        right: 25,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              destinationSnapshot['place_image'] ?? ''),
                         ),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.48,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(35),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                destinationSnapshot['place_image'] ?? ''),
+                      ),
+                    ),
+
+                    // ============ Place Title ============
+                    Text(
+                      destinationSnapshot['place_name'],
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    CardRatingBar(
+                      itemSize: 20,
+                      isMainAlignCenter: true,
+                      ratingCount: destinationSnapshot['place_rating'],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      color: Color(0x0D000000),
+                    ),
+
+                    // ============ Tab Bar Heading ============
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.035,
+                      child: TabBar(
+                        physics: const BouncingScrollPhysics(),
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                        splashFactory: NoSplash.splashFactory,
+                        indicatorWeight: 2,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicatorPadding: const EdgeInsets.all(0),
+                        indicatorColor: const Color(0xFF1285b9),
+                        labelColor: const Color(0xFF1285b9),
+                        unselectedLabelColor: Colors.grey,
+                        controller: tabController,
+                        tabs: const [
+                          Text(
+                            'Overview',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ),
-
-                      // ============ Place Title ============
-                      Text(
-                        destinationSnapshot['place_name'],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      CardRatingBar(
-                        itemSize: 20,
-                        isMainAlignCenter: true,
-                        ratingCount: destinationSnapshot['place_rating'],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0x0D000000),
-                      ),
-
-                      // ============ Tab Bar Heading ============
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.035,
-                        child: TabBar(
-                          physics: const BouncingScrollPhysics(),
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                          splashFactory: NoSplash.splashFactory,
-                          indicatorWeight: 2,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          indicatorPadding: const EdgeInsets.all(0),
-                          indicatorColor: const Color(0xFF1285b9),
-                          labelColor: const Color(0xFF1285b9),
-                          unselectedLabelColor: Colors.grey,
-                          controller: tabController,
-                          tabs: const [
-                            Text(
-                              'Overview',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          Text(
+                            'Rate',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
                             ),
-                            Text(
-                              'Rate',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          ),
+                          Text(
+                            'Reviews',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
                             ),
-                            Text(
-                              'Reviews',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const Divider(
-                        height: 20,
-                        thickness: 1,
-                        color: Color(0x0D000000),
+                    ),
+                    const Divider(
+                      height: 20,
+                      thickness: 1,
+                      color: Color(0x0D000000),
+                    ),
+
+                    // ============ Tab Bar Views ============
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.355,
+                      child: TabBarView(
+                        controller: tabController,
+                        children: [
+                          // ============= Overview Section =============
+                          OverViewSection(
+                            description:
+                                destinationSnapshot['place_description'],
+                            location: destinationSnapshot['place_location'],
+                          ),
+
+                          // ============= Rating Section =============
+                          const Center(
+                            child: Text('Rating section'),
+                          ),
+
+                          // ============= Review Section =============
+                          const Center(
+                            child: Text('Review section'),
+                          ),
+                        ],
                       ),
+                    ),
 
-                      // ============ Tab Bar Views ============
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.355,
-                        child: TabBarView(
-                          controller: tabController,
-                          children: [
-                            // ============= Overview Section =============
-                            OverViewSection(
-                              description:
-                                  destinationSnapshot['place_description'],
-                              location: destinationSnapshot['place_location'],
-                            ),
+                    const Divider(
+                      height: 0,
+                      thickness: 1,
+                      color: Color(0x0D000000),
+                    ),
 
-                            // ============= Rating Section =============
-                            const Center(
-                              child: Text('Rating section'),
-                            ),
-
-                            // ============= Review Section =============
-                            const Center(
-                              child: Text('Review section'),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const Divider(
-                        height: 0,
-                        thickness: 1,
-                        color: Color(0x0D000000),
-                      ),
-
-                      // ============ Bottom buttons ============
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Row(
-                          mainAxisAlignment: widget.isAdmin == true
-                              ? MainAxisAlignment.spaceAround
-                              : MainAxisAlignment.center,
-                          children: [
-                            // ===== Checking if its admin =====
-                            widget.isAdmin == true
-                                ? BottomButtons(
+                    // ============ Bottom buttons ============
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Row(
+                        mainAxisAlignment: widget.isAdmin == true
+                            ? MainAxisAlignment.spaceAround
+                            : MainAxisAlignment.center,
+                        children: [
+                          // ===== Checking if its admin =====
+                          widget.isAdmin == true
+                              ? BottomButtons(
+                                  onPressed: () {
+                                    String link =
+                                        destinationSnapshot['place_map'];
+                                    Uri uri = Uri.parse(link);
+                                    launchgoogleMap(uri);
+                                  },
+                                  widthValue: 3.6,
+                                  buttonText: 'Get Direction',
+                                )
+                              : Container(
+                                  margin: EdgeInsets.only(
+                                    right: MediaQuery.of(context).size.width *
+                                        0.04,
+                                  ),
+                                  child: BottomButtons(
                                     onPressed: () {
                                       String link =
                                           destinationSnapshot['place_map'];
                                       Uri uri = Uri.parse(link);
                                       launchgoogleMap(uri);
                                     },
-                                    widthValue: 3.6,
-                                    buttonText: 'Get Direction',
-                                  )
-                                : Container(
-                                    margin: EdgeInsets.only(
-                                      right: MediaQuery.of(context).size.width *
-                                          0.04,
-                                    ),
-                                    child: BottomButtons(
-                                      onPressed: () {
-                                        String link =
-                                            destinationSnapshot['place_map'];
-                                        Uri uri = Uri.parse(link);
-                                        launchgoogleMap(uri);
-                                      },
-                                      widthValue: 2.3,
-                                      buttonText: 'Get Direction',
-                                    ),
-                                  ),
-
-                            // ===== Checking if its admin =====
-                            widget.isAdmin == true
-                                ? BottomButtons(
-                                    onPressed: () async {
-                                      await onUpdateDetails(
-                                        image:
-                                            destinationSnapshot['place_image'],
-                                        category: destinationSnapshot[
-                                            'place_category'],
-                                        state:
-                                            destinationSnapshot['place_state'],
-                                        title:
-                                            destinationSnapshot['place_name'],
-                                        description: destinationSnapshot[
-                                            'place_description'],
-                                        location: destinationSnapshot[
-                                            'place_location'],
-                                        rating:
-                                            destinationSnapshot['place_rating'],
-                                      );
-                                    },
-                                    widthValue: 3.4,
-                                    buttonText: 'Update Place',
-                                  )
-                                : const BottomButtons(
                                     widthValue: 2.3,
-                                    buttonText: 'Save Place',
+                                    buttonText: 'Get Direction',
                                   ),
+                                ),
 
-                            // ===== Checking if its admin =====
-                            widget.isAdmin == true
-                                ? BottomButtons(
-                                    onPressed: () async {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return CustomAlertDialog(
-                                            title: 'Delete Place?',
-                                            description:
-                                                'This place will be permanently deleted from this list',
-                                            onTap: () async {
-                                              await deleteData(
-                                                  widget.placeid ?? '');
-                                              debugPrint(
-                                                  'Deleted successfully');
-                                              // ignore: use_build_context_synchronously
-                                              Navigator.of(context).pop();
-                                              // ignore: use_build_context_synchronously
-                                              Navigator.of(context).pop();
-                                            },
-                                          );
-                                        },
-                                      );
-                                    },
-                                    widthValue: 3.3,
-                                    buttonText: 'Remove Place',
-                                  )
-                                : const SizedBox(
-                                    width: 0,
-                                    height: 0,
-                                  ),
-                          ],
-                        ),
+                          // ===== Checking if its admin =====
+                          widget.isAdmin == true
+                              ? BottomButtons(
+                                  onPressed: () async {
+                                    await onUpdateDetails(
+                                      image:
+                                          destinationSnapshot['place_image'],
+                                      category: destinationSnapshot[
+                                          'place_category'],
+                                      state:
+                                          destinationSnapshot['place_state'],
+                                      title:
+                                          destinationSnapshot['place_name'],
+                                      description: destinationSnapshot[
+                                          'place_description'],
+                                      location: destinationSnapshot[
+                                          'place_location'],
+                                      rating:
+                                          destinationSnapshot['place_rating'],
+                                    );
+                                  },
+                                  widthValue: 3.4,
+                                  buttonText: 'Update Place',
+                                )
+                              : const BottomButtons(
+                                  widthValue: 2.3,
+                                  buttonText: 'Save Place',
+                                ),
+
+                          // ===== Checking if its admin =====
+                          widget.isAdmin == true
+                              ? BottomButtons(
+                                  onPressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return CustomAlertDialog(
+                                          title: 'Delete Place?',
+                                          description:
+                                              'This place will be permanently deleted from this list',
+                                          onTap: () async {
+                                            await deleteData(
+                                                widget.placeid ?? '');
+                                            debugPrint(
+                                                'Deleted successfully');
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.of(context).pop();
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.of(context).pop();
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  widthValue: 3.3,
+                                  buttonText: 'Remove Place',
+                                )
+                              : const SizedBox(
+                                  width: 0,
+                                  height: 0,
+                                ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
               ),
             );

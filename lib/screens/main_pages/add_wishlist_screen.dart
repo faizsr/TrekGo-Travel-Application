@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:trekmate_project/helper/helper_functions.dart';
+import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
@@ -31,6 +33,12 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
 
   void updateStateSelection(String? category) {
     selectedState = category;
+  }
+
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
   }
 
   final nameController = TextEditingController();
@@ -222,23 +230,20 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   buttonText:
                       isLoading ? 'NEW WISHLIST CREATED' : 'SAVE WISHLIST',
                   buttonOnPressed: () {
-                    addData();
-                  },
-                ),
-              ),
-
-              Container(
-                padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.085,
-                child: ButtonsWidget(
-                  buttonTextSize: 16,
-                  buttonBorderRadius: 15,
-                  buttonTextWeight: FontWeight.w600,
-                  buttonText:
-                      isLoading ? 'NEW WISHLIST CREATED' : 'SAVE WISHLIST',
-                  buttonOnPressed: () {
-                    addData();
+                    addWishlist(
+                      formKey: _formKey,
+                      selectedImage: _selectedImage,
+                      selectedState: selectedState,
+                      intHiveKey: inthiveKey,
+                      hiveKey: hiveKey,
+                      userId: widget.userId,
+                      name: nameController.text,
+                      descripition: descriptionController.text,
+                      location: locationController.text,
+                      wishlistBox: wishlistBox,
+                      setLoadingCallback: setLoading,
+                      context: context,
+                    );
                   },
                 ),
               ),
@@ -251,55 +256,5 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
         ),
       ),
     );
-  }
-
-  // ===== Function for image picking from gallery =====
-  Future<XFile?> pickImageFromGallery() async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      return XFile(pickedImage.path);
-    }
-    return null;
-  }
-
-  addData() {
-    if (_formKey.currentState!.validate() &&
-        _selectedImage != null &&
-        selectedState != null) {
-      setState(() {
-        isLoading = true;
-      });
-      inthiveKey = DateTime.now().millisecondsSinceEpoch;
-      _formKey.currentState?.save();
-      hiveKey = inthiveKey.toString();
-      debugPrint('Added at hive key: $hiveKey');
-      debugPrint('Added in the user id ${widget.userId}');
-      wishlistBox.put(
-          hiveKey,
-          Wishlist(
-            hiveKey: hiveKey,
-            userId: widget.userId,
-            state: selectedState,
-            name: nameController.text,
-            image: _selectedImage?.path,
-            description: descriptionController.text,
-            location: locationController.text,
-          ));
-      customSnackbar(context, 'New wishlist created!', 0, 20, 20);
-      debugPrint('Data added');
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      customSnackbar(context, 'Fill all forms!', 0, 20, 20);
-      debugPrint('Details not updated');
-    }
-    setState(() {
-      isLoading = false;
-    });
-    debugPrint(selectedState);
-    updateData();
   }
 }

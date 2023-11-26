@@ -9,3 +9,5 @@ String appNameWithLogo = 'assets/images/Trekmate_app_logo.png';
 
 //Lazy Loading
 String lazyLoading = 'assets/images/lazy-loading.gif';
+
+String defaultImage = 'assets/images/default_profile_image.jpg';

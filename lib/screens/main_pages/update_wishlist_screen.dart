@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trekmate_project/helper/helper_functions.dart';
+import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
@@ -82,7 +84,21 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
           title: 'Update Wishlist',
           isLocationEnable: false,
           showCheckIcon: true,
-          onTap: () => updateData(),
+          onTap: () {
+            updateWishlist(
+              name: nameController.text,
+              description: descriptionController.text,
+              location: locationController.text,
+              image: widget.image,
+              initialState: initialState,
+              imageUrl: imageUrl,
+              userId: widget.userId,
+              hiveKey: widget.hiveKey,
+              selectedImage: _selectedImage,
+              selectedState: selectedState ?? initialState,
+              wishlistBox: wishlistBox,
+            );
+          },
         ),
       ),
 
@@ -209,41 +225,5 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
         ),
       ),
     );
-  }
-
-  // ===== Function for image picking from gallery =====
-  Future<XFile?> pickImageFromGallery() async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      return XFile(pickedImage.path);
-    }
-    return null;
-  }
-
-  updateData() {
-    if (nameController.text.isNotEmpty &&
-        descriptionController.text.isNotEmpty &&
-        locationController.text.isNotEmpty &&
-        initialState != null &&
-        imageUrl != null) {
-      wishlistBox.put(
-          widget.hiveKey ?? '',
-          Wishlist(
-            userId: widget.userId,
-            hiveKey: widget.hiveKey,
-            image: _selectedImage?.path ?? widget.image,
-            state: selectedState ?? initialState,
-            name: nameController.text,
-            description: descriptionController.text,
-            location: locationController.text,
-          ));
-      setState(() {
-        updateDataInHive();
-        debugPrint('Updated in hive');
-      });
-      debugPrint('Updated at hive key ${widget.hiveKey}');
-    }
   }
 }

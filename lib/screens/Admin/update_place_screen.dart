@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trekmate_project/screens/admin/add_place_rating_widget.dart';
-import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/helper/helper_functions.dart';
+import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
+import 'package:trekmate_project/service/firebase_db_functions.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
@@ -76,6 +76,12 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
     super.initState();
   }
 
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +92,24 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
           title: 'Update Destination',
           isLocationEnable: false,
           showCheckIcon: true,
-          onTap: () => updateDestination(),
+          onTap: () {
+            updateDestinationn(
+              context: context,
+              title: titleController.text,
+              description: descriptionController.text,
+              location: locationController.text,
+              selectedImage: _selectedImage,
+              imageUrl: imageUrl ?? widget.placeImage,
+              ratingCount: ratingCount ?? widget.placeRating,
+              initialCategory: initialCategory,
+              initialState: initialState,
+              selectedCategory: selectedCategory ?? widget.placeCategory,
+              selectedState: selectedState ?? widget.placeState,
+              placeId: widget.placeid,
+              placeImage: widget.placeImage,
+              setLoadingCallback: setLoading,
+            );
+          },
         ),
       ),
 
@@ -243,59 +266,5 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
         ),
       ),
     );
-  }
-
-  // ===== Function for image picking from gallery =====
-  Future<XFile?> pickImageFromGallery() async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      return XFile(pickedImage.path);
-    }
-    return null;
-  }
-
-  // ===== Function for updating the detials =====
-  updateDestination() async {
-    Reference referenceImageToUpload =
-        FirebaseStorage.instance.refFromURL(widget.placeImage!);
-
-    try {
-      await referenceImageToUpload.putFile(File(_selectedImage!.path));
-      imageUrl = await referenceImageToUpload.getDownloadURL();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-
-    // ===== Saving to the database =====
-    if (titleController.text.isNotEmpty &&
-        descriptionController.text.isNotEmpty &&
-        locationController.text.isNotEmpty &&
-        ratingCount != null &&
-        imageUrl != null &&
-        initialCategory != null &&
-        initialState != null) {
-      setState(() {
-        isLoading = true;
-      });
-      await DatabaseService().destinationCollection.doc(widget.placeid).update({
-        'place_image': imageUrl ?? widget.placeImage,
-        'place_name': titleController.text.trim(),
-        'place_description': descriptionController.text.trim(),
-        'place_location': locationController.text.trim(),
-        'place_rating': ratingCount ?? widget.placeRating,
-        'place_category': selectedCategory ?? widget.placeCategory,
-        'place_state': selectedState ?? widget.placeState,
-      });
-      debugPrint('Updated');
-      // ignore: use_build_context_synchronously
-      customSnackbar(context, 'Updated successfully', 20, 20, 20);
-    } else {
-      debugPrint('Not updated');
-    }
-    setState(() {
-      isLoading = false;
-    });
   }
 }

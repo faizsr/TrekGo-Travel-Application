@@ -26,8 +26,8 @@ class AuthService {
       String fullname,
       String email,
       String password,
-      String profilePic,
       String gender,
+      String mobileNumber,
       BuildContext context) async {
     try {
       User? user = (await firebaseAuth.createUserWithEmailAndPassword(
@@ -37,7 +37,7 @@ class AuthService {
           .user;
       if (user != null) {
         await DatabaseService(uid: user.uid)
-            .savingUserData(fullname, email, profilePic, gender);
+            .savingUserData(fullname, email, gender, mobileNumber);
         return true;
       }
     } on FirebaseAuthException catch (e) {

@@ -1,11 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
-import 'package:trekmate_project/service/database_service.dart';
+// import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -75,9 +75,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> checkLoginStatus() async {
     await Future.delayed(const Duration(seconds: 2));
 
-    QuerySnapshot userDataSnapshot =
-        await DatabaseService(uid: FirebaseAuth.instance.currentUser?.uid)
-            .gettingUserData(FirebaseAuth.instance.currentUser?.email ?? '');
     if (mounted) {
       _isUserSignedIn
           ? nextScreenReplace(
@@ -86,10 +83,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 isUser: _isUserSignedIn,
                 isAdmin: _isAdminSignedIn,
                 userId: FirebaseAuth.instance.currentUser!.uid,
-                userEmail: userDataSnapshot.docs[0]['email'],
-                userFullname: userDataSnapshot.docs[0]['fullname'],
-                userProfilePic: userDataSnapshot.docs[0]['profilePic'],
-                userGender: userDataSnapshot.docs[0]['gender'],
               ),
             )
           : _isAdminSignedIn
@@ -99,20 +92,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     isAdmin: _isAdminSignedIn,
                     isUser: _isUserSignedIn,
                     userId: FirebaseAuth.instance.currentUser!.uid,
-                    userEmail: userDataSnapshot.docs[0]['email'],
-                    userFullname: userDataSnapshot.docs[0]['fullname'],
-                    userProfilePic: userDataSnapshot.docs[0]['profilePic'],
-                    userGender: userDataSnapshot.docs[0]['gender'],
-
                   ),
                 )
               : nextScreenReplace(context, const UserLoginScreen());
     }
   }
 }
-
-
-// Zt6zXhESqHTiLfnObFnRIeLQo1Y2
-
-// 1700796670723
-// 1700797060808

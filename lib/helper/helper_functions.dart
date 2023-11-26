@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
@@ -59,4 +60,16 @@ class HelperFunctions {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return sf.getBool(adminLoggedInKey);
   }
+}
+
+
+// // ==================== Image Picker function ====================
+Future<XFile?> pickImageFromGallery() async {
+  XFile? pickedImage =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  if (pickedImage != null) {
+    return XFile(pickedImage.path);
+  }
+  return null;
 }

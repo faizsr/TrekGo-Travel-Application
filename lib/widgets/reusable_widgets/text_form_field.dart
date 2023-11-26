@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 class TextFieldWidgetTwo extends StatelessWidget {
   final String? hintText;
   final bool minmaxLine;
+  final bool readOnly;
+  final Function(String)? onChanged;
+
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   const TextFieldWidgetTwo({
     super.key,
     this.hintText,
     this.minmaxLine = false,
+    this.readOnly = false,
+    this.onChanged,
     this.controller,
     this.validator,
   });
@@ -21,10 +26,12 @@ class TextFieldWidgetTwo extends StatelessWidget {
         right: 20,
       ),
       child: TextFormField(
+        readOnly: readOnly,
         validator: validator,
         controller: controller,
         minLines: null,
         maxLines: minmaxLine ? 4 : null,
+        onChanged: onChanged,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 18,

@@ -1,12 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
+import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
@@ -33,6 +29,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   bool isButtonEnable = false;
 
   AuthService authService = AuthService();
+
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,12 +189,20 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         const SizedBox(
                           height: 30,
                         ),
-
+ 
                         // ===== Login Button =====
                         ButtonsWidget(
                           buttonText: isLoading ? '' : 'LOGIN',
-                          buttonOnPressed:
-                              isButtonEnable ? () => adminLogin() : null,
+                          buttonOnPressed: isButtonEnable
+                              ? () => adminLogin(
+                                    formKey: _formKey,
+                                    authService: authService,
+                                    email: email,
+                                    password: password,
+                                    setLoadingCallback: setLoading,
+                                    context: context,
+                                  )
+                              : null,
                           loadingWidget: isLoading
                               ? const SizedBox(
                                   width: 15,
@@ -219,45 +229,5 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         ),
       ),
     );
-  }
-
-  // ===== Function for admin login =====
-  adminLogin() async {
-    if (_formKey.currentState!.validate() && password.length > 5) {
-      setState(() {
-        isLoading = true;
-      });
-      await authService.loginAdminWithEmailandPassword(email, password).then(
-        (value) async {
-          if (value == true && email == 'adminlogin@gmail.com') {
-            QuerySnapshot snapshot = await DatabaseService(
-                    uid: FirebaseAuth.instance.currentUser!.uid)
-                .gettingAdminData(email);
-
-            // saving the values to our shared preferences
-            await HelperFunctions.saveAdminLoggedInStatus(true);
-            await HelperFunctions.saveAdminEmail(email);
-            await HelperFunctions.saveAdminId(snapshot.docs[0]["admin_id"]);
-
-            // ignore: use_build_context_synchronously
-            nextScreenRemoveUntil(
-                context,
-                NavigationBottomBar(
-                  isAdmin: true,
-                  isUser: false,
-                  userId: FirebaseAuth.instance.currentUser!.uid,
-                ));
-          } else {
-            setState(() {
-              isLoading = false;
-            });
-            customSnackbar(
-                context, 'Enter login details correctly', 140, 55, 55);
-            debugPrint('Enter admin id correctly');
-            debugPrint('$context');
-          }
-        },
-      );
-    }
   }
 }

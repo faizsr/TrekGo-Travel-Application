@@ -1,64 +1,37 @@
 import 'package:flutter/material.dart';
 
-class DropDownWidget extends StatefulWidget {
+class EditDropDownWidget extends StatefulWidget {
   final String? hintText;
-  final String? updateCategory;
   final String? updateState;
   final String? updateGender;
   final double? leftPadding;
   final double? rightPadding;
-  final bool listSelect;
-  final Function(String?)? onCategorySelectionChange;
-  final Function(String?)? onStateCelectionChange;
   final Function(String?)? onGenderSelectionChange;
-
   final String? Function(String?)? validator;
-  const DropDownWidget({
+  const EditDropDownWidget({
     super.key,
     this.hintText,
-    this.updateCategory,
     this.updateState,
     this.updateGender,
     this.leftPadding,
     this.rightPadding,
-    this.listSelect = false,
-    this.onCategorySelectionChange,
-    this.onStateCelectionChange,
     this.onGenderSelectionChange,
     this.validator,
   });
 
   @override
-  State<DropDownWidget> createState() => _DropDownWidgetState();
+  State<EditDropDownWidget> createState() => _EditDropDownWidgetState();
 }
 
-class _DropDownWidgetState extends State<DropDownWidget> {
-  final categoryList = ['Popular', 'Recommended'];
-  final stateList = [
-    'Kerala',
-    'Karnataka',
-    'Rajasthan',
-    'Goa',
-    'Himachal Pradesh',
-    'Tamil Nadu',
-    'Meghalaya',
-    'Gujarat',
-    'Andhra pradesh',
-    'Madhya Pradesh',
-    'Maharashtra',
-  ];
+class _EditDropDownWidgetState extends State<EditDropDownWidget> {
   final genderList = ['Male', 'Female', 'Other'];
-  String? selectedCategory;
-  String? selectedState;
+
   String? selectedGender;
 
   @override
   void initState() {
     super.initState();
-    debugPrint('Category : ${widget.updateCategory}');
-    debugPrint('State : ${widget.updateState}');
-    selectedCategory = widget.updateCategory;
-    selectedState = widget.updateState;
+    debugPrint('Gender : ${widget.updateGender}');
     selectedGender = widget.updateGender;
   }
 
@@ -107,33 +80,20 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        value: widget.listSelect ? selectedCategory : selectedState,
-        items: widget.listSelect
-            ? categoryList.map((newValue) {
-                return DropdownMenuItem(
-                  value: newValue,
-                  child: Text(newValue),
-                );
-              }).toList()
-            : stateList.map((newValue) {
-                return DropdownMenuItem(
-                  value: newValue,
-                  child: Text(newValue),
-                );
-              }).toList(),
+        value: selectedGender,
+        items: genderList.map((newValue) {
+          return DropdownMenuItem(
+            value: newValue,
+            child: Text(newValue),
+          );
+        }).toList(),
 
         onChanged: (newValue) {
-          widget.listSelect
-              ? setState(() {
-                  selectedCategory = newValue.toString();
-                  debugPrint(selectedCategory);
-                  widget.onCategorySelectionChange!(selectedCategory);
-                })
-              : setState(() {
-                  selectedState = newValue.toString();
-                  debugPrint(selectedState);
-                  widget.onStateCelectionChange!(selectedState);
-                });
+          setState(() {
+            selectedGender = newValue.toString();
+            debugPrint(selectedGender);
+            widget.onGenderSelectionChange!(selectedGender);
+          });
         },
       ),
     );

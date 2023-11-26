@@ -4,11 +4,9 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-// import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final int? index;
@@ -173,26 +171,6 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                       onTap: () async {
                         deleteWishlist(
                             context, wishlistBox, widget.hiveKey ?? '');
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return CustomAlertDialog(
-                        //       title: 'Delete Wishlist?',
-                        //       description:
-                        //           'This place will be permanently deleted from this list',
-                        //       onTap: () async {
-                        //         await wishlistBox.delete(widget.hiveKey ?? '');
-                        //         debugPrint(
-                        //             'Deleted successfully at index ${widget.hiveKey}');
-                        //         // ignore: use_build_context_synchronously
-                        //         Navigator.of(context).pop('refresh');
-
-                        //         // ignore: use_build_context_synchronously
-                        //         Navigator.of(context).pop('refresh');
-                        //       },
-                        //     );
-                        //   },
-                        // );
                       },
                       child: const CircleAvatar(
                         backgroundColor: Color(0xFFe5e6f6),
@@ -322,28 +300,4 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
   }
 }
 
-deleteWishlist(
-    BuildContext context, Box<Wishlist> wishlistBox, String hiveKey) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return CustomAlertDialog(
-        title: 'Delete Wishlist?',
-        description: 'This place will be permanently deleted from this list',
-        onTap: () async {
-          await wishlistBox.delete(hiveKey);
-          debugPrint('Deleted successfully at index $hiveKey');
-          // ignore: use_build_context_synchronously
-          Navigator.of(context).pop('refresh');
 
-          // ignore: use_build_context_synchronously
-          Navigator.of(context).pop('refresh');
-          // ignore: use_build_context_synchronously
-          customSnackbar(context, 'Deleted succesfully', 0, 20, 20);
-          // wishListNotifier.value = wishlistBox.values.toList();
-          // wishListNotifier.notifyListeners();
-        },
-      );
-    },
-  );
-}

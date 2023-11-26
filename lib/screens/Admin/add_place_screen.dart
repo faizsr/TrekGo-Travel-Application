@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trekmate_project/screens/admin/add_place_rating_widget.dart';
-import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
-import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/helper/helper_functions.dart';
+import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
+import 'package:trekmate_project/service/firebase_db_functions.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
@@ -27,6 +25,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   String? selectedCategory;
   String? selectedState;
   double? ratingCount;
+  String? title;
+  String? location;
+  String? description;
+  String? mapLink;
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -40,6 +42,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   void updateRatingCount(double? rating) {
     ratingCount = rating;
+  }
+
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
   }
 
   // ===== Text controllers =====
@@ -58,7 +66,22 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           title: 'Add Destination',
           isLocationEnable: false,
           showCheckIcon: true,
-          onTap: () => addNewDestination(),
+          onTap: () {
+            addNewDestination(
+              formKey: _formKey,
+              selectedImage: _selectedImage,
+              ratingCount: ratingCount,
+              setLoadingCallback: setLoading,
+              imageUrl: imageUrl,
+              selectedCategory: selectedCategory,
+              selectedState: selectedState,
+              title: title,
+              description: description,
+              location: location,
+              mapLink: mapLink,
+              context: context,
+            );
+          },
           isLoading: isLoading,
         ),
       ),
@@ -143,6 +166,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 controller: _titleController,
                 hintText: 'Title of the place...',
                 minmaxLine: false,
+                onChanged: (value) {
+                  title = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(context, 'Title is required', 20, 20, 20);
@@ -162,6 +188,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 controller: _descriptionController,
                 hintText: 'Description of the place...',
                 minmaxLine: true,
+                onChanged: (value) {
+                  description = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(
@@ -184,6 +213,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 controller: _locationController,
                 hintText: 'Location of the place...',
                 minmaxLine: false,
+                onChanged: (value) {
+                  location = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(context, 'Location is required', 20, 20, 20);
@@ -204,6 +236,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 controller: mapLinkController,
                 hintText: 'Map link of the place...',
                 minmaxLine: false,
+                onChanged: (value) {
+                  mapLink = value;
+                },
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(context, 'Map Link is required', 20, 20, 20);
@@ -229,71 +264,5 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         ),
       ),
     );
-  }
-
-  // ===== Function for image picking from gallery =====
-  Future<XFile?> pickImageFromGallery() async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      return XFile(pickedImage.path);
-    }
-    return null;
-  }
-
-  // ====== Adding new place function ======
-  addNewDestination() async {
-    if (_formKey.currentState!.validate() &&
-        _selectedImage != null &&
-        ratingCount != null) {
-      setState(() {
-        isLoading = true;
-      });
-      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-      Reference referenceRoot = FirebaseStorage.instance.ref();
-      Reference referenceDirImages = referenceRoot.child('images');
-      Reference referenceImageToUpload =
-          referenceDirImages.child(uniqueFileName);
-
-      try {
-        await referenceImageToUpload.putFile(File(_selectedImage!.path));
-        imageUrl = await referenceImageToUpload.getDownloadURL();
-      } catch (e) {
-        debugPrint(e.toString());
-      } finally {
-        setState(() {
-          isLoading = false;
-        });
-      }
-      debugPrint(uniqueFileName);
-      DatabaseService().savingDestination(
-        selectedCategory!,
-        selectedState!,
-        imageUrl!,
-        _titleController.text.trim(),
-        _descriptionController.text.trim(),
-        _locationController.text.trim(),
-        mapLinkController.text,
-        ratingCount!,
-      );
-      debugPrint(selectedCategory);
-      debugPrint(selectedState);
-
-      debugPrint('Data successfully added');
-
-      // ignore: use_build_context_synchronously
-      nextScreen(
-        context,
-        NavigationBottomBar(
-          isAdmin: true,
-          isUser: false,
-          userId: FirebaseAuth.instance.currentUser!.uid,
-        ),
-      );
-    } else {
-      customSnackbar(context, 'Please fill all forms', 20, 20, 20);
-    }
   }
 }

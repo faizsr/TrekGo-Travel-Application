@@ -1,16 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/helper/helper_functions.dart';
+// import 'package:trekmate_project/helper/helper_functions.dart';
+import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/Admin/admin_login_screen.dart';
 import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
 import 'package:trekmate_project/screens/user/user_signup_screen.dart';
-import 'package:trekmate_project/screens/Bottom_page_navigator/bottom_navigation_bar.dart';
+// import 'package:trekmate_project/screens/Bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/service/database_service.dart';
+// import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
+// import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
@@ -33,6 +34,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
   AuthService authService = AuthService();
   bool validate = false;
   bool isButtonEnable = false;
+
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +85,6 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         // ===== Title =====
                         GestureDetector(
                           onLongPress: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const AdminLoginScreen(),
-                            //   ),
-                            // );
                             nextScreen(context, const AdminLoginScreen());
                           },
                           child: const TitleWidget(
@@ -185,7 +186,15 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           buttonText: isLoading ? '' : 'LOGIN',
                           buttonOnPressed: isButtonEnable
                               ? () {
-                                  userLogin();
+                                  userLoginFunction(
+                                    formKey: formkey,
+                                    authService: authService,
+                                    email: email,
+                                    password: password,
+                                    isLoading: isLoading,
+                                    setLoadingCallback: setLoading,
+                                    context: context,
+                                  );
                                 }
                               : null,
                           loadingWidget: isLoading
@@ -226,60 +235,5 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
         ),
       ),
     );
-  }
-
-// ===== User Login Function =====
-  userLogin() async {
-    if (formkey.currentState!.validate() && password.length > 5) {
-      setState(() {
-        isLoading = true;
-      });
-      await authService.loginUserWithEmailandPassword(email, password).then(
-        (value) async {
-          if (value == true && email != 'adminlogin@gmail.com') {
-            debugPrint('login succesfully');
-            QuerySnapshot snapshot = await DatabaseService(
-                    uid: FirebaseAuth.instance.currentUser!.uid)
-                .gettingUserData(email);
-
-            await HelperFunctions.saveUserLoggedInStatus(true);
-            await HelperFunctions.saveUserFullName(
-                snapshot.docs[0]["fullname"]);
-            await HelperFunctions.saveUserEmail(email);
-
-            // ignore: use_build_context_synchronously
-            nextScreenRemoveUntil(
-                context,
-                NavigationBottomBar(
-                  isAdmin: false,
-                  isUser: true,
-                  userId: FirebaseAuth.instance.currentUser!.uid,
-                  userProfilePic: snapshot.docs[0]['profilePic'],
-                  userEmail: snapshot.docs[0]['email'],
-                  userFullname: snapshot.docs[0]['fullname'],
-                  userGender: snapshot.docs[0]['gender'],
-                ));
-          } else {
-            setState(() {
-              isLoading = false;
-            });
-
-            showDialog(
-              context: context,
-              builder: (context) {
-                return const CustomAlertDialog(
-                  title: 'Incorrect Login Details',
-                  description:
-                      'The email and password you entered is incorrect. Please try again.',
-                  disableActionBtn: true,
-                  popBtnText: 'OK',
-                );
-              },
-            );
-            debugPrint('Error login in');
-          }
-        },
-      );
-    }
   }
 }

@@ -143,15 +143,4 @@ class ForgotPasswordScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Future resetPassword() async {
-  //   try {
-  //     await FirebaseAuth.instance
-  //         .sendPasswordResetEmail(email: emailController.text);
-  //     return true;
-  //   } on FirebaseAuthException catch (e) {
-  //     debugPrint(e.message);
-  //     return false;
-  //   }
-  // }
 }

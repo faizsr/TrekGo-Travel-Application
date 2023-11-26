@@ -9,7 +9,8 @@ class ButtonsWidget extends StatelessWidget {
   final double? buttonBorderRadius;
   final double? buttonTextSize;
   final FontWeight? buttonTextWeight;
-
+  final Color? buttonColor;
+  final Color? buttonTxtColor;
   const ButtonsWidget({
     super.key,
     required this.buttonText,
@@ -20,6 +21,8 @@ class ButtonsWidget extends StatelessWidget {
     this.buttonBorderRadius,
     this.buttonTextSize,
     this.buttonTextWeight,
+    this.buttonColor,
+    this.buttonTxtColor,
   });
 
   @override
@@ -30,8 +33,10 @@ class ButtonsWidget extends StatelessWidget {
       child: isOutlinedButton
           ? OutlinedButton(
               style: OutlinedButton.styleFrom(
+                backgroundColor: buttonColor ?? const Color(0xFF1285b9),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.65),
+                  borderRadius:
+                      BorderRadius.circular(buttonBorderRadius ?? 7.65),
                 ),
                 side: const BorderSide(
                   width: 1,
@@ -43,23 +48,23 @@ class ButtonsWidget extends StatelessWidget {
               child: loadingWidget ??
                   Text(
                     buttonText,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      color: Color(0xFF1285b9),
+                    style: TextStyle(
+                      fontWeight: buttonTextWeight ?? FontWeight.bold,
+                      fontSize: buttonTextSize ?? 12,
+                      color: buttonTxtColor ?? Colors.white,
                     ),
                   ),
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 0,
-                backgroundColor: const Color(0xFF1285b9),
+                backgroundColor: buttonColor ?? const Color(0xFF1285b9),
                 shape: RoundedRectangleBorder(
                   borderRadius: buttonBorderRadius == null
                       ? BorderRadius.circular(7.65)
                       : BorderRadius.circular(buttonBorderRadius ?? 0),
                 ),
-                disabledBackgroundColor: const Color(0xB31285b9),
+                disabledBackgroundColor: buttonColor ?? const Color(0xB31285b9),
               ),
               onPressed: buttonOnPressed,
               child: loadingWidget ??
@@ -68,7 +73,7 @@ class ButtonsWidget extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: buttonTextWeight ?? FontWeight.w700,
                       fontSize: buttonTextSize ?? 12,
-                      color: Colors.white,
+                      color: buttonTxtColor ?? Colors.white,
                     ),
                   ),
             ),

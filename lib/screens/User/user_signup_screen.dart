@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/helper/helper_functions.dart';
+import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
@@ -25,6 +25,13 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   String password = '';
   bool isButtonEnable = false;
   bool _isLoading = false;
+  String? imageUrl;
+
+  void setLoading(bool value) {
+    setState(() {
+      _isLoading = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +185,16 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           buttonText: _isLoading ? '' : 'SIGN UP',
                           buttonOnPressed: isButtonEnable
                               ? () {
-                                  userSignUp();
+                                  userSignUp(
+                                    formKey: _formKey,
+                                    authService: authService,
+                                    fullName: fullName,
+                                    email: email,
+                                    password: password,
+                                    isLoading: _isLoading,
+                                    setLoadingCallback: setLoading,
+                                    context: context,
+                                  );
                                 }
                               : null,
                           loadingWidget: _isLoading
@@ -221,46 +237,5 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
         ),
       ),
     );
-  }
-
-  // ===== Function for user sign up =====
-  userSignUp() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-      await authService
-          .registerUserWithEmailandPassword(
-        fullName.trim(),
-        email.trim(),
-        password.trim(),
-        '',
-        '',
-        context,
-      )
-          .then(
-        (value) async {
-          if (value == true && email != 'adminlogin@gmail.com') {
-            debugPrint('Account created');
-
-            await HelperFunctions.saveUserLoggedInStatus(true);
-            await HelperFunctions.saveUserFullName(fullName);
-            await HelperFunctions.saveUserEmail(email);
-
-            // ignore: use_build_context_synchronously
-            customSnackbar(
-                context, 'Account created successfully', 130, 55, 55);
-            setState(() {
-              _isLoading = false;
-            });
-          } else {
-            setState(() {
-              _isLoading = false;
-            });
-            debugPrint('Account not created');
-          }
-        },
-      );
-    }
   }
 }

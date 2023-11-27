@@ -1,15 +1,16 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
+import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
-import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
+import 'package:trekmate_project/widgets/place_detail_widget/overview_buttons.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
+import 'package:trekmate_project/widgets/place_detail_widget/review_section_text_field.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;
@@ -43,35 +44,57 @@ class PlaceDetailScreen extends StatefulWidget {
 class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     with TickerProviderStateMixin {
   late Stream<DocumentSnapshot> _destinationData;
+  late TabController tabController;
+
+  String? name;
+  double? ratingCount;
 
   @override
   void initState() {
     super.initState();
     _destinationData =
         DatabaseService().getdestinationData(widget.placeid ?? '');
+    name = FirebaseAuth.instance.currentUser!.email;
+    debugPrint('user name: $name');
+    tabController = TabController(length: 3, vsync: this);
   }
 
-  launchgoogleMap(Uri googleMapsUrl) async {
-    if (await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication)) {
-    } else {
-      throw 'Could not launch $googleMapsUrl';
-    }
+  void updateRatingCount(double? rating) {
+    ratingCount = rating;
+    debugPrint('$ratingCount');
   }
+
+  void addComment({String? reviewText}) {
+    FirebaseFirestore.instance
+        .collection('destination')
+        .doc(widget.placeid)
+        .collection('reviews')
+        .add({
+      'reviewText': reviewText,
+      'reviewBy': name,
+      'reviewDate': Timestamp.now(),
+    });
+  }
+
+  final TextEditingController reviewController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 3, vsync: this);
+    setStatusBarColor(const Color(0xFFc0f8fe));
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
 
       // ============ Appbar ============
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.11),
+        preferredSize: Size(
+          MediaQuery.of(context).size.width,
+          MediaQuery.of(context).size.height * 0.11,
+        ),
         child: Container(
-          margin: const EdgeInsets.only(
-            top: 45,
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.05,
             left: 45,
             right: 45,
           ),
@@ -82,311 +105,311 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                 sigmaX: 7.0,
                 sigmaY: 4.0,
               ),
-              child: AppBar(
-                title: const Text(
-                  'Details',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
+              child: Stack(
+                children: [
+                  const Align(
+                    child: Text(
+                      'Details',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
-                ),
-                centerTitle: true,
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Icon(
-                    Icons.keyboard_backspace_rounded,
-                    color: Colors.black,
-                  ),
-                ),
-                backgroundColor: Colors.white24,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Icon(
+                          Icons.keyboard_backspace_rounded,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
         ),
       ),
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+      backgroundColor: const Color(0xFFf0f3f7),
 
       // ============ Body ============
-      body: StreamBuilder(
-        stream: _destinationData,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data?.data() != null) {
-            var destinationSnapshot =
-                snapshot.data?.data() as Map<String, dynamic>;
-            return ScrollConfiguration(
-              behavior: const ScrollBehavior().copyWith(overscroll: false),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // ============ Place Image ============
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 25,
-                        bottom: 20,
-                        left: 25,
-                        right: 25,
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(35),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              destinationSnapshot['place_image'] ?? ''),
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFF0F3F7),
+                Color(0xFFC0F8FE),
+              ],
+              stops: [0.35, 0.77],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+          ),
+          child: StreamBuilder(
+            stream: _destinationData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data?.data() != null) {
+                var destinationSnapshot =
+                    snapshot.data?.data() as Map<String, dynamic>;
+
+                String image = destinationSnapshot['place_image'];
+                String category = destinationSnapshot['place_category'];
+                String state = destinationSnapshot['place_state'];
+                String title = destinationSnapshot['place_name'];
+                String description = destinationSnapshot['place_description'];
+                String location = destinationSnapshot['place_location'];
+                double rating = destinationSnapshot['place_rating'];
+                String mapLink = destinationSnapshot['place_map'];
+
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // ============ Place Image ============
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 25,
+                          bottom: 20,
+                          left: 25,
+                          right: 25,
+                        ),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(35),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                destinationSnapshot['place_image'] ?? ''),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              blurRadius: 15,
+                              spreadRadius: 2,
+                              color: Color(0x0D000000),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
 
-                    // ============ Place Title ============
-                    Text(
-                      destinationSnapshot['place_name'],
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                      // ============ Place Title ============
+                      Text(
+                        destinationSnapshot['place_name'],
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    CardRatingBar(
-                      itemSize: 20,
-                      isMainAlignCenter: true,
-                      ratingCount: destinationSnapshot['place_rating'],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Divider(
-                      thickness: 1,
-                      color: Color(0x0D000000),
-                    ),
-
-                    // ============ Tab Bar Heading ============
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.035,
-                      child: TabBar(
-                        physics: const BouncingScrollPhysics(),
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        splashFactory: NoSplash.splashFactory,
-                        indicatorWeight: 2,
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicatorPadding: const EdgeInsets.all(0),
-                        indicatorColor: const Color(0xFF1285b9),
-                        labelColor: const Color(0xFF1285b9),
-                        unselectedLabelColor: Colors.grey,
-                        controller: tabController,
-                        tabs: const [
-                          Text(
-                            'Overview',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Rate',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Reviews',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                      CardRatingBar(
+                        itemSize: 20,
+                        isMainAlignCenter: true,
+                        ratingCount: destinationSnapshot['place_rating'],
                       ),
-                    ),
-                    const Divider(
-                      height: 20,
-                      thickness: 1,
-                      color: Color(0x0D000000),
-                    ),
-
-                    // ============ Tab Bar Views ============
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.355,
-                      child: TabBarView(
-                        controller: tabController,
-                        children: [
-                          // ============= Overview Section =============
-                          OverViewSection(
-                            description:
-                                destinationSnapshot['place_description'],
-                            location: destinationSnapshot['place_location'],
-                          ),
-
-                          // ============= Rating Section =============
-                          const Center(
-                            child: Text('Rating section'),
-                          ),
-
-                          // ============= Review Section =============
-                          const Center(
-                            child: Text('Review section'),
-                          ),
-                        ],
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
+                      const Divider(
+                        thickness: 1,
+                        color: Color(0x0D000000),
+                      ),
 
-                    const Divider(
-                      height: 0,
-                      thickness: 1,
-                      color: Color(0x0D000000),
-                    ),
+                      // ============ Tab Bar Heading ============
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.035,
+                        child: TabBar(
+                          physics: const BouncingScrollPhysics(),
+                          overlayColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          splashFactory: NoSplash.splashFactory,
+                          indicatorWeight: 2,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicatorPadding: const EdgeInsets.all(0),
+                          indicatorColor: const Color(0xFF1285b9),
+                          labelColor: const Color(0xFF1285b9),
+                          unselectedLabelColor: Colors.grey,
+                          controller: tabController,
+                          tabs: const [
+                            Text(
+                              'Overview',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              'Rate',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              'Reviews',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(
+                        height: 20,
+                        thickness: 1,
+                        color: Color(0x0D000000),
+                      ),
 
-                    // ============ Bottom buttons ============
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        mainAxisAlignment: widget.isAdmin == true
-                            ? MainAxisAlignment.spaceAround
-                            : MainAxisAlignment.center,
-                        children: [
-                          // ===== Checking if its admin =====
-                          widget.isAdmin == true
-                              ? BottomButtons(
-                                  onPressed: () {
-                                    String link =
-                                        destinationSnapshot['place_map'];
-                                    Uri uri = Uri.parse(link);
-                                    launchgoogleMap(uri);
-                                  },
-                                  widthValue: 3.6,
-                                  buttonText: 'Get Direction',
-                                )
-                              : Container(
-                                  margin: EdgeInsets.only(
-                                    right: MediaQuery.of(context).size.width *
-                                        0.04,
-                                  ),
-                                  child: BottomButtons(
-                                    onPressed: () {
-                                      String link =
-                                          destinationSnapshot['place_map'];
-                                      Uri uri = Uri.parse(link);
-                                      launchgoogleMap(uri);
-                                    },
-                                    widthValue: 2.3,
-                                    buttonText: 'Get Direction',
+                      // ============ Tab Bar Views ============
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: TabBarView(
+                          controller: tabController,
+                          children: [
+                            // ============= Overview Section =============
+                            Stack(
+                              children: [
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  child: OverViewSection(
+                                    description: description,
+                                    location: location,
                                   ),
                                 ),
-
-                          // ===== Checking if its admin =====
-                          widget.isAdmin == true
-                              ? BottomButtons(
-                                  onPressed: () async {
-                                    await onUpdateDetails(
-                                      image:
-                                          destinationSnapshot['place_image'],
-                                      category: destinationSnapshot[
-                                          'place_category'],
-                                      state:
-                                          destinationSnapshot['place_state'],
-                                      title:
-                                          destinationSnapshot['place_name'],
-                                      description: destinationSnapshot[
-                                          'place_description'],
-                                      location: destinationSnapshot[
-                                          'place_location'],
-                                      rating:
-                                          destinationSnapshot['place_rating'],
-                                    );
-                                  },
-                                  widthValue: 3.4,
-                                  buttonText: 'Update Place',
-                                )
-                              : const BottomButtons(
-                                  widthValue: 2.3,
-                                  buttonText: 'Save Place',
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: OverviewBottomButtons(
+                                    isAdmin: widget.isAdmin,
+                                    mapLink: mapLink,
+                                    image: image,
+                                    category: category,
+                                    state: state,
+                                    title: title,
+                                    description: description,
+                                    location: location,
+                                    rating: rating,
+                                    placeId: widget.placeid,
+                                    ctx: context,
+                                  ),
                                 ),
-
-                          // ===== Checking if its admin =====
-                          widget.isAdmin == true
-                              ? BottomButtons(
-                                  onPressed: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return CustomAlertDialog(
-                                          title: 'Delete Place?',
-                                          description:
-                                              'This place will be permanently deleted from this list',
-                                          onTap: () async {
-                                            await deleteData(
-                                                widget.placeid ?? '');
-                                            debugPrint(
-                                                'Deleted successfully');
-                                            // ignore: use_build_context_synchronously
-                                            Navigator.of(context).pop();
-                                            // ignore: use_build_context_synchronously
-                                            Navigator.of(context).pop();
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  widthValue: 3.3,
-                                  buttonText: 'Remove Place',
-                                )
-                              : const SizedBox(
-                                  width: 0,
-                                  height: 0,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                        ],
+                              ],
+                            ),
+
+                            // ============= Rating Section =============
+                            Container(
+                              margin: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
+                                top: 10,
+                              ),
+                              padding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height *
+                                      0.03),
+                              decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    blurRadius: 10,
+                                    offset: Offset(0, 0),
+                                    spreadRadius: 2,
+                                    color: Color(0x0D000000),
+                                  )
+                                ],
+                                color: Colors.white54,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    'Rate Your Experience With This Destination',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02,
+                                  ),
+                                  RatingStarWidget(
+                                    onUserRating: true,
+                                    unRatedColor: Colors.purple.shade100,
+                                    ratedColor: Colors.purple.shade300,
+                                    onRatingPlace: updateRatingCount,
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.025,
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: ButtonsWidget(
+                                      buttonTextSize: 12,
+                                      isOutlinedButton: true,
+                                      buttonTxtColor: Colors.purple,
+                                      buttonColor: Colors.transparent,
+                                      buttonText: 'POST RATING',
+                                      buttonOnPressed: () {},
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // ============= Review Section =============
+                            const Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 45,
+                                  child: Divider(
+                                    thickness: 1.6,
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: ReviewTextField(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-          return Container();
-        },
+                    ],
+                  ),
+                );
+              }
+              return Container();
+            },
+          ),
+        ),
       ),
     );
   }
 
-  onUpdateDetails({
-    String? image,
-    String? category,
-    String? state,
-    String? title,
-    String? description,
-    String? location,
-    double? rating,
-  }) async {
-    nextScreen(
-      context,
-      UpdatePlaceScreen(
-        placeid: widget.placeid,
-        placeImage: image,
-        placeCategory: category,
-        placeState: state,
-        placeTitle: title,
-        placeDescription: description,
-        placeLocation: location,
-        placeRating: rating,
-      ),
-    );
-  }
-
-  Future<void> deleteData(String placeid) async {
-    await DatabaseService().destinationCollection.doc(placeid).delete();
+  @override
+  void dispose() {
+    super.dispose();
+    resetStatusBarColor();
   }
 }

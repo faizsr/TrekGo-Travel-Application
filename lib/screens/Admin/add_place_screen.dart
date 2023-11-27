@@ -256,6 +256,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               // ===== Rating =====
               Center(
                 child: RatingStarWidget(
+                  onUpdate: true,
                   onRatingPlace: updateRatingCount,
                 ),
               ),

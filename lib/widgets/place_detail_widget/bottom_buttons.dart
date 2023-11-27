@@ -14,7 +14,7 @@ class BottomButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / widthValue!,
+      width: MediaQuery.of(context).size.width * widthValue!,
       child: TextButton(
         style: TextButton.styleFrom(
           shape:
@@ -30,7 +30,7 @@ class BottomButtons extends StatelessWidget {
             buttonText!,
             style: const TextStyle(
               color: Colors.black,
-              fontSize: 15,
+              fontSize: 14,
             ),
             textAlign: TextAlign.center,
           ),

@@ -29,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: PreferredSize(
         preferredSize: Size(
           MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height * 0.25,
+          MediaQuery.of(context).size.height * 0.2,
         ),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.235,
@@ -41,18 +41,18 @@ class _SearchScreenState extends State<SearchScreen> {
             color: Color(0xFFe5e6f6),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 40,
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.width * 0.025,
               left: 20,
               right: 20,
             ),
             child: Column(
               children: [
                 // ===== Appbar heading and icons =====
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Where do you \nwanna go?',
                       style: TextStyle(
                         fontSize: 23,
@@ -60,14 +60,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         color: Color(0xFF1285b9),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.098,
-                      height: MediaQuery.of(context).size.height * 0.048,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1285b9),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Icon(
+                    CircleAvatar(
+                      backgroundColor: Color(0xFF1285b9),
+                      child: Icon(
                         Icons.person_2_outlined,
                         size: 25,
                         color: Colors.white,

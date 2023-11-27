@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 
 void customSnackbar(context, message, double bottomMargin, double rightMargin,
     double leftMargin) {
@@ -31,8 +33,9 @@ void customSnackbar(context, message, double bottomMargin, double rightMargin,
 nextScreen(context, page) {
   Navigator.push(
     context,
-    MaterialPageRoute(
-      builder: (context) => page,
+    PageTransition(
+      child: page,
+      type: PageTransitionType.fade,
     ),
   );
 }
@@ -40,8 +43,9 @@ nextScreen(context, page) {
 nextScreenReplace(context, page) {
   Navigator.pushReplacement(
     context,
-    MaterialPageRoute(
-      builder: (context) => page,
+    PageTransition(
+      child: page,
+      type: PageTransitionType.fade,
     ),
   );
 }
@@ -49,8 +53,25 @@ nextScreenReplace(context, page) {
 nextScreenRemoveUntil(context, page) {
   Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (context) => page,
+      PageTransition(
+        child: page,
+        type: PageTransitionType.fade,
       ),
       (route) => false);
+}
+
+void setStatusBarColor(Color color) {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white,
+      statusBarColor: color,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+}
+
+void resetStatusBarColor() {
+  setStatusBarColor(
+    const Color(0xFFe5e6f6),
+  );
 }

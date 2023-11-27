@@ -27,7 +27,7 @@ class OverViewSection extends StatelessWidget {
             color: Color(0x0D000000),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 15, right: 15),
+            margin: const EdgeInsets.only(left: 15, right: 15,bottom: 75),
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [

@@ -69,9 +69,9 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
-        preferredSize: MediaQuery.of(context).size * 0.15,
+        preferredSize: MediaQuery.of(context).size * 0.12,
         child: Container(
-          height: MediaQuery.of(context).size.height * 015,
+          height: MediaQuery.of(context).size.height * 012,
           color: const Color(0xFFe5e6f6),
           child: Stack(
             children: [

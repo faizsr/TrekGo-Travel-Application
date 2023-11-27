@@ -3,13 +3,21 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingStarWidget extends StatefulWidget {
   final bool onUpdate;
+  final bool onUserRating;
+  final bool isTextNeeded;
   final double? initialRatingCount;
   final Function(double?)? onRatingPlace;
+  final Color? unRatedColor;
+  final Color? ratedColor;
   const RatingStarWidget({
     super.key,
     this.onUpdate = false,
+    this.onUserRating = false,
+    this.isTextNeeded = false,
     this.initialRatingCount,
     this.onRatingPlace,
+    this.unRatedColor,
+    this.ratedColor,
   });
 
   @override
@@ -31,16 +39,24 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        widget.onUserRating == true
+            ? Text(
+                '$ratingCount',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 25,
+                ),
+              )
+            : const SizedBox(),
         RatingBar.builder(
           initialRating: widget.initialRatingCount ?? 0,
-          unratedColor: Colors.grey.shade300,
+          unratedColor: widget.unRatedColor ?? Colors.yellow.shade300,
           glow: false,
-          // minRating: 1,
           allowHalfRating: true,
-          itemBuilder: (context, _) {
-            return const Icon(
+          itemBuilder: (context, index) {
+            return Icon(
               Icons.star_rounded,
-              color: Colors.yellow,
+              color: widget.ratedColor ?? Colors.yellow.shade600,
             );
           },
           onRatingUpdate: (rating) {
@@ -53,8 +69,10 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
           },
         ),
         widget.onUpdate == true
-            ? Text('Rating $initailRating')
-            : Text('Rating $ratingCount'),
+            ? widget.isTextNeeded
+                ? Text('Rating $initailRating')
+                : Text('Rating $ratingCount')
+            : const SizedBox(),
       ],
     );
   }

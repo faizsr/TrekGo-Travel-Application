@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
@@ -10,11 +11,13 @@ class NavigationBottomBar extends StatefulWidget {
   final String? userId;
   final bool? isAdmin;
   final bool? isUser;
+  final int? index;
   const NavigationBottomBar({
     super.key,
     this.userId,
     this.isAdmin,
     this.isUser,
+    this.index,
   });
 
   @override
@@ -26,6 +29,13 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
   List pages = [];
 
+  void onUpdateIndex(int newIindex) {
+    setState(() {
+      selectedIndex = newIindex;
+    });
+    debugPrint('index on nav: $selectedIndex');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +44,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
+        updateIndex: onUpdateIndex,
       ),
       SearchScreen(
         isAdmin: widget.isAdmin,
@@ -45,6 +56,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       const SavedPlacesScreen(),
       ProfileScreen(
         userId: widget.userId,
+        updateIndex: onUpdateIndex,
       ),
     ];
     debugPrint('Admin logged in ${widget.isAdmin}');
@@ -56,7 +68,15 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       // ===== Body =====
-      body: pages[selectedIndex],
+      body: PageTransitionSwitcher(
+        duration: const Duration(milliseconds: 250),
+        transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
+            FadeTransition(
+          opacity: primaryAnimation,
+          child: child,
+        ),
+        child: pages[selectedIndex],
+      ),
       extendBody: true,
 
       // ===== Bottom navigation bar =====

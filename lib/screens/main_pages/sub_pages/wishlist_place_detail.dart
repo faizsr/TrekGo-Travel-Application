@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
-import 'package:trekmate_project/screens/main_pages/update_wishlist_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/update_wishlist_screen.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final int? index;

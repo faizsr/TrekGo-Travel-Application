@@ -31,21 +31,21 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height * 0.3),
+            MediaQuery.of(context).size.height * 0.12),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.13,
+          height: MediaQuery.of(context).size.height * 0.12,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: Color(0xFFe5e6f6),
           ),
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.only(
-              top: 20.0,
+              top: MediaQuery.of(context).size.width * 0.02,
               left: 20,
               right: 20,
               bottom: 10,
             ),
-            child: Stack(
+            child: const Stack(
               children: [
                 Positioned(
                   bottom: 20,

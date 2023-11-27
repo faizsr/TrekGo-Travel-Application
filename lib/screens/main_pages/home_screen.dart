@@ -18,12 +18,15 @@ class HomeScreen extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
   final String? userFullname;
+  final void Function(int)? updateIndex;
+
   const HomeScreen({
     super.key,
     this.userId,
     this.isAdmin,
     this.isUser,
     this.userFullname,
+    this.updateIndex,
   });
 
   @override
@@ -70,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.26,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   decoration: const BoxDecoration(
                     color: Color(0xFFe5e6f6),
                     borderRadius: BorderRadius.only(
@@ -82,13 +85,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       // ===== Appbar top items =====
                       Positioned(
-                        top: MediaQuery.of(context).size.width * 0.06,
+                        top: MediaQuery.of(context).size.width * 0.04,
                         right: 25,
                         left: 25,
-                        child: TopBarItems(placeLocation: sortName),
+                        child: TopBarItems(
+                          userId: widget.userId,
+                          placeLocation: sortName,
+                          updateIndex: widget.updateIndex,
+                        ),
                       ),
                       Positioned(
-                        top: MediaQuery.of(context).size.width * 0.24,
+                        top: MediaQuery.of(context).size.width * 0.22,
                         left: 25,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,13 +115,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-
+    
                 // ===== Appbar choice chips =====
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.225,
+                  top: MediaQuery.of(context).size.height * 0.204,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: MediaQuery.of(context).size.height * 0.09,
                     child: ChoiceChipsWidget(
                       onSortNameChanged: (newSortName) {
                         setState(() {
@@ -126,11 +133,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-
+    
             const SizedBox(
               height: 30,
             ),
-
+    
             Column(
               children: [
                 // ===== Popular places section =====
@@ -164,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-
+    
                 // ===== Recommended places section =====
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -194,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-
+    
                 // ===== Wishlist screen section =====
                 wishlist.isNotEmpty
                     ? SizedBox(

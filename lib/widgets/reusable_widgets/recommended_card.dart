@@ -46,6 +46,7 @@ class RecommendedCard extends StatelessWidget {
         ),
       ),
       child: Container(
+        margin: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),

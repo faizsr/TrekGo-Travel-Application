@@ -4,10 +4,10 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen.dart';
-import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/appbar_subtitles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/user_profile_listtile.dart';
 
@@ -18,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
   final String? userGender;
   final String? username;
   final String? userEmail;
+  final void Function(int)? updateIndex;
   const ProfileScreen({
     super.key,
     this.userId,
@@ -26,6 +27,7 @@ class ProfileScreen extends StatefulWidget {
     this.userGender,
     this.username,
     this.userEmail,
+    this.updateIndex,
   });
 
   @override
@@ -50,12 +52,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFc0f8fe));
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/Background_gradient.png'),
-              fit: BoxFit.cover),
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFF0F3F7),
+              Color(0xFFC0F8FE),
+            ],
+            stops: [0.25, 0.87],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
         ),
         child: Column(
           children: [
@@ -88,7 +97,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Align(
                             child: Container(
-                              margin: const EdgeInsets.only(top: 5),
+                              margin: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height *
+                                      0.005),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(width: 2.5),
@@ -103,6 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: CircleAvatar(
                                 radius: 85,
+                                backgroundColor: Colors.white,
                                 backgroundImage: AssetImage(defaultImage),
                                 foregroundImage: userProfilePic == null
                                     ? Image.asset(defaultImage).image
@@ -152,10 +164,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    offset: Offset(0, 2),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                    color: Color(0x0D000000),
+                  )
+                ],
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 15,
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.02,
                   left: 15,
                   right: 5,
                 ),
@@ -163,24 +183,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     // ===== Edit profile button =====
                     UserProfileListtile(
-                        titleText: 'Edit Profile',
-                        onTapIcon: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => EditProfileScreen(
-                                userId: widget.userId,
-                                image: userProfilePic ?? defaultImage,
-                                fullName: userFullname,
-                                mobileNumber: userMobileNumber,
-                                email: userEmail,
-                                gender: userGender,
-                              ),
+                      titleText: 'Edit Profile',
+                      onTapIcon: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditProfileScreen(
+                              userId: widget.userId,
+                              image: userProfilePic ?? defaultImage,
+                              fullName: userFullname,
+                              mobileNumber: userMobileNumber,
+                              email: userEmail,
+                              gender: userGender,
                             ),
-                          );
-                        }),
-                    const Divider(
-                      thickness: 0.8,
-                      height: 10,
+                          ),
+                        );
+                      },
+                    ),
+                    Divider(
+                      thickness: MediaQuery.of(context).size.height * 0.0007,
+                      height: MediaQuery.of(context).size.height * 0.015,
                       indent: 15,
                       endIndent: 15,
                     ),
@@ -188,13 +209,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // ===== Saved places button =====
                     UserProfileListtile(
                       titleText: 'Saved Places',
-                      onTapIcon: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const SavedPlacesScreen())),
+                      onTapIcon: () {
+                        widget.updateIndex?.call(3);
+                      },
                     ),
-                    const Divider(
-                      thickness: 0.5,
-                      height: 10,
+                    Divider(
+                      thickness: MediaQuery.of(context).size.height * 0.0007,
+                      height: MediaQuery.of(context).size.height * 0.015,
                       indent: 15,
                       endIndent: 15,
                     ),
@@ -208,9 +229,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    const Divider(
-                      thickness: 0.5,
-                      height: 10,
+                    Divider(
+                      thickness: MediaQuery.of(context).size.height * 0.0007,
+                      height: MediaQuery.of(context).size.height * 0.015,
                       indent: 15,
                       endIndent: 15,
                     ),
@@ -224,9 +245,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    const Divider(
-                      thickness: 0.5,
-                      height: 10,
+                    Divider(
+                      thickness: MediaQuery.of(context).size.height * 0.0007,
+                      height: MediaQuery.of(context).size.height * 0.015,
                       indent: 15,
                       endIndent: 15,
                     ),
@@ -238,7 +259,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         authService.signOut();
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => const UserLoginScreen()),
+                              builder: (context) => const UserLoginScreen(),
+                            ),
                             (route) => false);
                       },
                     ),
@@ -250,5 +272,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    resetStatusBarColor();
   }
 }

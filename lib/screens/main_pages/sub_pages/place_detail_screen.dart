@@ -11,6 +11,7 @@ import 'package:trekmate_project/widgets/place_detail_widget/overview_buttons.da
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/review_section_text_field.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
+import 'package:trekmate_project/widgets/reviews/reviews.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;
@@ -74,6 +75,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
       'reviewBy': name,
       'reviewDate': Timestamp.now(),
     });
+    debugPrint('Added comment: $reviewText');
   }
 
   final TextEditingController reviewController = TextEditingController();
@@ -376,9 +378,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                             ),
 
                             // ============= Review Section =============
-                            const Stack(
+                            Stack(
                               children: [
-                                Positioned(
+                                const Positioned(
                                   left: 0,
                                   right: 0,
                                   bottom: 45,
@@ -388,7 +390,52 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                 ),
                                 Align(
                                   alignment: Alignment.bottomCenter,
-                                  child: ReviewTextField(),
+                                  child: ReviewTextField(
+                                    controller: reviewController,
+                                    onTap: () {
+                                      addComment(
+                                        reviewText: reviewController.text,
+                                      );
+                                      reviewController.clear();
+                                    },
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 0,
+                                  bottom: 55,
+                                  left: 0,
+                                  right: 0,
+                                  child: StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('destination')
+                                        .doc(widget.placeid)
+                                        .collection('reviews')
+                                        .orderBy('reviewDate',
+                                            descending: true)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                      return SingleChildScrollView(
+                                        child: Column(
+                                          children:
+                                              snapshot.data!.docs.map((review) {
+                                            final reviewData = review.data()
+                                                as Map<String, dynamic>;
+                                            return ReviewPlace(
+                                              text: reviewData['reviewText'],
+                                              user: reviewData['reviewBy'],
+                                              time: formatDate(
+                                                  reviewData['reviewDate']),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -412,4 +459,15 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     super.dispose();
     resetStatusBarColor();
   }
+}
+
+String formatDate(Timestamp timestamp) {
+  DateTime dateTime = timestamp.toDate();
+  String year = dateTime.year.toString();
+  String month = dateTime.month.toString();
+  String day = dateTime.day.toString();
+
+  String formattedDate = '$day/$month/$year';
+
+  return formattedDate;
 }

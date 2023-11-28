@@ -13,20 +13,10 @@ import 'package:trekmate_project/widgets/reusable_widgets/user_profile_listtile.
 
 class ProfileScreen extends StatefulWidget {
   final String? userId;
-  final String? userProfilePic;
-  final String? userFullname;
-  final String? userGender;
-  final String? username;
-  final String? userEmail;
   final void Function(int)? updateIndex;
   const ProfileScreen({
     super.key,
     this.userId,
-    this.userProfilePic,
-    this.userFullname,
-    this.userGender,
-    this.username,
-    this.userEmail,
     this.updateIndex,
   });
 

@@ -33,17 +33,6 @@ class OverviewBottomButtons extends StatelessWidget {
     this.ctx,
   });
 
-// Is Admin bool,
-// Map link,
-// image,
-// category,
-// state,
-// title,
-// descripiton,
-// location,
-// rating,
-// place id,
-
   @override
   Widget build(BuildContext context) {
     return Container(

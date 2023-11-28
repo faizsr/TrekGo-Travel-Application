@@ -47,13 +47,16 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         updateIndex: onUpdateIndex,
       ),
       SearchScreen(
+        userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
       ),
       AddWishlistScreen(
         userId: widget.userId,
       ),
-      const SavedPlacesScreen(),
+      SavedPlacesScreen(
+        userId: widget.userId ?? '',
+      ),
       ProfileScreen(
         userId: widget.userId,
         updateIndex: onUpdateIndex,

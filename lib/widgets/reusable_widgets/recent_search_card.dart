@@ -10,6 +10,7 @@ class RecentSearchCard extends StatelessWidget {
   final String? placeId;
   final bool? isAdmin;
   final bool? isUser;
+  final String? userId;
   const RecentSearchCard({
     super.key,
     this.cardImage,
@@ -18,6 +19,7 @@ class RecentSearchCard extends StatelessWidget {
     this.placeId,
     this.isAdmin,
     this.isUser,
+  required  this.userId,
   });
 
   @override
@@ -26,6 +28,7 @@ class RecentSearchCard extends StatelessWidget {
       onTap: () => nextScreen(
           context,
           PlaceDetailScreen(
+            userId: userId,
             isAdmin: isAdmin,
             isUser: isUser,
             placeid: placeId,

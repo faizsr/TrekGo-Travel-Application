@@ -10,6 +10,7 @@ import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 class RecommendedCard extends StatelessWidget {
   final bool? isAdmin;
   final bool? isUser;
+  final String userId;
   final String? placeid;
   final String? placeCategory;
   final String? placeState;
@@ -23,6 +24,7 @@ class RecommendedCard extends StatelessWidget {
     super.key,
     this.isAdmin,
     this.isUser,
+    required this.userId,
     this.placeid,
     this.placeCategory,
     this.placeState,
@@ -40,6 +42,7 @@ class RecommendedCard extends StatelessWidget {
       onTap: () => nextScreen(
         context,
         PlaceDetailScreen(
+          userId: userId,
           isAdmin: isAdmin ?? true,
           isUser: isUser ?? false,
           placeid: placeid,

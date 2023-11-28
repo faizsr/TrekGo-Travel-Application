@@ -7,11 +7,13 @@ import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 class RecommendedPlacesScreen extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
+  final String? userId;
   final String? sortName;
   const RecommendedPlacesScreen({
     super.key,
     this.sortName,
     this.isAdmin,
+    required this.userId,
     this.isUser,
   });
 
@@ -59,6 +61,7 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 25),
                     child: PopularCard(
+                      userId: widget.userId,
                       isAdmin: widget.isAdmin,
                       isUser: widget.isUser,
                       ratingCount: ratingCount,

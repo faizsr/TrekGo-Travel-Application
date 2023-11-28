@@ -15,6 +15,7 @@ import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dar
 import 'package:trekmate_project/widgets/saved_icon.dart';
 
 class PopularCard extends StatefulWidget {
+  final String? userId;
   final String? placeid;
   final String? popularCardImage;
   final String? placeCategory;
@@ -29,6 +30,7 @@ class PopularCard extends StatefulWidget {
   final DocumentSnapshot? destinationSnapshot;
   const PopularCard({
     super.key,
+   required this.userId,
     this.placeid,
     this.popularCardImage,
     this.placeCategory,
@@ -73,6 +75,7 @@ class _PopularCardState extends State<PopularCard> {
         nextScreen(
           context,
           PlaceDetailScreen(
+            userId: widget.userId,
             isAdmin: widget.isAdmin ?? true,
             isUser: widget.isUser ?? false,
             placeid: widget.placeid,
@@ -158,7 +161,7 @@ class _PopularCardState extends State<PopularCard> {
                   child: showShimmer
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.24,
+                          height: MediaQuery.of(context).size.height * 0.245,
                           child: Image(
                             image: AssetImage(lazyLoading),
                             fit: BoxFit.cover,
@@ -166,7 +169,7 @@ class _PopularCardState extends State<PopularCard> {
                         )
                       : SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.24,
+                          height: MediaQuery.of(context).size.height * 0.245,
                           child: FadeInImage(
                             placeholder: AssetImage(lazyLoading),
                             fit: BoxFit.cover,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,13 +11,14 @@ import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_buttons.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/review_section_text_field.dart';
+import 'package:trekmate_project/widgets/place_detail_widget/reviews.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
-import 'package:trekmate_project/widgets/reviews/reviews.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;
   final bool? isAdmin;
   final bool? isUser;
+  final String? userId;
   final String? searchImage;
   final String? searchName;
   final String? searchDescription;
@@ -29,6 +31,7 @@ class PlaceDetailScreen extends StatefulWidget {
     this.placeid,
     this.isAdmin,
     this.isUser,
+    this.userId,
     this.searchImage,
     this.searchName,
     this.searchDescription,
@@ -45,37 +48,48 @@ class PlaceDetailScreen extends StatefulWidget {
 class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     with TickerProviderStateMixin {
   late Stream<DocumentSnapshot> _destinationData;
+  late Stream<DocumentSnapshot> userDataStream;
+
   late TabController tabController;
 
   String? name;
   double? ratingCount;
+  double? addedRating;
+  String? userId;
+  String? userName;
+  String? userProfile;
 
   @override
   void initState() {
     super.initState();
     _destinationData =
         DatabaseService().getdestinationData(widget.placeid ?? '');
+    userDataStream = DatabaseService().getUserDetails(widget.userId ?? '');
+
     name = FirebaseAuth.instance.currentUser!.email;
+    userId = FirebaseAuth.instance.currentUser!.uid;
     debugPrint('user name: $name');
     tabController = TabController(length: 3, vsync: this);
   }
 
   void updateRatingCount(double? rating) {
     ratingCount = rating;
-    debugPrint('$ratingCount');
+    debugPrint('rating count:$ratingCount');
   }
 
-  void addComment({String? reviewText}) {
+  void addComment({String? reviewText, String? userIdd, String? userProfile}) {
     FirebaseFirestore.instance
         .collection('destination')
         .doc(widget.placeid)
         .collection('reviews')
         .add({
       'reviewText': reviewText,
-      'reviewBy': name,
+      'reviewUserId': userIdd,
       'reviewDate': Timestamp.now(),
+      'ratingCount': addedRating ?? 0,
     });
     debugPrint('Added comment: $reviewText');
+    debugPrint('Posted rating on comment $addedRating');
   }
 
   final TextEditingController reviewController = TextEditingController();
@@ -335,7 +349,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     color: Color(0x0D000000),
                                   )
                                 ],
-                                color: Colors.white54,
+                                color: const Color(0xFFf9fafc),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Column(
@@ -352,6 +366,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                         0.02,
                                   ),
                                   RatingStarWidget(
+                                    initialRatingCount: addedRating ?? 0,
                                     onUserRating: true,
                                     unRatedColor: Colors.purple.shade100,
                                     ratedColor: Colors.purple.shade300,
@@ -370,7 +385,21 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                       buttonTxtColor: Colors.purple,
                                       buttonColor: Colors.transparent,
                                       buttonText: 'POST RATING',
-                                      buttonOnPressed: () {},
+                                      buttonOnPressed: () {
+                                        setState(() {
+                                          addedRating = ratingCount;
+                                          debugPrint(
+                                              'Rating after posting: $addedRating');
+                                          FirebaseFirestore.instance
+                                              .collection('destination')
+                                              .doc(widget.placeid)
+                                              .collection('reviews')
+                                              .doc()
+                                              .set({
+                                            'user_rating_count': addedRating
+                                          });
+                                        });
+                                      },
                                     ),
                                   ),
                                 ],
@@ -395,6 +424,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     onTap: () {
                                       addComment(
                                         reviewText: reviewController.text,
+                                        userIdd: userId,
+                                        userProfile: userProfile,
                                       );
                                       reviewController.clear();
                                     },
@@ -411,7 +442,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                         .doc(widget.placeid)
                                         .collection('reviews')
                                         .orderBy('reviewDate',
-                                            descending: true)
+                                            descending: false)
                                         .snapshots(),
                                     builder: (context, snapshot) {
                                       if (!snapshot.hasData) {
@@ -426,8 +457,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                             final reviewData = review.data()
                                                 as Map<String, dynamic>;
                                             return ReviewPlace(
+                                              placeId: widget.placeid,
+                                              reviewId: review.id,
+                                              currentUserId: widget.userId,
+                                              ratingCount:
+                                                  reviewData['ratingCount'],
                                               text: reviewData['reviewText'],
-                                              user: reviewData['reviewBy'],
+                                              userId:
+                                                  reviewData['reviewUserId'],
                                               time: formatDate(
                                                   reviewData['reviewDate']),
                                             );

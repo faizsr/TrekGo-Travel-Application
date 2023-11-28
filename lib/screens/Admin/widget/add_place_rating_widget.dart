@@ -41,7 +41,7 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
       children: [
         widget.onUserRating == true
             ? Text(
-                '$ratingCount',
+                '${ratingCount == 0 ? initailRating : ratingCount}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 25,

@@ -8,10 +8,12 @@ import 'package:trekmate_project/widgets/reusable_widgets/recent_search_card.dar
 class SearchScreen extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
+  final String? userId;
   const SearchScreen({
     super.key,
     this.isAdmin,
     this.isUser,
+    required this.userId,
   });
 
   @override
@@ -134,6 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 if (name.isEmpty) {
                   debugPrint('No Sorting');
                   return RecentSearchCard(
+                    userId: widget.userId,
                     isAdmin: widget.isAdmin,
                     isUser: widget.isAdmin,
                     placeId: destinationSnapshot.id,
@@ -154,6 +157,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         .startsWith(name.toLowerCase())) {
                   debugPrint('Search Sorting');
                   return RecentSearchCard(
+                    userId: widget.userId,
                     isAdmin: widget.isAdmin,
                     isUser: widget.isAdmin,
                     placeId: destinationSnapshot.id,

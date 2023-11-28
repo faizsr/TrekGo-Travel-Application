@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-    
+
                 // ===== Appbar choice chips =====
                 Positioned(
                   top: MediaQuery.of(context).size.height * 0.204,
@@ -133,11 +133,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-    
+
             const SizedBox(
               height: 30,
             ),
-    
+
             Column(
               children: [
                 // ===== Popular places section =====
@@ -152,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             nextScreen(
                               context,
                               PopularPlacesScreen(
+                                userId: widget.userId,
                                 sortName: sortName,
                                 isAdmin: widget.isAdmin,
                                 isUser: widget.isUser,
@@ -161,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             debugPrint('User logged in ${widget.isUser}');
                           }),
                       PopularCarouselSlider(
+                        userId: widget.userId,
                         isAdmin: widget.isAdmin,
                         isUser: widget.isUser,
                         sortName: sortName,
@@ -171,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-    
+
                 // ===== Recommended places section =====
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -184,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         viewAllPlaces: () => nextScreen(
                           context,
                           RecommendedPlacesScreen(
+                            userId: widget.userId,
                             isAdmin: widget.isAdmin,
                             isUser: widget.isUser,
                             sortName: sortName,
@@ -191,6 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       RecommendedPlaceSlider(
+                        userId: widget.userId,
                         isAdmin: widget.isAdmin,
                         isUser: widget.isUser,
                         sortName: sortName,
@@ -201,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-    
+
                 // ===== Wishlist screen section =====
                 wishlist.isNotEmpty
                     ? SizedBox(

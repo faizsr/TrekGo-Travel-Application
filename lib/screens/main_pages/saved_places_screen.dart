@@ -5,8 +5,10 @@ import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 import 'package:trekmate_project/widgets/saved_icon.dart';
 
 class SavedPlacesScreen extends StatefulWidget {
+  final String userId;
   const SavedPlacesScreen({
     super.key,
+    required this.userId,
   });
 
   @override
@@ -89,6 +91,7 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: PopularCard(
+                    userId: widget.userId,
                     popularCardImage: saved.image,
                     placeName: saved.name,
                     ratingCount: saved.rating,

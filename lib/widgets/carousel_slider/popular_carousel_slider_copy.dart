@@ -8,11 +8,13 @@ import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
 class PopularCarouselSlider extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
+  final String? userId;
   final String? sortName;
   const PopularCarouselSlider({
     super.key,
     this.isAdmin,
     this.isUser,
+    this.userId,
     this.sortName,
   });
 
@@ -21,11 +23,11 @@ class PopularCarouselSlider extends StatefulWidget {
 }
 
 class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
-
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     // ===== Popular places carousel slider =====
@@ -51,6 +53,7 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                   DocumentSnapshot destinationSnapshot =
                       snapshot.data.docs[index];
                   return PopularCard(
+                    userId: widget.userId,
                     isAdmin: widget.isAdmin == true ? null : widget.isAdmin,
                     isUser: widget.isUser,
                     placeid: destinationSnapshot.id,

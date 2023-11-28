@@ -8,8 +8,14 @@ class RecommendedPlaceSlider extends StatefulWidget {
   final String? sortName;
   final bool? isAdmin;
   final bool? isUser;
-  const RecommendedPlaceSlider(
-      {super.key, this.sortName, this.isAdmin, this.isUser});
+  final String? userId;
+  const RecommendedPlaceSlider({
+    super.key,
+    this.sortName,
+    this.isAdmin,
+    this.isUser,
+    required this.userId,
+  });
 
   @override
   State<RecommendedPlaceSlider> createState() => _RecommendedPlaceSliderState();
@@ -46,6 +52,7 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
                   ratingCount = double.tryParse(
                       destinationSnap['place_rating'].toString());
                   return RecommendedCard(
+                    userId: widget.userId ?? '',
                     isAdmin: widget.isAdmin == true ? null : widget.isAdmin,
                     isUser: widget.isUser,
                     placeName: destinationSnap['place_name'],

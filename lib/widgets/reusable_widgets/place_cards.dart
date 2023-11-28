@@ -161,7 +161,7 @@ class _PopularCardState extends State<PopularCard> {
                   child: showShimmer
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.245,
+                          height: MediaQuery.of(context).size.height * 0.244,
                           child: Image(
                             image: AssetImage(lazyLoading),
                             fit: BoxFit.cover,
@@ -169,7 +169,7 @@ class _PopularCardState extends State<PopularCard> {
                         )
                       : SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.245,
+                          height: MediaQuery.of(context).size.height * 0.244,
                           child: FadeInImage(
                             placeholder: AssetImage(lazyLoading),
                             fit: BoxFit.cover,

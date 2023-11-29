@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
 class CustomAlertDialog extends StatefulWidget {
   final String? title;
@@ -22,6 +23,9 @@ class CustomAlertDialog extends StatefulWidget {
 class _CustomAlertDialogState extends State<CustomAlertDialog> {
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(
+      const Color(0x73e5e6f6),
+    );
     return Dialog(
       elevation: 0,
       backgroundColor: const Color(0xFFFFFFFF),
@@ -82,7 +86,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             },
             child: Center(
               child: Text(
-               widget.popBtnText != null ? widget.popBtnText ?? '' : 'Cancel' ,
+                widget.popBtnText != null ? widget.popBtnText ?? '' : 'Cancel',
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.normal,
@@ -93,5 +97,11 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
         )
       ]),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    resetStatusBarColor();
   }
 }

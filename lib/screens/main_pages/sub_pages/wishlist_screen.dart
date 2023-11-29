@@ -209,23 +209,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     setState(() {
                       indexValue = index;
                     });
-                    String refresh = await Navigator.of(context).push(
+                    Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WishlistPlaceDetail(
                           hiveKey: wishlists.hiveKey,
                           userId: wishlists.userId,
-                          name: wishlists.name,
-                          state: wishlists.state,
-                          image: wishlists.image,
-                          description: wishlists.location,
-                          location: wishlists.location,
                         ),
                       ),
                     );
-                    if (refresh == 'refresh') {
-                      updateData();
-                      debugPrint('refreshedd!!!!!!!!!!!!!!1');
-                    }
                   },
                   child: WishlistCardAll(
                     backgroundImage: wishlists.image.toString(),

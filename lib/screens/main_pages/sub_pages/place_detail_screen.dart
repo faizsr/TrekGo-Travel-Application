@@ -422,12 +422,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                   child: ReviewTextField(
                                     controller: reviewController,
                                     onTap: () {
-                                      addComment(
-                                        reviewText: reviewController.text,
-                                        userIdd: userId,
-                                        userProfile: userProfile,
-                                      );
-                                      reviewController.clear();
+                                      if (reviewController.text.isNotEmpty) {
+                                        addComment(
+                                          reviewText: reviewController.text,
+                                          userIdd: userId,
+                                          userProfile: userProfile,
+                                        );
+                                        reviewController.clear();
+                                      }
                                     },
                                   ),
                                 ),

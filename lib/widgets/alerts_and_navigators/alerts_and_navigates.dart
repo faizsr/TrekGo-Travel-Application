@@ -63,7 +63,7 @@ nextScreenRemoveUntil(context, page) {
 void setStatusBarColor(Color color) {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white,
+      systemNavigationBarColor: const Color(0xFFe5e6f6),
       statusBarColor: color,
       statusBarIconBrightness: Brightness.dark,
     ),

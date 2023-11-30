@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+// import 'package:provider/provider.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
@@ -12,9 +13,11 @@ import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_naviga
 import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
-import 'package:trekmate_project/widgets/saved_icon.dart';
+// import 'package:trekmate_project/widgets/saved_icon.dart';
+import 'package:trekmate_project/widgets/saved_screen_widgets/saved_screen_icon.dart';
+// import 'package:trekmate_project/widgets/saved_provider.dart';
 
-class PopularCard extends StatefulWidget {
+class SavedScreenCard extends StatefulWidget {
   final String? userId;
   final String? placeid;
   final String? popularCardImage;
@@ -27,10 +30,11 @@ class PopularCard extends StatefulWidget {
   final double? ratingCount;
   final bool? isAdmin;
   final bool? isUser;
+  final int? index;
   final DocumentSnapshot? destinationSnapshot;
-  const PopularCard({
+  const SavedScreenCard({
     super.key,
-   required this.userId,
+    required this.userId,
     this.placeid,
     this.popularCardImage,
     this.placeCategory,
@@ -43,13 +47,14 @@ class PopularCard extends StatefulWidget {
     this.isAdmin,
     this.isUser,
     this.destinationSnapshot,
+    this.index,
   });
 
   @override
-  State<PopularCard> createState() => _PopularCardState();
+  State<SavedScreenCard> createState() => _SavedScreenCardState();
 }
 
-class _PopularCardState extends State<PopularCard> {
+class _SavedScreenCardState extends State<SavedScreenCard> {
   late Box<Saved> savedBox;
   bool showShimmer = true;
 
@@ -64,10 +69,13 @@ class _PopularCardState extends State<PopularCard> {
         });
       }
     });
+    debugPrint('user on saved card ${widget.userId}');
   }
 
   @override
   Widget build(BuildContext context) {
+    // var savedProvider = Provider.of<SavedProvider>(context);
+
     return GestureDetector(
       onTap: () {
         debugPrint('Admin logged place in ${widget.isAdmin}');
@@ -214,13 +222,15 @@ class _PopularCardState extends State<PopularCard> {
               Positioned(
                 right: 30,
                 bottom: MediaQuery.of(context).size.width * 0.16,
-                child: SavedIcon(
+                child: SavedScreenIcon(
+                  index: widget.index,
                   id: widget.placeid,
                   image: widget.popularCardImage,
                   rating: widget.ratingCount,
                   name: widget.placeName,
                   description: widget.placeDescripton,
                   location: widget.placeLocation,
+                  // isSaved: savedProvider.isExist(widget.placeid ?? ''),
                 ),
               ),
             ],

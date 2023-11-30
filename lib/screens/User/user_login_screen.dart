@@ -1,21 +1,12 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-// import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/Admin/admin_login_screen.dart';
 import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
 import 'package:trekmate_project/screens/user/user_signup_screen.dart';
-// import 'package:trekmate_project/screens/Bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-// import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-// import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/help_text.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/title.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 
 class UserLoginScreen extends StatefulWidget {
   const UserLoginScreen({super.key});

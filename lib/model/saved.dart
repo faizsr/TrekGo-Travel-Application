@@ -3,7 +3,7 @@ import 'package:hive_flutter/adapters.dart';
 part 'saved.g.dart';
 
 @HiveType(typeId: 1)
-class Saved extends HiveObject{
+class Saved extends HiveObject {
   @HiveField(0)
   final String? name;
 
@@ -25,6 +25,9 @@ class Saved extends HiveObject{
   @HiveField(6)
   final String? firebaseid;
 
+  @HiveField(7)
+  final String? userId;
+
   Saved({
     this.name,
     this.rating,
@@ -32,6 +35,7 @@ class Saved extends HiveObject{
     this.location,
     this.image,
     this.isSaved,
-    this.firebaseid
+    this.firebaseid,
+    this.userId,
   });
 }

@@ -32,6 +32,7 @@ class TextFieldWidgetTwo extends StatelessWidget {
         minLines: null,
         maxLines: minmaxLine ? 4 : null,
         onChanged: onChanged,
+        style: const TextStyle(fontSize: 15),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 18,

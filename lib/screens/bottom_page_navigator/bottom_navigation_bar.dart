@@ -56,6 +56,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       ),
       SavedPlacesScreen(
         userId: widget.userId ?? '',
+        isAdmin: widget.isAdmin,
+        isUser: widget.isUser,
       ),
       ProfileScreen(
         userId: widget.userId,

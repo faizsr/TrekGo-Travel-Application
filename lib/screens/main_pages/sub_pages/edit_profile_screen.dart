@@ -9,7 +9,7 @@ import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/user/widget/edit_gender_drop_down.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 

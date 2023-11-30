@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/button.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_buttons.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/review_section_text_field.dart';

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
+import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/admin/update_place_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
+import 'package:trekmate_project/provider/saved_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OverviewBottomButtons extends StatelessWidget {
+class OverviewBottomButtons extends StatefulWidget {
   final bool? isAdmin;
   final String? mapLink;
   final String? image;
@@ -34,7 +38,22 @@ class OverviewBottomButtons extends StatelessWidget {
   });
 
   @override
+  State<OverviewBottomButtons> createState() => _OverviewBottomButtonsState();
+}
+
+class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
+  late Box<Saved> savedBox;
+
+  @override
+  void initState() {
+    super.initState();
+    savedBox = Hive.box('saved');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var savedProvider = Provider.of<SavedProvider>(context);
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(colors: [
@@ -48,15 +67,15 @@ class OverviewBottomButtons extends StatelessWidget {
       ),
       padding: const EdgeInsets.only(left: 5, right: 5, bottom: 10, top: 20),
       child: Row(
-        mainAxisAlignment: isAdmin == true
+        mainAxisAlignment: widget.isAdmin == true
             ? MainAxisAlignment.spaceAround
             : MainAxisAlignment.center,
         children: [
           // ===== Checking if its admin =====
-          isAdmin == true
+          widget.isAdmin == true
               ? BottomButtons(
                   onPressed: () {
-                    openGoogleMap(mapLink: mapLink);
+                    openGoogleMap(mapLink: widget.mapLink);
                   },
                   widthValue: 0.3,
                   buttonText: 'Get Direction',
@@ -67,7 +86,7 @@ class OverviewBottomButtons extends StatelessWidget {
                   ),
                   child: BottomButtons(
                     onPressed: () {
-                      openGoogleMap(mapLink: mapLink);
+                      openGoogleMap(mapLink: widget.mapLink);
                     },
                     widthValue: 0.45,
                     buttonText: 'Get Direction',
@@ -75,33 +94,59 @@ class OverviewBottomButtons extends StatelessWidget {
                 ),
 
           // ===== Checking if its admin =====
-          isAdmin == true
+          widget.isAdmin == true
               ? BottomButtons(
                   onPressed: () async {
                     await onUpdateDetails(
-                      image: image,
-                      category: category,
-                      state: state,
-                      title: title,
-                      description: description,
-                      location: location,
-                      rating: rating,
-                      context: ctx,
+                      image: widget.image,
+                      category: widget.category,
+                      state: widget.state,
+                      title: widget.title,
+                      description: widget.description,
+                      location: widget.location,
+                      rating: widget.rating,
+                      context: widget.ctx,
                     );
                   },
                   widthValue: 0.3,
                   buttonText: 'Update Place',
                 )
-              : const BottomButtons(
+              : BottomButtons(
                   widthValue: 0.45,
-                  buttonText: 'Save Place',
+                  buttonText: savedProvider.isExist(widget.placeId ?? '') ? 'Unsave Place': 'Save Place',
+                  onPressed: () async {
+                    if (!savedProvider.savedIds.contains(widget.placeId)) {
+                      String uniqueKey = widget.placeId ?? '';
+                      await savedBox.put(
+                          uniqueKey,
+                          Saved(
+                            firebaseid: widget.placeId,
+                            image: widget.image,
+                            name: widget.title,
+                            rating: widget.rating,
+                            description: widget.description,
+                            location: widget.location,
+                          ));
+                      savedProvider.updateSavedIds(
+                          savedProvider.savedIds..add(widget.placeId ?? ''));
+                      debugPrint('Added successfully');
+                    } else {
+                      int index =
+                          savedProvider.savedIds.indexOf(widget.placeId ?? '');
+                      savedBox.deleteAt(index);
+                      savedProvider.updateSavedIds(
+                          savedProvider.savedIds..remove(widget.placeId));
+                      debugPrint('Deleted successfully');
+                      savedBox.compact();
+                    }
+                  },
                 ),
 
           // ===== Checking if its admin =====
-          isAdmin == true
+          widget.isAdmin == true
               ? BottomButtons(
                   onPressed: () async {
-                    await deleteDialog(ctx!, placeId);
+                    await deleteDialog(widget.ctx!, widget.placeId);
                   },
                   widthValue: 0.3,
                   buttonText: 'Remove Place',
@@ -165,7 +210,7 @@ class OverviewBottomButtons extends StatelessWidget {
     nextScreen(
       context,
       UpdatePlaceScreen(
-        placeid: placeId,
+        placeid: widget.placeId,
         placeImage: image,
         placeCategory: category,
         placeState: state,

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 import 'package:trekmate_project/model/saved.dart';
+import 'package:trekmate_project/provider/saved_provider.dart';
 
 class SavedIcon extends StatefulWidget {
   final bool biggerIcon;
   final String? id;
+  final String? userId;
   final String? image;
   final String? name;
   final double? rating;
@@ -14,6 +17,7 @@ class SavedIcon extends StatefulWidget {
     super.key,
     this.biggerIcon = false,
     this.id,
+    this.userId,
     this.image,
     this.name,
     this.rating,
@@ -27,74 +31,47 @@ class SavedIcon extends StatefulWidget {
 
 class _SavedIconState extends State<SavedIcon> {
   late Box<Saved> savedBox;
-  late List<Saved> savedFidList;
   late List<String> savedid;
-  bool iconFill = false;
 
   @override
   void initState() {
     super.initState();
     savedBox = Hive.box('saved');
-    savedFidList = savedBox.values.toList();
-    updateSavedIdList();
-    debugPrint('id: ${widget.id}');
-  }
-
-  int getIndex(String? id) {
-    return savedFidList.indexWhere((savedItem) => savedItem.firebaseid == id);
-  }
-
-  // ============ Update List ============
-  void updateSavedIdList() {
-    savedid = savedFidList
-        .where((savedItem) => savedItem.firebaseid != null)
-        .map((savedItem) => savedItem.firebaseid!)
-        .toList();
-    // debugPrint('saved id list : $savedid');
+    debugPrint('id on saving from home: ${widget.id}');
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('build');
+    var savedProvider = Provider.of<SavedProvider>(context);
     return GestureDetector(
       onTap: () async {
-        bool newIconFill = !iconFill;
-
-        // debugPrint('firebase id list: $savedid');
-
-        if (newIconFill) {
-          if (!savedid.contains(widget.id)) {
-            // ============ Adding the data to the Saved ============
-
-            int indexAdd = await savedBox.add(Saved(
-              firebaseid: widget.id,
-              image: widget.image,
-              name: widget.name,
-              rating: widget.rating,
-              description: widget.description,
-              location: widget.location,
-            ));
-            debugPrint('index add: $indexAdd');
-            debugPrint('Added successfully');
-          } else {
-            int indexDel = getIndex(widget.id);
-            debugPrint('index del: $indexDel');
-            // ============ Delete the data in the Saved ============
-            int index = savedid.indexOf(widget.id ?? '');
-            if (index > -1) {
-              savedBox.deleteAt(index);
-              debugPrint('Deleted successfully');
-              savedBox.compact();
-            } else {
-              debugPrint('No element to delete');
-            }
-          }
+        if (!savedProvider.savedIds.contains(widget.id)) {
+          // ============ Adding the data to the Saved ============
+          String uniqueKey = widget.id ?? '';
+          await savedBox.put(
+              uniqueKey,
+              Saved(
+                userId: widget.userId,
+                firebaseid: widget.id,
+                image: widget.image,
+                name: widget.name,
+                rating: widget.rating,
+                description: widget.description,
+                location: widget.location,
+              ));
+          savedProvider
+              .updateSavedIds(savedProvider.savedIds..add(widget.id ?? ''));
+          debugPrint('Added successfully');
+          debugPrint('user id on saving ${widget.userId}');
+        } else {
+          int index = savedProvider.savedIds.indexOf(widget.id ?? '');
+          savedBox.deleteAt(index);
+          savedProvider
+              .updateSavedIds(savedProvider.savedIds..remove(widget.id));
+          debugPrint('Deleted successfully');
+          savedBox.compact();
         }
-
-        // ============ Setting the icon back to normal ============
-        setState(() {
-          iconFill = newIconFill;
-        });
-        debugPrint('fill state = $iconFill');
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.090,
@@ -112,7 +89,7 @@ class _SavedIconState extends State<SavedIcon> {
             )
           ],
         ),
-        child: savedid.contains(widget.id)
+        child: savedProvider.isExist(widget.id ?? '')
             ? Icon(
                 Icons.bookmark_rounded,
                 size: widget.biggerIcon

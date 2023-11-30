@@ -6,8 +6,8 @@ import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/wishlist_card_all.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/cards/wishlist_card_all.dart';
 
 class WishlistScreen extends StatefulWidget {
   final String? currentUserId;

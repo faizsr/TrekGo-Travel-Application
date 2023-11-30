@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/text_form_field.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/recent_search_card.dart';
+import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/cards/recent_search_card.dart';
 
 class SearchScreen extends StatefulWidget {
   final bool? isAdmin;

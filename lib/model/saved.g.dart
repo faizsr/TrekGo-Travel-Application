@@ -24,13 +24,14 @@ class SavedAdapter extends TypeAdapter<Saved> {
       image: fields[4] as String?,
       isSaved: fields[5] as bool?,
       firebaseid: fields[6] as String?,
+      userId: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Saved obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class SavedAdapter extends TypeAdapter<Saved> {
       ..writeByte(5)
       ..write(obj.isSaved)
       ..writeByte(6)
-      ..write(obj.firebaseid);
+      ..write(obj.firebaseid)
+      ..writeByte(7)
+      ..write(obj.userId);
   }
 
   @override

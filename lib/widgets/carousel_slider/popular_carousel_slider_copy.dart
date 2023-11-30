@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/place_cards.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/cards/place_cards.dart';
 
 class PopularCarouselSlider extends StatefulWidget {
   final bool? isAdmin;

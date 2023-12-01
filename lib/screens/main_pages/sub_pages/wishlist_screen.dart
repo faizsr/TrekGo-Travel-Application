@@ -78,6 +78,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFe5e6f6));
     final filterPlaces = filteredList
         ?.where((place) {
           return selectedState.isEmpty ||
@@ -107,7 +108,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
             await updateData();
           },
           child: const Padding(
-            padding: EdgeInsets.only(top: 25),
+            padding: EdgeInsets.only(top: 15),
             child: Icon(
               Icons.keyboard_backspace_rounded,
               color: Colors.black,
@@ -116,7 +117,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           ),
         ),
         title: const Padding(
-          padding: EdgeInsets.only(top: 25),
+          padding: EdgeInsets.only(top: 15),
           child: Text(
             'Your Wishlist',
             style: TextStyle(
@@ -124,7 +125,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           ),
         ),
         // centerTitle: true,
-        toolbarHeight: 90,
+        toolbarHeight: 75,
         elevation: 0,
         backgroundColor: const Color(0xFFe5e6f6),
       ),
@@ -229,5 +230,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    setStatusBarColor(const Color(0xFFc0f8fe));
   }
 }

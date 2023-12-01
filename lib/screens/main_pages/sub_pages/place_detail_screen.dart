@@ -321,6 +321,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     rating: rating,
                                     placeId: widget.placeid,
                                     ctx: context,
+                                    userId: widget.userId,
                                   ),
                                 ),
                                 const SizedBox(

@@ -209,8 +209,8 @@ class TextFieldWidget extends StatelessWidget {
                 filled: true,
                 hintText: fieldHintText,
                 hintStyle: const TextStyle(
-                  color: Color(0x66000000),
-                  fontWeight: FontWeight.w600,
+                  color: Color(0x60000000),
+                  // fontWeight: FontWeight.w600,
                   fontSize: 12,
                 ),
                 enabledBorder: OutlineInputBorder(
@@ -284,13 +284,13 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 40,
+      top: 20,
       left: 10,
       child: IconButton(
         onPressed: pageNavigator,
         icon: Icon(
           MdiIcons.keyboardBackspace,
-          size: 30,
+          size: 25,
         ),
       ),
     );

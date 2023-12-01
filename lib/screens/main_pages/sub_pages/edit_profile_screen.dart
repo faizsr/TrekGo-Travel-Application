@@ -58,6 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0XFFe5e6f6));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.1,
@@ -233,5 +234,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    setStatusBarColor(const Color(0xFFc0f8fe));
   }
 }

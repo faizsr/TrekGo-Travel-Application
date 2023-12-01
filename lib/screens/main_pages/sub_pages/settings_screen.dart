@@ -3,15 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/add_place_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
+import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/listtile_item.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 
 class SettingsScreen extends StatefulWidget {
+  final String? userId;
+  final String? userImage;
+  final String? userFullName;
+  final String? userGender;
+  final String? userMobileNumber;
+  final String? userEmail;
   const SettingsScreen({
     super.key,
+    this.userId,
+    this.userImage,
+    this.userFullName,
+    this.userGender,
+    this.userMobileNumber,
+    this.userEmail,
   });
 
   @override
@@ -19,6 +33,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final AuthService authService = AuthService();
+
   bool _isAdminSignedIn = false;
 
   @override
@@ -40,6 +56,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0XFFe5e6f6));
+
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
@@ -69,7 +87,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
               // ===== General Section =====
               const SectionTitles(titleText: 'GENERAL'),
-              const ListtileItem(listtileText: 'Edit Profile'),
+              ListtileItem(
+                listtileText: 'Edit Profile',
+                onTap: () => nextScreen(
+                    context,
+                    EditProfileScreen(
+                      userId: widget.userId,
+                      image: widget.userImage ?? defaultImage,
+                      fullName: widget.userFullName,
+                      mobileNumber: widget.userMobileNumber,
+                      email: widget.userEmail,
+                      gender: widget.userGender,
+                    )),
+              ),
               const ListtileItem(listtileText: 'Reset Password'),
               _isAdminSignedIn
                   ? GestureDetector(
@@ -81,18 +111,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     )
                   : const SizedBox(),
 
-              // //Theme section
-              // const SectionTitles(titleText: 'THEME'),
-              // const ListtileItem(
-              //   listtileText: 'Dark Theme',
-              // ),
-
               // ===== Logout section
-              const SectionTitles(titleText: 'LOGOUT'),
+              const SectionTitles(titleText: 'About'),
               ListtileItem(
-                onTap: () =>
-                    nextScreenRemoveUntil(context, const UserLoginScreen()),
-                listtileText: 'Logout',
+                onTap: () {
+                  authService.signOut();
+                  nextScreenRemoveUntil(context, const UserLoginScreen());
+                },
+                listtileText: 'Terms & Conditions',
+              ),
+              ListtileItem(
+                onTap: () {
+                  authService.signOut();
+                  nextScreenRemoveUntil(context, const UserLoginScreen());
+                },
+                listtileText: 'Privacy policies',
               )
             ],
           ),
@@ -156,5 +189,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    setStatusBarColor(const Color(0xFFc0f8fe));
   }
 }

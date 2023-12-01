@@ -45,6 +45,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     setStatusBarColor(
       const Color(0xFFe5e6f6),
@@ -90,5 +95,6 @@ Future<List<String>> loadSavedIds() async {
   Box<Saved> savedBox = Hive.box('saved');
   List<String> savedIds =
       savedBox.keys.map((dynamic key) => key.toString()).toList();
+
   return savedIds;
 }

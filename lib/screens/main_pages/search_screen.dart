@@ -31,10 +31,10 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: PreferredSize(
         preferredSize: Size(
           MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height * 0.2,
+          MediaQuery.of(context).size.height * 0.215,
         ),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.235,
+          // height: MediaQuery.of(context).size.height * 0.2,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(30),
@@ -44,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           child: Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.width * 0.025,
+              top: MediaQuery.of(context).size.width * 0.07,
               left: 20,
               right: 20,
             ),

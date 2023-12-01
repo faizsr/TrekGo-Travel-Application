@@ -57,15 +57,19 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(backgroundImage),
-            fit: BoxFit.cover,
-          ),
+        decoration: const BoxDecoration(
+          color: Color(0xFFE5E6F6),
+          // image: DecorationImage(
+          //   image: AssetImage(backgroundImage),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),
-          child: Image.asset(appNameWithLogo),
+          child: Image.asset(
+            appLogo,
+            width: 230,
+          ),
         ),
       ),
     );

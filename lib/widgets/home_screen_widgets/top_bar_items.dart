@@ -94,14 +94,7 @@ class _TopBarItemsState extends State<TopBarItems> {
             return Container(
               width: MediaQuery.of(context).size.width * 0.093,
               height: MediaQuery.of(context).size.height * 0.044,
-              decoration: BoxDecoration(
-                color: const Color(0xFF1285b9),
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(userProfile),
-                ),
-              ),
+              color: const Color(0xFF1285b9),
             );
           },
         ),

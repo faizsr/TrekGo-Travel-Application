@@ -24,7 +24,7 @@ class PlaceScreenAppbar extends StatelessWidget {
       leading: GestureDetector(
         onTap: () => Navigator.pop(context, 'refresh'),
         child: const Padding(
-          padding: EdgeInsets.only(top: 18),
+          padding: EdgeInsets.only(top: 5),
           child: Icon(
             Icons.keyboard_backspace_rounded,
             color: Colors.black,
@@ -33,7 +33,7 @@ class PlaceScreenAppbar extends StatelessWidget {
         ),
       ),
       title: Padding(
-        padding: const EdgeInsets.only(top: 25),
+        padding: const EdgeInsets.only(top: 0),
         child: Column(
           children: [
             Text(

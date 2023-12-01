@@ -22,6 +22,7 @@ class OverviewBottomButtons extends StatefulWidget {
   final double? rating;
   final String? placeId;
   final BuildContext? ctx;
+  final String? userId;
   const OverviewBottomButtons({
     super.key,
     this.isAdmin,
@@ -35,6 +36,7 @@ class OverviewBottomButtons extends StatefulWidget {
     this.rating,
     this.placeId,
     this.ctx,
+    required this.userId,
   });
 
   @override
@@ -113,7 +115,9 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                 )
               : BottomButtons(
                   widthValue: 0.45,
-                  buttonText: savedProvider.isExist(widget.placeId ?? '') ? 'Unsave Place': 'Save Place',
+                  buttonText: savedProvider.isExist(widget.placeId ?? '')
+                      ? 'Unsave Place'
+                      : 'Save Place',
                   onPressed: () async {
                     if (!savedProvider.savedIds.contains(widget.placeId)) {
                       String uniqueKey = widget.placeId ?? '';
@@ -128,14 +132,16 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                             location: widget.location,
                           ));
                       savedProvider.updateSavedIds(
-                          savedProvider.savedIds..add(widget.placeId ?? ''));
+                        savedProvider.savedIds..add(widget.placeId ?? ''),
+                      );
                       debugPrint('Added successfully');
                     } else {
                       int index =
                           savedProvider.savedIds.indexOf(widget.placeId ?? '');
                       savedBox.deleteAt(index);
                       savedProvider.updateSavedIds(
-                          savedProvider.savedIds..remove(widget.placeId));
+                        savedProvider.savedIds..remove(widget.placeId),
+                      );
                       debugPrint('Deleted successfully');
                       savedBox.compact();
                     }

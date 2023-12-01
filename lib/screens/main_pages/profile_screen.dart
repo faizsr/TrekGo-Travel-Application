@@ -175,16 +175,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     UserProfileListtile(
                       titleText: 'Edit Profile',
                       onTapIcon: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => EditProfileScreen(
-                              userId: widget.userId,
-                              image: userProfilePic ?? defaultImage,
-                              fullName: userFullname,
-                              mobileNumber: userMobileNumber,
-                              email: userEmail,
-                              gender: userGender,
-                            ),
+                        nextScreen(
+                          context,
+                          EditProfileScreen(
+                            userId: widget.userId,
+                            image: userProfilePic ?? defaultImage,
+                            fullName: userFullname,
+                            mobileNumber: userMobileNumber,
+                            email: userEmail,
+                            gender: userGender,
                           ),
                         );
                       },
@@ -213,11 +212,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // ===== Wishlist places button =====
                     UserProfileListtile(
                       titleText: 'Your Wishlists',
-                      onTapIcon: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const WishlistScreen(),
-                        ),
-                      ),
+                      onTapIcon: () =>
+                          nextScreen(context, const WishlistScreen()),
                     ),
                     Divider(
                       thickness: MediaQuery.of(context).size.height * 0.0007,
@@ -228,13 +224,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     // ===== Settings button =====
                     UserProfileListtile(
-                      titleText: 'Settings',
-                      onTapIcon: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const SettingsScreen(),
-                        ),
-                      ),
-                    ),
+                        titleText: 'Settings',
+                        onTapIcon: () {
+                          nextScreen(
+                              context,
+                              SettingsScreen(
+                                userId: widget.userId,
+                                userImage: userProfilePic ?? defaultImage,
+                                userFullName: userFullname,
+                                userMobileNumber: userMobileNumber,
+                                userEmail: userEmail,
+                                userGender: userGender,
+                              ));
+                        }),
                     Divider(
                       thickness: MediaQuery.of(context).size.height * 0.0007,
                       height: MediaQuery.of(context).size.height * 0.015,
@@ -247,11 +249,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       titleText: 'Logout',
                       onTapIcon: () {
                         authService.signOut();
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const UserLoginScreen(),
-                            ),
-                            (route) => false);
+                        nextScreenRemoveUntil(context, const UserLoginScreen());
                       },
                     ),
                   ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 
+// =============== Custom Snackbar ===============
+
 void customSnackbar(context, message, double bottomMargin, double rightMargin,
     double leftMargin) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -30,6 +32,8 @@ void customSnackbar(context, message, double bottomMargin, double rightMargin,
   );
 }
 
+// =============== Next screen navigation ===============
+
 nextScreen(context, page) {
   Navigator.push(
     context,
@@ -39,6 +43,8 @@ nextScreen(context, page) {
     ),
   );
 }
+
+// =============== Next screen replace ===============
 
 nextScreenReplace(context, page) {
   Navigator.pushReplacement(
@@ -50,6 +56,8 @@ nextScreenReplace(context, page) {
   );
 }
 
+// =============== Next screen remove until ===============
+
 nextScreenRemoveUntil(context, page) {
   Navigator.pushAndRemoveUntil(
       context,
@@ -59,6 +67,8 @@ nextScreenRemoveUntil(context, page) {
       ),
       (route) => false);
 }
+
+// =============== Custom status bar color ===============
 
 void setStatusBarColor(Color color) {
   SystemChrome.setSystemUIOverlayStyle(
@@ -70,8 +80,20 @@ void setStatusBarColor(Color color) {
   );
 }
 
+// =============== Reseting status bar color ===============
+
 void resetStatusBarColor() {
   setStatusBarColor(
     const Color(0xFFe5e6f6),
   );
+}
+
+// =============== Scroll behavior ===============
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
+  }
 }

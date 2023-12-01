@@ -16,7 +16,5 @@ class SavedProvider extends ChangeNotifier {
     return isExist;
   }
 
-  void listenForChanges() {
-    
-  }
+  void listenForChanges() {}
 }

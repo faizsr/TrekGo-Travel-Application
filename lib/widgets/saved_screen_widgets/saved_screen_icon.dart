@@ -51,8 +51,9 @@ class _SavedScreenIconState extends State<SavedScreenIcon> {
         if (savedProvider.savedIds.contains(widget.id)) {
           debugPrint('Contains firebase id in hive');
           savedBox.deleteAt(widget.index ?? 0);
-          savedProvider
-              .updateSavedIds(savedProvider.savedIds..remove(widget.id));
+          savedProvider.updateSavedIds(
+            savedProvider.savedIds..remove(widget.id),
+          );
           debugPrint('Deleted successfully');
           savedBox.compact();
         }

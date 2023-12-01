@@ -4,6 +4,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class PlaceScreenAppbar extends StatelessWidget {
   final String? sortName;
   final String? title;
+  final double? iconPadding;
+  final double? titlePadding;
+  final double? toolBarHeight;
   final bool isLocationEnable;
   final bool showCheckIcon;
   final bool isLoading;
@@ -12,6 +15,9 @@ class PlaceScreenAppbar extends StatelessWidget {
     super.key,
     this.sortName,
     this.title,
+    this.iconPadding,
+    this.titlePadding,
+    this.toolBarHeight,
     this.isLocationEnable = true,
     this.showCheckIcon = false,
     this.isLoading = false,
@@ -23,9 +29,9 @@ class PlaceScreenAppbar extends StatelessWidget {
     return AppBar(
       leading: GestureDetector(
         onTap: () => Navigator.pop(context, 'refresh'),
-        child: const Padding(
-          padding: EdgeInsets.only(top: 5),
-          child: Icon(
+        child: Padding(
+          padding: EdgeInsets.only(top: iconPadding ?? 5),
+          child: const Icon(
             Icons.keyboard_backspace_rounded,
             color: Colors.black,
             size: 25,
@@ -33,7 +39,7 @@ class PlaceScreenAppbar extends StatelessWidget {
         ),
       ),
       title: Padding(
-        padding: const EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: titlePadding ?? 0),
         child: Column(
           children: [
             Text(
@@ -99,7 +105,7 @@ class PlaceScreenAppbar extends StatelessWidget {
             : const SizedBox(),
       ],
       centerTitle: true,
-      toolbarHeight: 100,
+      toolbarHeight: toolBarHeight ?? 100,
       elevation: 0,
       backgroundColor: const Color(0xFFe5e6f6),
     );

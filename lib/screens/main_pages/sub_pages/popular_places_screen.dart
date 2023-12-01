@@ -28,8 +28,11 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
-        preferredSize: MediaQuery.of(context).size * 0.12,
+        preferredSize: MediaQuery.of(context).size * 0.105,
         child: PlaceScreenAppbar(
+          iconPadding: 25,
+          titlePadding: 20,
+          toolBarHeight: 80,
           sortName: widget.sortName,
           title: 'Popular Destinations',
         ),

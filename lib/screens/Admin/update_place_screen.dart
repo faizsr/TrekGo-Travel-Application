@@ -88,6 +88,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0XFFe5e6f6));
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
@@ -292,5 +293,11 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    setStatusBarColor(const Color(0xFFc0f8fe));
   }
 }

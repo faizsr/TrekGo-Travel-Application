@@ -106,6 +106,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                       title: widget.title,
                       description: widget.description,
                       location: widget.location,
+                      mapLink: widget.mapLink,
                       rating: widget.rating,
                       context: widget.ctx,
                     );
@@ -210,6 +211,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
     String? title,
     String? description,
     String? location,
+    String? mapLink,
     double? rating,
     BuildContext? context,
   }) async {
@@ -224,6 +226,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
         placeDescription: description,
         placeLocation: location,
         placeRating: rating,
+        placeMapLink: mapLink,
       ),
     );
   }

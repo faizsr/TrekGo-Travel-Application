@@ -71,6 +71,7 @@ class _PopularPlacesScreenState extends State<PopularPlacesScreen> {
                       ratingCount: ratingCount,
                       placeDescripton: destinationSnap['place_description'],
                       placeLocation: destinationSnap['place_location'],
+                      placeMap: destinationSnap['place_map'],
                     ),
                   );
                 }).toList(),

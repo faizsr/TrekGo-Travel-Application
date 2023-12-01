@@ -20,6 +20,7 @@ class UpdatePlaceScreen extends StatefulWidget {
   final String? placeTitle;
   final String? placeDescription;
   final String? placeLocation;
+  final String? placeMapLink;
   final double? placeRating;
   const UpdatePlaceScreen({
     super.key,
@@ -30,6 +31,7 @@ class UpdatePlaceScreen extends StatefulWidget {
     this.placeTitle,
     this.placeDescription,
     this.placeLocation,
+    this.placeMapLink,
     this.placeRating,
   });
   @override
@@ -63,12 +65,14 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
+  final mapLinkController = TextEditingController();
 
   @override
   void initState() {
     titleController.text = widget.placeTitle!;
     descriptionController.text = widget.placeDescription!;
     locationController.text = widget.placeLocation!;
+    mapLinkController.text = widget.placeMapLink ?? '';
     ratingCount = widget.placeRating;
     initialCategory = widget.placeCategory;
     initialState = widget.placeState;
@@ -107,6 +111,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
               selectedState: selectedState ?? widget.placeState,
               placeId: widget.placeid,
               placeImage: widget.placeImage,
+              mapLink: widget.placeMapLink,
               setLoadingCallback: setLoading,
             );
           },
@@ -238,6 +243,27 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
               TextFieldWidgetTwo(
                 controller: locationController,
                 hintText: 'Location of the place...',
+                minmaxLine: false,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    customSnackbar(context, 'Location is required', 20, 20, 20);
+                    return;
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+
+              // ===== Map Link section =====
+              const Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: SectionTitles(
+                  titleText: 'Map Link',
+                ),
+              ),
+              TextFieldWidgetTwo(
+                controller: mapLinkController,
+                hintText: 'Map link of the place...',
                 minmaxLine: false,
                 validator: (value) {
                   if (value!.isEmpty) {

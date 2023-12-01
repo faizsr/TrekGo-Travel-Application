@@ -72,6 +72,7 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
                       popularCardImage: destinationSnap['place_image'],
                       placeDescripton: destinationSnap['place_description'],
                       placeLocation: destinationSnap['place_location'],
+                      placeMap: destinationSnap['place_map'],
                     ),
                   );
                 }).toList(),

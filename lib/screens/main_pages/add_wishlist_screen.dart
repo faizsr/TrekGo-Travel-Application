@@ -30,6 +30,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
   int inthiveKey = 0;
   String? hiveKey;
   bool isLoading = false;
+  bool isButtonEnable = false;
 
   void updateStateSelection(String? category) {
     selectedState = category;
@@ -169,6 +170,13 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 controller: nameController,
                 hintText: 'Title of the place...',
                 minmaxLine: false,
+                onChanged: (val) {
+                  setState(() {
+                    isButtonEnable = nameController.text.isNotEmpty &&
+                        descriptionController.text.isNotEmpty &&
+                        locationController.text.isNotEmpty;
+                  });
+                },
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(context, 'Title is required', 0, 20, 20);
@@ -188,6 +196,13 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 controller: descriptionController,
                 hintText: 'Description of the place...',
                 minmaxLine: true,
+                onChanged: (val) {
+                  setState(() {
+                    isButtonEnable = nameController.text.isNotEmpty &&
+                        descriptionController.text.isNotEmpty &&
+                        locationController.text.isNotEmpty;
+                  });
+                },
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(
@@ -210,6 +225,13 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 controller: locationController,
                 hintText: 'Location of the place...',
                 minmaxLine: false,
+                onChanged: (val) {
+                  setState(() {
+                    isButtonEnable = nameController.text.isNotEmpty &&
+                        descriptionController.text.isNotEmpty &&
+                        locationController.text.isNotEmpty;
+                  });
+                },
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(context, 'Location is required', 0, 20, 20);
@@ -224,27 +246,30 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.085,
                 child: ButtonsWidget(
-                  buttonTextSize: 16,
+                  buttonTextSize: 15,
                   buttonBorderRadius: 15,
                   buttonTextWeight: FontWeight.w600,
                   buttonText:
-                      isLoading ? 'NEW WISHLIST CREATED' : 'SAVE WISHLIST',
-                  buttonOnPressed: () {
-                    addWishlist(
-                      formKey: _formKey,
-                      selectedImage: _selectedImage,
-                      selectedState: selectedState,
-                      intHiveKey: inthiveKey,
-                      hiveKey: hiveKey,
-                      userId: widget.userId,
-                      name: nameController.text,
-                      descripition: descriptionController.text,
-                      location: locationController.text,
-                      wishlistBox: wishlistBox,
-                      setLoadingCallback: setLoading,
-                      context: context,
-                    );
-                  },
+                      isLoading ? 'NEW WISHLIST CREATED!!' : 'SAVE WISHLIST',
+                  buttonOnPressed: isButtonEnable
+                      ? () {
+                          addWishlist(
+                            formKey: _formKey,
+                            selectedImage: _selectedImage,
+                            selectedState: selectedState,
+                            intHiveKey: inthiveKey,
+                            hiveKey: hiveKey,
+                            userId: widget.userId,
+                            name: nameController.text,
+                            descripition: descriptionController.text,
+                            location: locationController.text,
+                            wishlistBox: wishlistBox,
+                            setLoadingCallback: setLoading,
+                            context: context,
+                          );
+                          debugPrint('Is loading $isLoading');
+                        }
+                      : null,
                 ),
               ),
 

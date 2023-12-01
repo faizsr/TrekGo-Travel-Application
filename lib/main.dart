@@ -54,24 +54,29 @@ class _MyAppState extends State<MyApp> {
     setStatusBarColor(
       const Color(0xFFe5e6f6),
     );
-    return ChangeNotifierProvider(
-      create: (context) => SavedProvider(savedIds: widget.savedIds ?? []),
-      child: MaterialApp(
-        builder: (context, child) {
-          return ScrollConfiguration(
-            behavior: MyBehavior(),
-            child: SafeArea(child: child!),
-          );
-        },
-        theme: ThemeData(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          fontFamily: 'Poppins',
-          scaffoldBackgroundColor: const Color(0xFFf0f3f7),
-          splashFactory: NoSplash.splashFactory,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: ChangeNotifierProvider(
+        create: (context) => SavedProvider(savedIds: widget.savedIds ?? []),
+        child: MaterialApp(
+          builder: (context, child) {
+            return ScrollConfiguration(
+              behavior: MyBehavior(),
+              child: SafeArea(child: child!),
+            );
+          },
+          theme: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            fontFamily: 'Poppins',
+            scaffoldBackgroundColor: const Color(0xFFf0f3f7),
+            splashFactory: NoSplash.splashFactory,
+          ),
+          debugShowCheckedModeBanner: false,
+          home: const SplashScreen(),
         ),
-        debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
       ),
     );
   }
@@ -83,18 +88,9 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
-}
-
 Future<List<String>> loadSavedIds() async {
   Box<Saved> savedBox = Hive.box('saved');
   List<String> savedIds =
       savedBox.keys.map((dynamic key) => key.toString()).toList();
-
   return savedIds;
 }

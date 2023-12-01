@@ -30,6 +30,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   String? description;
   String? mapLink;
   bool isLoading = false;
+  bool isButtonEnable = false;
   final _formKey = GlobalKey<FormState>();
 
   void updateCategorySelection(String? category) {
@@ -65,23 +66,25 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         child: PlaceScreenAppbar(
           title: 'Add Destination',
           isLocationEnable: false,
-          showCheckIcon: true,
-          onTap: () {
-            addNewDestination(
-              formKey: _formKey,
-              selectedImage: _selectedImage,
-              ratingCount: ratingCount,
-              setLoadingCallback: setLoading,
-              imageUrl: imageUrl,
-              selectedCategory: selectedCategory,
-              selectedState: selectedState,
-              title: title,
-              description: description,
-              location: location,
-              mapLink: mapLink,
-              context: context,
-            );
-          },
+          showCheckIcon: isButtonEnable ? true : false,
+          onTap: isButtonEnable
+              ? () {
+                  addNewDestination(
+                    formKey: _formKey,
+                    selectedImage: _selectedImage,
+                    ratingCount: ratingCount,
+                    setLoadingCallback: setLoading,
+                    imageUrl: imageUrl,
+                    selectedCategory: selectedCategory,
+                    selectedState: selectedState,
+                    title: title,
+                    description: description,
+                    location: location,
+                    mapLink: mapLink,
+                    context: context,
+                  );
+                }
+              : null,
           isLoading: isLoading,
         ),
       ),
@@ -168,6 +171,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 minmaxLine: false,
                 onChanged: (value) {
                   title = value;
+                  setState(() {
+                    isButtonEnable = _titleController.text.isNotEmpty &&
+                        _descriptionController.text.isNotEmpty &&
+                        _locationController.text.isNotEmpty &&
+                        mapLinkController.text.isNotEmpty;
+                  });
                 },
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -190,6 +199,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 minmaxLine: true,
                 onChanged: (value) {
                   description = value;
+                  setState(() {
+                    isButtonEnable = _titleController.text.isNotEmpty &&
+                        _descriptionController.text.isNotEmpty &&
+                        _locationController.text.isNotEmpty &&
+                        mapLinkController.text.isNotEmpty;
+                  });
                 },
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -215,6 +230,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 minmaxLine: false,
                 onChanged: (value) {
                   location = value;
+                  setState(() {
+                    isButtonEnable = _titleController.text.isNotEmpty &&
+                        _descriptionController.text.isNotEmpty &&
+                        _locationController.text.isNotEmpty &&
+                        mapLinkController.text.isNotEmpty;
+                  });
                 },
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -238,6 +259,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 minmaxLine: false,
                 onChanged: (value) {
                   mapLink = value;
+                  setState(() {
+                    isButtonEnable = _titleController.text.isNotEmpty &&
+                        _descriptionController.text.isNotEmpty &&
+                        _locationController.text.isNotEmpty &&
+                        mapLinkController.text.isNotEmpty;
+                  });
                 },
                 validator: (value) {
                   if (value!.isEmpty) {

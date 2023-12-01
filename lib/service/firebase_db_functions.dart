@@ -78,6 +78,7 @@ updateDestinationn({
   String? title,
   String? description,
   String? location,
+  String? mapLink,
   double? ratingCount,
   String? initialCategory,
   String? selectedCategory,
@@ -101,6 +102,7 @@ updateDestinationn({
   if (title!.isNotEmpty &&
       description!.isNotEmpty &&
       location!.isNotEmpty &&
+      mapLink!.isNotEmpty &&
       ratingCount != null &&
       imageUrl != null &&
       initialCategory != null &&
@@ -115,6 +117,7 @@ updateDestinationn({
       'place_rating': ratingCount,
       'place_category': selectedCategory,
       'place_state': selectedState,
+      'place_map': mapLink,
     });
     debugPrint('Updated');
     // ignore: use_build_context_synchronously

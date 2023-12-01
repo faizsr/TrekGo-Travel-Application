@@ -80,7 +80,7 @@ class PlaceScreenAppbar extends StatelessWidget {
       actions: [
         showCheckIcon
             ? Padding(
-                padding: const EdgeInsets.only(top: 18, right: 10),
+                padding: const EdgeInsets.only(top: 5, right: 10),
                 child: GestureDetector(
                   onTap: onTap,
                   child: isLoading == true

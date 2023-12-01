@@ -41,14 +41,14 @@ addWishlist({
           description: descripition,
           location: location,
         ));
-    customSnackbar(context, 'New wishlist created!', 0, 20, 20);
+    // customSnackbar(context, 'New wishlist created!', 0, 20, 20);
     debugPrint('Data added');
   } else {
     setLoadingCallback!(false);
     customSnackbar(context, 'Fill all forms!', 0, 20, 20);
     debugPrint('Details not updated');
   }
-  setLoadingCallback(false);
+  setLoadingCallback(true);
   debugPrint(selectedState);
 }
 

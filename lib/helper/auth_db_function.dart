@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
+import 'package:trekmate_project/screens/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
@@ -81,6 +81,11 @@ userLoginFunction({
                 isAdmin: false,
                 isUser: true,
                 userId: FirebaseAuth.instance.currentUser!.uid,
+                username: snapshot.docs[0]['fullname'],
+                useremail: snapshot.docs[0]['email'],
+                usergender: snapshot.docs[0]['gender'],
+                usermobile: snapshot.docs[0]['mobile_number'],
+                userprofile: snapshot.docs[0]['profilePic'],
               ));
         } else {
           setLoadingCallback(false);
@@ -136,6 +141,11 @@ adminLogin({
                 isAdmin: true,
                 isUser: false,
                 userId: FirebaseAuth.instance.currentUser!.uid,
+                username: snapshot.docs[0]['fullname'],
+                useremail: snapshot.docs[0]['email'],
+                usergender: snapshot.docs[0]['gender'],
+                usermobile: snapshot.docs[0]['mobile_number'],
+                userprofile: snapshot.docs[0]['profilePic'],
               ));
         } else {
           setLoadingCallback(false);

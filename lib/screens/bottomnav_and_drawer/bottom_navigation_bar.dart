@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/screens/bottomnav_and_drawer/navigation_drawer.dart';
 import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/home_screen.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
@@ -12,12 +13,22 @@ class NavigationBottomBar extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
   final int? index;
+  final String? username;
+  final String? useremail;
+  final String? usermobile;
+  final String? usergender;
+  final String? userprofile;
   const NavigationBottomBar({
     super.key,
     this.userId,
     this.isAdmin,
     this.isUser,
     this.index,
+    required this.username,
+    required this.useremail,
+    required this.usermobile,
+    required this.usergender,
+    required this.userprofile
   });
 
   @override
@@ -72,6 +83,15 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerr(
+        userId: widget.userId ?? '',
+        updateIndex: onUpdateIndex,
+        username: widget.username,
+        useremail: widget.useremail,
+        usergender: widget.usergender,
+        usermobile: widget.usermobile,
+        userprofile: widget.userprofile,
+      ),
       // ===== Body =====
       body: PageTransitionSwitcher(
         duration: const Duration(milliseconds: 250),

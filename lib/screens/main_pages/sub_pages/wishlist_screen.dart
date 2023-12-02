@@ -2,7 +2,6 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/wishlist.dart';
-import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
@@ -90,21 +89,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
       // ===== Appbar =====
       appBar: AppBar(
         leading: GestureDetector(
-          onVerticalDragUpdate: (details) {},
-          onHorizontalDragUpdate: (details) {
-            if (details.delta.direction <= 0) {
-              nextScreenRemoveUntil(
-                context,
-                NavigationBottomBar(
-                  isAdmin: true,
-                  isUser: false,
-                  userId: widget.currentUserId,
-                ),
-              );
-            }
-          },
           onTap: () async {
-            Navigator.of(context).pop('refresh');
+            Navigator.of(context).pop();
             await updateData();
           },
           child: const Padding(

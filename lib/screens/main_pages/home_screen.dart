@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekmate_project/model/wishlist.dart';
+// import 'package:trekmate_project/screens/bottom_page_navigator/navigation_drawer.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
@@ -18,7 +19,6 @@ class HomeScreen extends StatefulWidget {
   final bool? isUser;
   final String? userFullname;
   final void Function(int)? updateIndex;
-
   const HomeScreen({
     super.key,
     this.userId,
@@ -62,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ? debugPrint('Contains data ${wishlist.length}')
         : debugPrint('No data ${wishlist.length}');
     return Scaffold(
+      // drawer: const NavigationDrawerr(),
       body: SingleChildScrollView(
         // physics: FixedExtentScrollPhysics(),
         child: Column(
@@ -91,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           userId: widget.userId,
                           placeLocation: sortName,
                           updateIndex: widget.updateIndex,
+                          scaffoldContext: context,
                         ),
                       ),
                       Positioned(

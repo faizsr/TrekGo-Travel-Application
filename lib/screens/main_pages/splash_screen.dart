@@ -1,11 +1,13 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
+import 'package:trekmate_project/screens/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
-// import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -80,6 +82,10 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     if (mounted) {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
       _isUserSignedIn
           ? nextScreenReplace(
               context,
@@ -87,6 +93,11 @@ class _SplashScreenState extends State<SplashScreen> {
                 isUser: _isUserSignedIn,
                 isAdmin: _isAdminSignedIn,
                 userId: FirebaseAuth.instance.currentUser!.uid,
+                username: userSnapshot['fullname'],
+                useremail: userSnapshot['email'],
+                usergender: userSnapshot['gender'],
+                usermobile: userSnapshot['mobile_number'],
+                userprofile: userSnapshot['profilePic'],
               ),
             )
           : _isAdminSignedIn
@@ -96,6 +107,11 @@ class _SplashScreenState extends State<SplashScreen> {
                     isAdmin: _isAdminSignedIn,
                     isUser: _isUserSignedIn,
                     userId: FirebaseAuth.instance.currentUser!.uid,
+                    username: userSnapshot['fullname'],
+                    useremail: userSnapshot['email'],
+                    usergender: userSnapshot['gender'],
+                    usermobile: userSnapshot['mobile_number'],
+                    userprofile: userSnapshot['profilePic'],
                   ),
                 )
               : nextScreenReplace(context, const UserLoginScreen());

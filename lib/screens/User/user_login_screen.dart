@@ -147,7 +147,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                         if (val!.length < 6) {
                                           customSnackbar(
                                               context,
-                                              'Password must be at least 6 characters!',
+                                              'Incorrect Password',
                                               20,
                                               55,
                                               55);

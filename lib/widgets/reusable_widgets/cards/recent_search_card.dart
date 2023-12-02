@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
 
-class RecentSearchCard extends StatelessWidget {
+class RecentSearchCard extends StatefulWidget {
   final String? cardImage;
   final String? cardTitle;
   final double? ratingCount;
@@ -19,8 +22,27 @@ class RecentSearchCard extends StatelessWidget {
     this.placeId,
     this.isAdmin,
     this.isUser,
-  required  this.userId,
+    required this.userId,
   });
+
+  @override
+  State<RecentSearchCard> createState() => _RecentSearchCardState();
+}
+
+class _RecentSearchCardState extends State<RecentSearchCard> {
+  bool showShimmer = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(milliseconds: 750), () {
+      if (mounted) {
+        setState(() {
+          showShimmer = false;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +50,10 @@ class RecentSearchCard extends StatelessWidget {
       onTap: () => nextScreen(
           context,
           PlaceDetailScreen(
-            userId: userId,
-            isAdmin: isAdmin,
-            isUser: isUser,
-            placeid: placeId,
+            userId: widget.userId,
+            isAdmin: widget.isAdmin,
+            isUser: widget.isUser,
+            placeid: widget.placeId,
           )),
       child: Container(
         margin: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
@@ -55,10 +77,16 @@ class RecentSearchCard extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
-                child: Image.network(
-                  cardImage ?? '',
-                  fit: BoxFit.cover,
-                ),
+                child: showShimmer
+                    ? Image(
+                        image: AssetImage(lazyLoading),
+                        fit: BoxFit.cover,
+                      )
+                    : FadeInImage(
+                        placeholder: AssetImage(lazyLoading),
+                        image: NetworkImage(widget.cardImage ?? ''),
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             const SizedBox(
@@ -71,7 +99,7 @@ class RecentSearchCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cardTitle ?? '',
+                    widget.cardTitle ?? '',
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
@@ -81,7 +109,7 @@ class RecentSearchCard extends StatelessWidget {
                     height: 2,
                   ),
                   CardRatingBar(
-                    ratingCount: ratingCount ?? 0,
+                    ratingCount: widget.ratingCount ?? 0,
                     itemSize: 18,
                     isRatingTextNeeded: true,
                   ),

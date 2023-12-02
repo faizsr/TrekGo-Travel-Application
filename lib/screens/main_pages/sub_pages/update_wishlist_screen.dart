@@ -76,6 +76,8 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0XFFe5e6f6));
+
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
@@ -86,18 +88,18 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
           showCheckIcon: true,
           onTap: () {
             updateWishlist(
-              name: nameController.text,
-              description: descriptionController.text,
-              location: locationController.text,
-              image: widget.image,
-              initialState: initialState,
-              imageUrl: imageUrl,
-              userId: widget.userId,
-              hiveKey: widget.hiveKey,
-              selectedImage: _selectedImage,
-              selectedState: selectedState ?? initialState,
-              wishlistBox: wishlistBox,
-            );
+                name: nameController.text,
+                description: descriptionController.text,
+                location: locationController.text,
+                image: widget.image,
+                initialState: initialState,
+                imageUrl: imageUrl,
+                userId: widget.userId,
+                hiveKey: widget.hiveKey,
+                selectedImage: _selectedImage,
+                selectedState: selectedState ?? initialState,
+                wishlistBox: wishlistBox,
+                context: context);
           },
         ),
       ),
@@ -225,5 +227,11 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    setStatusBarColor(const Color(0xFFc0f8fe));
   }
 }

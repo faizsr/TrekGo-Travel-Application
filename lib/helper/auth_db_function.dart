@@ -158,6 +158,7 @@ updateUserDetailss({
   String? mobile,
   String? image,
   String? selectedGender,
+  BuildContext? context,
 }) async {
   try {
     if (selectedImage != null) {
@@ -185,6 +186,8 @@ updateUserDetailss({
       'gender': selectedGender,
     });
     debugPrint('Updated successfully');
+    // ignore: use_build_context_synchronously
+    customSnackbar(context, 'Updated Successfully', 20, 20, 20);
   } else {
     debugPrint('Update failed');
   }

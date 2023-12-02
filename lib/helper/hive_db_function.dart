@@ -66,6 +66,7 @@ updateWishlist({
   XFile? selectedImage,
   String? selectedState,
   Box<Wishlist>? wishlistBox,
+  BuildContext? context,
 }) {
   if (name!.isNotEmpty &&
       description!.isNotEmpty &&
@@ -84,6 +85,7 @@ updateWishlist({
           location: location,
         ));
     debugPrint('Updated at hive key $hiveKey');
+    customSnackbar(context, 'Wishlist Updated', 20, 20, 20);
   }
 }
 
@@ -101,10 +103,11 @@ deleteWishlist(
           await wishlistBox.delete(hiveKey);
           debugPrint('Deleted successfully at index $hiveKey');
           // ignore: use_build_context_synchronously
-          Navigator.of(context).pop('refresh');
+          Navigator.of(context).pop();
 
           // ignore: use_build_context_synchronously
-          Navigator.of(context).pop('refresh');
+          Navigator.of(context).pop();
+
           // ignore: use_build_context_synchronously
           customSnackbar(context, 'Deleted succesfully', 0, 20, 20);
           // wishListNotifier.value = wishlistBox.values.toList();

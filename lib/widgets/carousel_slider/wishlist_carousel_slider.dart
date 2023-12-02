@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/wishlist_card.dart';
 
 class WishlistCarouselSlider extends StatefulWidget {
@@ -52,12 +53,12 @@ class _WishlistCarouselSliderState extends State<WishlistCarouselSlider> {
                     return GestureDetector(
                       onTap: () async {
                         debugPrint('wishlist slider index : $index');
-                        await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => WishlistPlaceDetail(
-                              userId: displayWishlist.userId,
-                              hiveKey: displayWishlist.hiveKey,
-                            ),
+
+                        await nextScreen(
+                          context,
+                          WishlistPlaceDetail(
+                            userId: displayWishlist.userId,
+                            hiveKey: displayWishlist.hiveKey,
                           ),
                         );
                       },

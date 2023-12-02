@@ -7,6 +7,7 @@ class CustomAlertDialog extends StatefulWidget {
   final bool? disableActionBtn;
   final String? popBtnText;
   final Function()? onTap;
+  final String? actionBtnTxt;
   const CustomAlertDialog({
     super.key,
     this.title,
@@ -14,6 +15,7 @@ class CustomAlertDialog extends StatefulWidget {
     this.onTap,
     this.disableActionBtn = false,
     this.popBtnText,
+    this.actionBtnTxt,
   });
 
   @override
@@ -58,10 +60,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 child: InkWell(
                   highlightColor: Colors.grey[200],
                   onTap: widget.onTap,
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Delete',
-                      style: TextStyle(
+                      widget.actionBtnTxt ?? 'Delete',
+                      style: const TextStyle(
                         fontSize: 18.0,
                         color: Color(0xFF1285b9),
                         fontWeight: FontWeight.bold,

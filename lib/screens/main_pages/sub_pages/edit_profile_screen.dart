@@ -216,15 +216,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     buttonTxtColor: const Color(0xB31285b9),
                     buttonOnPressed: () {
                       updateUserDetailss(
-                        name: nameController.text,
-                        email: emailController.text,
-                        mobile: mobileNoController.text,
-                        image: widget.image,
-                        userId: widget.userId,
-                        imageUrl: imageUrl,
-                        selectedGender: selectedGender ?? initialGender ?? '',
-                        selectedImage: _selectedImage,
-                      );
+                          name: nameController.text,
+                          email: emailController.text,
+                          mobile: mobileNoController.text,
+                          image: widget.image,
+                          userId: widget.userId,
+                          imageUrl: imageUrl,
+                          selectedGender: selectedGender ?? initialGender ?? '',
+                          selectedImage: _selectedImage,
+                          context: context);
                     },
                   ),
                 )

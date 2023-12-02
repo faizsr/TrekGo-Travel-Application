@@ -3,11 +3,11 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/update_wishlist_screen.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final String? hiveKey;
@@ -36,6 +36,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFc0f8fe));
     return Scaffold(
       extendBodyBehindAppBar: true,
 
@@ -93,15 +94,28 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
           builder: (context, Box<Wishlist> wishlistBox, child) {
             var wishlistList = wishlistBox.get(widget.hiveKey);
 
+            String? wishlistImage = wishlistList?.image;
             return Container(
               height: MediaQuery.of(context).size.height,
-              margin: const EdgeInsets.only(top: 25),
+              // margin: const EdgeInsets.only(top: 25),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFF0F3F7),
+                    Color(0xFFC0F8FE),
+                  ],
+                  stops: [0.35, 0.77],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                ),
+              ),
               child: Stack(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // ============ Place Image ============
                   Container(
                     margin: const EdgeInsets.only(
+                      top: 25,
                       bottom: 20,
                       left: 25,
                       right: 25,
@@ -109,12 +123,13 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.48,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: FileImage(File(wishlistList!.image.toString())),
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(35),
+                        image: wishlistImage != null && wishlistImage.isNotEmpty
+                            ? DecorationImage(
+                                fit: BoxFit.cover,
+                                image: FileImage(File(wishlistImage)),
+                              )
+                            : null),
                     child: Stack(
                       children: [
                         Positioned(
@@ -122,17 +137,16 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                           left: 15,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => UpdateWishlistScreen(
-                                    hiveKey: widget.hiveKey,
-                                    userId: widget.userId,
-                                    image: wishlistList.image,
-                                    name: wishlistList.name,
-                                    state: wishlistList.state,
-                                    description: wishlistList.description,
-                                    location: wishlistList.location,
-                                  ),
+                              nextScreen(
+                                context,
+                                UpdateWishlistScreen(
+                                  hiveKey: widget.hiveKey,
+                                  userId: widget.userId,
+                                  image: wishlistList?.image ?? '',
+                                  name: wishlistList?.name ?? '',
+                                  state: wishlistList?.state ?? '',
+                                  description: wishlistList?.description ?? '',
+                                  location: wishlistList?.location ?? '',
                                 ),
                               );
                             },
@@ -152,7 +166,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                           right: 15,
                           child: GestureDetector(
                             onTap: () async {
-                              deleteWishlist(
+                              await deleteWishlist(
                                   context, wishlistBox, widget.hiveKey ?? '');
                             },
                             child: const CircleAvatar(
@@ -172,11 +186,11 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
 
                   // ============ Place Title ============
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.5,
+                    top: MediaQuery.of(context).size.height * 0.525,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Text(
-                        wishlistList.name ?? '',
+                        wishlistList?.name ?? '',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -188,7 +202,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
 
                   // ============ Tab Bar Heading ============
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.545,
+                    top: MediaQuery.of(context).size.height * 0.565,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Column(
@@ -228,7 +242,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
 
                   // ============ Tab Bar Views ============
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.61,
+                    top: MediaQuery.of(context).size.height * 0.635,
                     bottom: 0,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -239,7 +253,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: Text(
-                                wishlistList.description ?? '',
+                                wishlistList?.description ?? '',
                                 style: const TextStyle(fontSize: 13),
                               ),
                             ),
@@ -264,7 +278,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.8,
                                     child: Text(
-                                      wishlistList.location ?? '',
+                                      wishlistList?.location ?? '',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -283,5 +297,11 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
             );
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    resetStatusBarColor();
   }
 }

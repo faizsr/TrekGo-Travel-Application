@@ -32,214 +32,220 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              // ===== Background image =====
-              color: Color(0xFFE5E6F6),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.973,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  // ===== Background image =====
+                  color: Color(0xFFE5E6F6),
 
-              // image: DecorationImage(
-              //   image: AssetImage(backgroundImageWithLogo),
-              //   fit: BoxFit.cover,
-              // ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 30),
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  // ===== Back button =====
-                  CustomBackButton(
-                    pageNavigator: () => nextScreenReplace(
-                      context,
-                      const UserLoginScreen(),
-                    ),
-                  ),
-
-                  // ===== Background container =====
-                  Align(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 25),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.8,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.04),
-                            blurRadius: 20,
-                            spreadRadius: 5,
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // ===== Title =====
-                            const TitleWidget(
-                              mainText: 'Sign Up',
-                              mainTextSize: 30,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-
-                            // ===== Full name field =====
-                            TextFieldWidget(
-                              fieldTitle: 'Full Name',
-                              fieldHintText: 'Enter your full name...',
-                              onChanged: (val) {
-                                fullName = val;
-                                debugPrint(fullName);
-                                setState(() {
-                                  isButtonEnable = fullName.isNotEmpty &&
-                                      email.isNotEmpty &&
-                                      password.isNotEmpty;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  customSnackbar(context, 'Please enter a name',
-                                      130, 55, 55);
-                                  return;
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-
-                            // ===== Email field =====
-                            TextFieldWidget(
-                              fieldTitle: 'Email Address',
-                              fieldHintText: 'Enter your email address...',
-                              onChanged: (val) {
-                                email = val;
-                                debugPrint(email);
-                                setState(() {
-                                  isButtonEnable = fullName.isNotEmpty &&
-                                      email.isNotEmpty &&
-                                      password.isNotEmpty;
-                                });
-                              },
-                              validator: (val) {
-                                if ((RegExp(
-                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                    .hasMatch(val!))) {
-                                  return null;
-                                } else {
-                                  customSnackbar(
-                                      context,
-                                      'Please enter a valid email',
-                                      130,
-                                      55,
-                                      55);
-                                  return;
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-
-                            // ===== Create password field =====
-                            TextFieldWidget(
-                              fieldTitle: 'Create Password',
-                              fieldHintText: 'Enter a strong password...',
-                              obscureText: true,
-                              onChanged: (val) {
-                                password = val;
-                                debugPrint(password);
-                                setState(() {
-                                  isButtonEnable = fullName.isNotEmpty &&
-                                      email.isNotEmpty &&
-                                      password.isNotEmpty;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.length < 6) {
-                                  customSnackbar(
-                                      context,
-                                      'Passowrd must be at least 6 character',
-                                      130,
-                                      55,
-                                      55);
-                                  return;
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-
-                            // ===== Sign Up button =====
-                            ButtonsWidget(
-                              buttonText: _isLoading ? '' : 'SIGN UP',
-                              buttonOnPressed: isButtonEnable
-                                  ? () {
-                                      userSignUp(
-                                        formKey: _formKey,
-                                        authService: authService,
-                                        fullName: fullName,
-                                        email: email,
-                                        password: password,
-                                        isLoading: _isLoading,
-                                        setLoadingCallback: setLoading,
-                                        context: context,
-                                      );
-                                    }
-                                  : null,
-                              loadingWidget: _isLoading
-                                  ? const SizedBox(
-                                      width: 15,
-                                      height: 15,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          strokeWidth: 2,
-                                        ),
-                                      ),
-                                    )
-                                  : null,
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-
-                            // ===== Help text (login in) =====
-                            InkWell(
-                              onTap: () => nextScreenReplace(
-                                  context, const UserLoginScreen()),
-                              child: const HelpTextWidget(
-                                firstText: "Already Have An Account? ",
-                                secondText: 'Login?',
-                              ),
-                            ),
-                          ],
+                  // image: DecorationImage(
+                  //   image: AssetImage(backgroundImageWithLogo),
+                  //   fit: BoxFit.cover,
+                  // ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Stack(
+                    // alignment: AlignmentDirectional.center,
+                    children: [
+                      // ===== Back button =====
+                      CustomBackButton(
+                        pageNavigator: () => nextScreenReplace(
+                          context,
+                          const UserLoginScreen(),
                         ),
                       ),
-                    ),
+
+                      // ===== Background container =====
+                      Align(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 25),
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.556,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                blurRadius: 20,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // ===== Title =====
+                                const TitleWidget(
+                                  mainText: 'Sign Up',
+                                  mainTextSize: 30,
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+
+                                // ===== Full name field =====
+                                TextFieldWidget(
+                                  fieldTitle: 'Full Name',
+                                  fieldHintText: 'Enter your full name...',
+                                  onChanged: (val) {
+                                    fullName = val;
+                                    debugPrint(fullName);
+                                    setState(() {
+                                      isButtonEnable = fullName.isNotEmpty &&
+                                          email.isNotEmpty &&
+                                          password.isNotEmpty;
+                                    });
+                                  },
+                                  validator: (val) {
+                                    if (val!.isEmpty) {
+                                      customSnackbar(context,
+                                          'Please enter a name', 20, 55, 55);
+                                      return;
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+
+                                // ===== Email field =====
+                                TextFieldWidget(
+                                  fieldTitle: 'Email Address',
+                                  fieldHintText: 'Enter your email address...',
+                                  onChanged: (val) {
+                                    email = val;
+                                    debugPrint(email);
+                                    setState(() {
+                                      isButtonEnable = fullName.isNotEmpty &&
+                                          email.isNotEmpty &&
+                                          password.isNotEmpty;
+                                    });
+                                  },
+                                  validator: (val) {
+                                    if ((RegExp(
+                                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                        .hasMatch(val!))) {
+                                      return null;
+                                    } else {
+                                      customSnackbar(
+                                          context,
+                                          'Please enter a valid email',
+                                          20,
+                                          55,
+                                          55);
+                                      return;
+                                    }
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+
+                                // ===== Create password field =====
+                                TextFieldWidget(
+                                  fieldTitle: 'Create Password',
+                                  fieldHintText: 'Enter a strong password...',
+                                  obscureText: true,
+                                  onChanged: (val) {
+                                    password = val;
+                                    debugPrint(password);
+                                    setState(() {
+                                      isButtonEnable = fullName.isNotEmpty &&
+                                          email.isNotEmpty &&
+                                          password.isNotEmpty;
+                                    });
+                                  },
+                                  validator: (val) {
+                                    if (val!.length < 6) {
+                                      customSnackbar(
+                                          context,
+                                          'Passowrd must be at least 6 character',
+                                          20,
+                                          55,
+                                          55);
+                                      return;
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+
+                                // ===== Sign Up button =====
+                                ButtonsWidget(
+                                  buttonText: _isLoading ? '' : 'SIGN UP',
+                                  buttonOnPressed: isButtonEnable
+                                      ? () {
+                                          userSignUp(
+                                            formKey: _formKey,
+                                            authService: authService,
+                                            fullName: fullName,
+                                            email: email,
+                                            password: password,
+                                            isLoading: _isLoading,
+                                            setLoadingCallback: setLoading,
+                                            context: context,
+                                          );
+                                        }
+                                      : null,
+                                  loadingWidget: _isLoading
+                                      ? const SizedBox(
+                                          width: 15,
+                                          height: 15,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2,
+                                            ),
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+
+                                // ===== Help text (login in) =====
+                                InkWell(
+                                  onTap: () => nextScreenReplace(
+                                      context, const UserLoginScreen()),
+                                  child: const HelpTextWidget(
+                                    firstText: "Already Have An Account? ",
+                                    secondText: 'Login?',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 40,
+                child: Image.asset(appName),
+              )
+            ],
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 40,
-            child: Image.asset(appName),
-          )
-        ],
+        ),
       ),
     );
   }

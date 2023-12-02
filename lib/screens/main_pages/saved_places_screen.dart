@@ -38,7 +38,7 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
       valueListenable: savedBox.listenable(),
       builder: (context, Box<Saved> savedBox, child) {
         var savedPlaces = savedBox.values
-            .where((saved) => saved.userId == widget.userId)
+            // .where((saved) => saved.userId == widget.userId)
             .toList();
         return Scaffold(
           appBar: PreferredSize(

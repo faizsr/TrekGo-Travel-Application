@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
+// import 'package:trekmate_project/screens/bottom_page_navigator/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 
@@ -55,16 +55,18 @@ addNewDestination({
     debugPrint(selectedCategory);
     debugPrint(selectedState);
     debugPrint('Data successfully added');
+    // ignore: use_build_context_synchronously
+    customSnackbar(context, 'New Destination Created', 0, 20, 20);
 
     // ignore: use_build_context_synchronously
-    nextScreen(
-      context,
-      NavigationBottomBar(
-        isAdmin: true,
-        isUser: false,
-        userId: FirebaseAuth.instance.currentUser!.uid,
-      ),
-    );
+    // nextScreen(
+    //   context,
+    //   NavigationBottomBar(
+    //     isAdmin: true,
+    //     isUser: false,
+    //     userId: FirebaseAuth.instance.currentUser!.uid,
+    //   ),
+    // );
   } else {
     customSnackbar(context, 'Please fill all forms', 20, 20, 20);
   }
@@ -119,6 +121,7 @@ updateDestinationn({
       'place_state': selectedState,
       'place_map': mapLink,
     });
+    debugPrint('map link $mapLink');
     debugPrint('Updated');
     // ignore: use_build_context_synchronously
     customSnackbar(context, 'Updated successfully', 20, 20, 20);

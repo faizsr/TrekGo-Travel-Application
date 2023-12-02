@@ -210,12 +210,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     setState(() {
                       indexValue = index;
                     });
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => WishlistPlaceDetail(
-                          hiveKey: wishlists.hiveKey,
-                          userId: wishlists.userId,
-                        ),
+                    nextScreen(
+                      context,
+                      WishlistPlaceDetail(
+                        hiveKey: wishlists.hiveKey,
+                        userId: wishlists.userId,
                       ),
                     );
                   },

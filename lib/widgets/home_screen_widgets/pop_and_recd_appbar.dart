@@ -86,20 +86,13 @@ class PlaceScreenAppbar extends StatelessWidget {
       actions: [
         showCheckIcon
             ? Padding(
-                padding: const EdgeInsets.only(top: 5, right: 10),
+                padding: const EdgeInsets.only(top: 2, right: 10),
                 child: GestureDetector(
                   onTap: onTap,
-                  child: isLoading == true
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFF1285b9),
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : Icon(
-                          MdiIcons.check,
-                          color: Colors.black,
-                        ),
+                  child: Icon(
+                    MdiIcons.check,
+                    color: Colors.black,
+                  ),
                 ),
               )
             : const SizedBox(),

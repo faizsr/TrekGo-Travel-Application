@@ -112,7 +112,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
               selectedState: selectedState ?? widget.placeState,
               placeId: widget.placeid,
               placeImage: widget.placeImage,
-              mapLink: widget.placeMapLink,
+              mapLink: mapLinkController.text,
               setLoadingCallback: setLoading,
             );
           },

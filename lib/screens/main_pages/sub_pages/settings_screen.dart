@@ -4,7 +4,9 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/add_place_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
-import 'package:trekmate_project/screens/user/user_login_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/privacy_policies.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/terms_and_conditions.dart';
+import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
@@ -80,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   margin: const EdgeInsets.only(
                     top: 20,
                   ),
-                  width: MediaQuery.of(context).size.width * 0.75,
+                  width: MediaQuery.of(context).size.width * 2,
                   child: Image.asset(appName),
                 ),
               ),
@@ -100,7 +102,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       gender: widget.userGender,
                     )),
               ),
-              const ListtileItem(listtileText: 'Reset Password'),
+              ListtileItem(
+                listtileText: 'Reset Password',
+                onTap: () {
+                  nextScreen(
+                      context,
+                      ForgotPasswordScreen(
+                        resetText: 'Reset Password?',
+                        backToLoginTxt: 'Done',
+                        userEmail: widget.userEmail,
+                        noBackToLogin: true,
+                        adjustHeight: true,
+                      ));
+                },
+              ),
               _isAdminSignedIn
                   ? GestureDetector(
                       onTap: () {
@@ -115,17 +130,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SectionTitles(titleText: 'About'),
               ListtileItem(
                 onTap: () {
-                  authService.signOut();
-                  nextScreenRemoveUntil(context, const UserLoginScreen());
+                  nextScreen(context, const TermsAndConditions());
                 },
                 listtileText: 'Terms & Conditions',
               ),
               ListtileItem(
                 onTap: () {
-                  authService.signOut();
-                  nextScreenRemoveUntil(context, const UserLoginScreen());
+                  nextScreen(context, const PrivacyPolicy());
                 },
-                listtileText: 'Privacy policies',
+                listtileText: 'Privacy policy',
               )
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
@@ -78,143 +79,158 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   Widget build(BuildContext context) {
     setStatusBarColor(const Color(0xFFe5e6f6));
-    final filterPlaces = filteredList
-        ?.where((place) {
-          return selectedState.isEmpty ||
-              selectedState.contains(place.state?.toLowerCase());
-        })
-        .where((wishlist) => wishlist.userId == widget.currentUserId)
-        .toList();
-    return Scaffold(
-      // ===== Appbar =====
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () async {
-            Navigator.of(context).pop();
-            await updateData();
-          },
-          child: const Padding(
-            padding: EdgeInsets.only(top: 15),
-            child: Icon(
-              Icons.keyboard_backspace_rounded,
-              color: Colors.black,
-              size: 25,
+    // final filterPlaces = filteredList
+    //     ?.where((place) {
+    //       return selectedState.isEmpty ||
+    //           selectedState.contains(place.state?.toLowerCase());
+    //     })
+    //     .where((wishlist) => wishlist.userId == widget.currentUserId)
+    //     .toList();
+    return ValueListenableBuilder(
+        valueListenable: wishlistBox.listenable(),
+        builder: (context, Box<Wishlist> wishlistBox, child) {
+          final filterPlaces = wishlistBox.values
+              .where((place) {
+                return selectedState.isEmpty ||
+                    selectedState.contains(place.state?.toLowerCase());
+              })
+              .where((wishlist) => wishlist.userId == widget.currentUserId)
+              .toList();
+          return Scaffold(
+            // ===== Appbar =====
+            appBar: AppBar(
+              leading: GestureDetector(
+                onTap: () async {
+                  Navigator.of(context).pop('refresh');
+                  await updateData();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Icon(
+                    Icons.keyboard_backspace_rounded,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                ),
+              ),
+              title: const Padding(
+                padding: EdgeInsets.only(top: 15),
+                child: Text(
+                  'Your Wishlist',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17),
+                ),
+              ),
+              // centerTitle: true,
+              toolbarHeight: 75,
+              elevation: 0,
+              backgroundColor: const Color(0xFFe5e6f6),
             ),
-          ),
-        ),
-        title: const Padding(
-          padding: EdgeInsets.only(top: 15),
-          child: Text(
-            'Your Wishlist',
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w600, fontSize: 17),
-          ),
-        ),
-        // centerTitle: true,
-        toolbarHeight: 75,
-        elevation: 0,
-        backgroundColor: const Color(0xFFe5e6f6),
-      ),
 
-      // ===== Body =====
-      body: Column(
-        children: [
-          Container(
-            color: const Color(0xFFe5e6f6),
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            // ===== Body =====
+            body: Column(
               children: [
-                TextFieldWidget(
-                  controller: searchController,
-                  colorIsWhite: true,
-                  noPaddingNeeded: true,
-                  fieldHintText: 'Search here...',
-                  onChanged: (value) {
-                    searchValue = value;
-                    searchFilter(value);
-                    debugPrint('searchValue: $searchValue');
-                  },
+                Container(
+                  color: const Color(0xFFe5e6f6),
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFieldWidget(
+                        controller: searchController,
+                        colorIsWhite: true,
+                        noPaddingNeeded: true,
+                        fieldHintText: 'Search here...',
+                        onChanged: (value) {
+                          searchValue = value;
+                          searchFilter(value);
+                          debugPrint('searchValue: $searchValue');
+                        },
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Wrap(
+                                    spacing: 8.0,
+                                    children: states
+                                        .map((category) => FilterChipWidget(
+                                              selectedState: selectedState,
+                                              category: category,
+                                              onUpdateData: updateData,
+                                            ))
+                                        .toList(),
+                                  ),
+                                );
+                              },
+                            );
+                            // debugPrint('$selectedState');
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  offset: Offset(0, 2),
+                                  color: Color(0x0D000000),
+                                )
+                              ],
+                            ),
+                            width: MediaQuery.of(context).size.width * 0.14,
+                            height: MediaQuery.of(context).size.height * 0.0625,
+                            child: const Icon(FeatherIcons.filter),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Wrap(
-                              spacing: 8.0,
-                              children: states
-                                  .map((category) => FilterChipWidget(
-                                        selectedState: selectedState,
-                                        category: category,
-                                        onUpdateData: updateData,
-                                      ))
-                                  .toList(),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(top: 20),
+                    itemCount: filterPlaces.length,
+                    itemBuilder: (context, index) {
+                      final wishlists = filterPlaces[index];
+
+                      return GestureDetector(
+                        onTap: () async {
+                          debugPrint('index on wishlist screen: $index');
+                          setState(() {
+                            indexValue = index;
+                          });
+                          nextScreen(
+                            context,
+                            WishlistPlaceDetail(
+                              hiveKey: wishlists.hiveKey,
+                              userId: wishlists.userId,
+                              snackBarBottomPadding: 20,
                             ),
                           );
                         },
+                        child: WishlistCardAll(
+                          backgroundImage: wishlists.image.toString(),
+                          placeName: wishlists.name.toString(),
+                        ),
                       );
-                      // debugPrint('$selectedState');
                     },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            offset: Offset(0, 2),
-                            color: Color(0x0D000000),
-                          )
-                        ],
-                      ),
-                      width: MediaQuery.of(context).size.width * 0.14,
-                      height: MediaQuery.of(context).size.height * 0.0625,
-                      child: const Icon(FeatherIcons.filter),
-                    ),
                   ),
-                )
+                ),
               ],
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 20),
-              itemCount: filterPlaces!.length,
-              itemBuilder: (context, index) {
-                final wishlists = filterPlaces[index];
-
-                return GestureDetector(
-                  onTap: () async {
-                    debugPrint('index on wishlist screen: $index');
-                    setState(() {
-                      indexValue = index;
-                    });
-                    nextScreen(
-                      context,
-                      WishlistPlaceDetail(
-                        hiveKey: wishlists.hiveKey,
-                        userId: wishlists.userId,
-                      ),
-                    );
-                  },
-                  child: WishlistCardAll(
-                    backgroundImage: wishlists.image.toString(),
-                    placeName: wishlists.name.toString(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   @override

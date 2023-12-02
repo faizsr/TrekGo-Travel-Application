@@ -91,8 +91,8 @@ updateWishlist({
 
 // ==================== Delete wishlist ====================
 
-deleteWishlist(
-    BuildContext context, Box<Wishlist> wishlistBox, String hiveKey) {
+deleteWishlist(BuildContext context, Box<Wishlist> wishlistBox, String hiveKey,
+    double snackBarBottomPadding) {
   showDialog(
     context: context,
     builder: (context) {
@@ -109,7 +109,8 @@ deleteWishlist(
           Navigator.of(context).pop();
 
           // ignore: use_build_context_synchronously
-          customSnackbar(context, 'Deleted succesfully', 0, 20, 20);
+          customSnackbar(
+              context, 'Deleted succesfully', snackBarBottomPadding, 20, 20);
           // wishListNotifier.value = wishlistBox.values.toList();
           // wishListNotifier.notifyListeners();
         },

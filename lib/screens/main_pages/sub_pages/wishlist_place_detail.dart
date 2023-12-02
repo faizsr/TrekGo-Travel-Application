@@ -12,10 +12,12 @@ import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_naviga
 class WishlistPlaceDetail extends StatefulWidget {
   final String? hiveKey;
   final String? userId;
+  final double? snackBarBottomPadding;
   const WishlistPlaceDetail({
     super.key,
     this.hiveKey,
     this.userId,
+    this.snackBarBottomPadding,
   });
 
   @override
@@ -167,7 +169,11 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                           child: GestureDetector(
                             onTap: () async {
                               await deleteWishlist(
-                                  context, wishlistBox, widget.hiveKey ?? '');
+                                context,
+                                wishlistBox,
+                                widget.hiveKey ?? '',
+                                widget.snackBarBottomPadding ?? 0,
+                              );
                             },
                             child: const CircleAvatar(
                               backgroundColor: Color(0xFFe5e6f6),

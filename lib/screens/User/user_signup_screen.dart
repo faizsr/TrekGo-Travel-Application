@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
@@ -22,6 +23,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
   bool isButtonEnable = false;
   bool _isLoading = false;
   String? imageUrl;
+  bool obscureText = false;
 
   void setLoading(bool value) {
     setState(() {
@@ -157,7 +159,24 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                 TextFieldWidget(
                                   fieldTitle: 'Create Password',
                                   fieldHintText: 'Enter a strong password...',
-                                  obscureText: true,
+                                  obscureText: !obscureText,
+                                  suffixIcon: password.isNotEmpty
+                                      ? InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              obscureText = !obscureText;
+                                            });
+                                            // debugPrint('eye pressed $obscureText');
+                                          },
+                                          child: Icon(
+                                            obscureText
+                                                ? MdiIcons.eyeOff
+                                                : MdiIcons.eye,
+                                            size: 19,
+                                            color: Colors.grey,
+                                          ),
+                                        )
+                                      : null,
                                   onChanged: (val) {
                                     password = val;
                                     debugPrint(password);

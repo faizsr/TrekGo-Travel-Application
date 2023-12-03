@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
@@ -24,8 +25,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   String password = '';
   bool isLoading = false;
   bool isButtonEnable = false;
+  bool obscureText = false;
 
   AuthService authService = AuthService();
+  
 
   void setLoading(bool value) {
     setState(() {
@@ -47,7 +50,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 decoration: const BoxDecoration(
                   // ===== Background image =====
                   color: Color(0xFFE5E6F6),
-      
+
                   // image: DecorationImage(
                   //   image: AssetImage(backgroundImageWithLogo),
                   //   fit: BoxFit.cover,
@@ -63,7 +66,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         pageNavigator: () =>
                             nextScreenReplace(context, const UserLoginScreen()),
                       ),
-      
+
                       // ===== Background container =====
                       Align(
                         alignment: Alignment.center,
@@ -98,7 +101,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                 const SizedBox(
                                   height: 30,
                                 ),
-      
+
                                 // ===== Admin ID field =====
                                 TextFieldWidget(
                                   controller: adminIdController,
@@ -115,8 +118,12 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                   },
                                   validator: (val) {
                                     if (val!.isEmpty) {
-                                      customSnackbar(context,
-                                          'Please enter a valid id', 20, 55, 55);
+                                      customSnackbar(
+                                          context,
+                                          'Please enter a valid id',
+                                          20,
+                                          55,
+                                          55);
                                       return;
                                     } else {
                                       return null;
@@ -126,7 +133,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                 const SizedBox(
                                   height: 15,
                                 ),
-      
+
                                 // ===== Email address field =====
                                 TextFieldWidget(
                                   controller: emailController,
@@ -160,11 +167,26 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                 const SizedBox(
                                   height: 15,
                                 ),
-      
+
                                 // ===== Password field =====
                                 TextFieldWidget(
                                   controller: passwordController,
-                                  obscureText: true,
+                                  obscureText: !obscureText,
+                                  suffixIcon: passwordController.text.isNotEmpty ? InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        obscureText = !obscureText;
+                                      });
+                                      // debugPrint('eye pressed $obscureText');
+                                    },
+                                    child: Icon(
+                                      obscureText
+                                          ? MdiIcons.eyeOff
+                                          : MdiIcons.eye,
+                                      size: 19,
+                                      color: Colors.grey,
+                                    ),
+                                  ) : null,
                                   fieldTitle: 'Password',
                                   fieldHintText: 'Enter your password...',
                                   onChanged: (val) {
@@ -193,7 +215,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                 const SizedBox(
                                   height: 30,
                                 ),
-      
+
                                 // ===== Login Button =====
                                 ButtonsWidget(
                                   buttonText: isLoading ? '' : 'LOGIN',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/Admin/admin_login_screen.dart';
@@ -25,6 +26,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
   AuthService authService = AuthService();
   bool validate = false;
   bool isButtonEnable = false;
+  bool obscureText = false;
 
   void setLoading(bool value) {
     setState(() {
@@ -134,7 +136,24 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                     TextFieldWidget(
                                       fieldTitle: 'Password',
                                       fieldHintText: 'Enter you password...',
-                                      obscureText: true,
+                                      obscureText: !obscureText,
+                                      suffixIcon: password.isNotEmpty
+                                          ? InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  obscureText = !obscureText;
+                                                });
+                                                // debugPrint('eye pressed $obscureText');
+                                              },
+                                              child: Icon(
+                                                obscureText
+                                                    ? MdiIcons.eyeOff
+                                                    : MdiIcons.eye,
+                                                size: 19,
+                                                color: Colors.grey,
+                                              ),
+                                            )
+                                          : null,
                                       onChanged: (val) {
                                         password = val;
                                         debugPrint(val);
@@ -145,12 +164,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                       },
                                       validator: (val) {
                                         if (val!.length < 6) {
-                                          customSnackbar(
-                                              context,
-                                              'Incorrect Password',
-                                              20,
-                                              55,
-                                              55);
+                                          customSnackbar(context,
+                                              'Incorrect Password', 20, 55, 55);
                                           return;
                                         } else {
                                           return null;

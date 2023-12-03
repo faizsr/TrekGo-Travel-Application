@@ -84,7 +84,6 @@ class ButtonsWidget extends StatelessWidget {
   }
 }
 
-
 // =============== Help text widget ===============
 
 class HelpTextWidget extends StatelessWidget {
@@ -131,7 +130,6 @@ class HelpTextWidget extends StatelessWidget {
   }
 }
 
-
 // =============== Custom text form field ===============
 
 class TextFieldWidget extends StatelessWidget {
@@ -143,7 +141,7 @@ class TextFieldWidget extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
-
+  final Widget? suffixIcon;
   const TextFieldWidget({
     super.key,
     this.fieldTitle,
@@ -154,6 +152,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.controller,
+    this.suffixIcon,
   });
 
   @override
@@ -174,11 +173,10 @@ class TextFieldWidget extends StatelessWidget {
                 ? Text(
                     fieldTitle!,
                     style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1285b9),
-                      fontSize: 11.4,
-                      letterSpacing: 0.1
-                    ),
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1285b9),
+                        fontSize: 11.4,
+                        letterSpacing: 0.1),
                   )
                 : const SizedBox(),
           ),
@@ -201,6 +199,7 @@ class TextFieldWidget extends StatelessWidget {
               obscureText: obscureText,
               style: const TextStyle(fontSize: 15),
               decoration: InputDecoration(
+                suffixIcon: suffixIcon,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 18,
                   vertical: 16,
@@ -272,7 +271,6 @@ class TitleWidget extends StatelessWidget {
   }
 }
 
-
 // =============== Custom back button ===============
 
 class CustomBackButton extends StatelessWidget {
@@ -297,5 +295,3 @@ class CustomBackButton extends StatelessWidget {
     );
   }
 }
-
-

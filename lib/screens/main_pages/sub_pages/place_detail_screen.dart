@@ -218,11 +218,17 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       ),
 
                       // ============ Place Title ============
-                      Text(
-                        destinationSnapshot['place_name'],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.67,
+                        child: Text(
+                          destinationSnapshot['place_name']
+                              .toString()
+                              .replaceAll(RegExp(r'\s+'), ' '),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       CardRatingBar(
@@ -301,8 +307,11 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                   right: 0,
                                   bottom: 0,
                                   child: OverViewSection(
-                                    description: description,
-                                    location: location,
+                                    description: description.replaceAll(
+                                        RegExp(r'\s+'), ' '),
+                                    location: location.replaceAll(
+                                        RegExp(r'\s+'), ' '),
+                                    mapLink: mapLink,
                                   ),
                                 ),
                                 Positioned(
@@ -423,7 +432,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                   child: ReviewTextField(
                                     controller: reviewController,
                                     onTap: () {
-                                      if (reviewController.text.isNotEmpty) {
+                                      if (reviewController.text.isNotEmpty &&
+                                          !reviewController.text
+                                              .contains(RegExp(r'\s+'))) {
                                         addComment(
                                           reviewText: reviewController.text,
                                           userIdd: userId,

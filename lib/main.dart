@@ -27,6 +27,11 @@ Future<void> main() async {
     SystemUiOverlay.top,
   ]);
 
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(MyApp(savedIds: savedIds)));
+
   runApp(
     MyApp(savedIds: savedIds),
   );

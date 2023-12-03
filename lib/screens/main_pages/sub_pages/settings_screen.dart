@@ -95,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     context,
                     EditProfileScreen(
                       userId: widget.userId,
-                      image: widget.userImage ?? defaultImage,
+                      image: widget.userImage ,
                       fullName: widget.userFullName,
                       mobileNumber: widget.userMobileNumber,
                       email: widget.userEmail,

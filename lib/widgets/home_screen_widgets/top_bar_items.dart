@@ -91,7 +91,7 @@ class _TopBarItemsState extends State<TopBarItems> {
                       child: FadeInImage(
                         placeholder: AssetImage(homeDefaultImage),
                         fit: BoxFit.cover,
-                        image: userProfilePic == null
+                        image: userProfilePic == ''
                             ? Image.asset(homeDefaultImage).image
                             : Image.network(userProfilePic ?? '').image,
                       ),

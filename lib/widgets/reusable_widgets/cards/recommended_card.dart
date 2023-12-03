@@ -87,13 +87,17 @@ class RecommendedCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    placeName ?? '',
-                    style: const TextStyle(
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Text(
+                      placeName?.replaceAll(RegExp(r'\s+'), ' ') ?? '',
+                      style: const TextStyle(
                         color: Color.fromARGB(255, 20, 106, 146),
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        overflow: TextOverflow.ellipsis),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 1,

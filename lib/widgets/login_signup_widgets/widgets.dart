@@ -174,9 +174,10 @@ class TextFieldWidget extends StatelessWidget {
                 ? Text(
                     fieldTitle!,
                     style: const TextStyle(
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                       color: Color(0xFF1285b9),
-                      fontSize: 11,
+                      fontSize: 11.4,
+                      letterSpacing: 0.1
                     ),
                   )
                 : const SizedBox(),

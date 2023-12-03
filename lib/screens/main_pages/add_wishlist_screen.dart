@@ -9,7 +9,6 @@ import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
@@ -93,16 +92,38 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
               Positioned(
                 bottom: 30,
                 right: 20,
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Icon(
-                    MdiIcons.contentSaveCheck,
-                    size: 28,
-                    color: const Color(0xFF1285b9),
+                child: GestureDetector(
+                  onTap: isButtonEnable
+                      ? () {
+                          addWishlist(
+                            formKey: _formKey,
+                            selectedImage: _selectedImage,
+                            selectedState: selectedState,
+                            intHiveKey: inthiveKey,
+                            hiveKey: hiveKey,
+                            userId: widget.userId,
+                            name: nameController.text,
+                            descripition: descriptionController.text,
+                            location: locationController.text,
+                            wishlistBox: wishlistBox,
+                            setLoadingCallback: setLoading,
+                            context: context,
+                          );
+                        }
+                      : null,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Icon(
+                      isButtonEnable
+                          ? MdiIcons.contentSaveCheck
+                          : MdiIcons.contentSaveCheckOutline,
+                      size: 28,
+                      color: const Color(0xFF1285b9),
+                    ),
                   ),
                 ),
               )
@@ -240,37 +261,6 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                     return null;
                   }
                 },
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.085,
-                child: ButtonsWidget(
-                  buttonTextSize: 15,
-                  buttonBorderRadius: 15,
-                  buttonTextWeight: FontWeight.w600,
-                  buttonText:
-                      isLoading ? 'NEW WISHLIST CREATED!!' : 'SAVE WISHLIST',
-                  buttonOnPressed: isButtonEnable
-                      ? () {
-                          addWishlist(
-                            formKey: _formKey,
-                            selectedImage: _selectedImage,
-                            selectedState: selectedState,
-                            intHiveKey: inthiveKey,
-                            hiveKey: hiveKey,
-                            userId: widget.userId,
-                            name: nameController.text,
-                            descripition: descriptionController.text,
-                            location: locationController.text,
-                            wishlistBox: wishlistBox,
-                            setLoadingCallback: setLoading,
-                            context: context,
-                          );
-                          debugPrint('Is loading $isLoading');
-                        }
-                      : null,
-                ),
               ),
 
               SizedBox(

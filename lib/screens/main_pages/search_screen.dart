@@ -9,11 +9,14 @@ class SearchScreen extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
   final String? userId;
+  final void Function(int)? updateIndex;
+
   const SearchScreen({
     super.key,
     this.isAdmin,
     this.isUser,
     required this.userId,
+    this.updateIndex,
   });
 
   @override
@@ -51,10 +54,10 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(
               children: [
                 // ===== Appbar heading and icons =====
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Where do you \nwanna go?',
                       style: TextStyle(
                         fontSize: 23,
@@ -62,12 +65,18 @@ class _SearchScreenState extends State<SearchScreen> {
                         color: Color(0xFF1285b9),
                       ),
                     ),
-                    CircleAvatar(
-                      backgroundColor: Color(0xFF1285b9),
-                      child: Icon(
-                        Icons.person_2_outlined,
-                        size: 25,
-                        color: Colors.white,
+                    InkWell(
+                      onTap: () {
+                        widget.updateIndex?.call(4);
+                        debugPrint('Search Profile icon tapped');
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Color(0xFF1285b9),
+                        child: Icon(
+                          Icons.person_2_outlined,
+                          size: 25,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],

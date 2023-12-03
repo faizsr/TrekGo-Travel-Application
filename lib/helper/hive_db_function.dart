@@ -36,10 +36,10 @@ addWishlist({
           hiveKey: hiveKey,
           userId: userId,
           state: selectedState,
-          name: name,
+          name: name?.trim().replaceAll(RegExp(r'\s+'), ' '),
           image: selectedImage.path,
-          description: descripition,
-          location: location,
+          description: descripition?.trim().replaceAll(RegExp(r'\s+'), ' '),
+          location: location?.trim().replaceAll(RegExp(r'\s+'), ' '),
         ));
     // customSnackbar(context, 'New wishlist created!', 0, 20, 20);
     debugPrint('Data added');
@@ -80,9 +80,9 @@ updateWishlist({
           hiveKey: hiveKey,
           image: selectedImage?.path ?? image,
           state: selectedState ?? initialState,
-          name: name,
-          description: description,
-          location: location,
+          name: name.trim().replaceAll(RegExp(r'\s+'), ' '),
+          description: description.trim().replaceAll(RegExp(r'\s+'), ' '),
+          location: location.trim().replaceAll(RegExp(r'\s+'), ' '),
         ));
     debugPrint('Updated at hive key $hiveKey');
     customSnackbar(context, 'Wishlist Updated', 20, 20, 20);

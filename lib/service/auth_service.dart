@@ -22,22 +22,24 @@ class AuthService {
   }
 
   // ===== User Sign up =====
-  Future registerUserWithEmailandPassword(
-      String fullname,
-      String email,
-      String password,
-      String gender,
-      String mobileNumber,
-      BuildContext context) async {
+  Future registerUserWithEmailandPassword({
+    String? fullname,
+    String? email,
+    String? password,
+    String? gender,
+    String? mobileNumber,
+    String? profilePic,
+    BuildContext? context,
+  }) async {
     try {
       User? user = (await firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: email ?? '',
+        password: password ?? '',
       ))
           .user;
       if (user != null) {
-        await DatabaseService(uid: user.uid)
-            .savingUserData(fullname, email, gender, mobileNumber);
+        await DatabaseService(uid: user.uid).savingUserData(fullname ?? '',
+            email ?? '', gender ?? '', mobileNumber ?? '', profilePic ?? '');
         return true;
       }
     } on FirebaseAuthException catch (e) {

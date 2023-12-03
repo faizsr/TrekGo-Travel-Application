@@ -203,8 +203,7 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               width: 2,
-              color:
-                  userprofile == null ? const Color(0xFF1485b9) : Colors.black,
+              color: userprofile == '' ? const Color(0xFF1485b9) : Colors.black,
             ),
           ),
           child: ClipRRect(
@@ -214,7 +213,9 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
             //   fit: BoxFit.cover,
             // ),
             child: FadeInImage(
-              image: NetworkImage(userprofile ?? ''),
+              image: userprofile == ''
+                  ? Image.asset(image).image
+                  : Image.network(userprofile ?? '').image,
               fit: BoxFit.cover,
               placeholder: AssetImage(image),
             ),

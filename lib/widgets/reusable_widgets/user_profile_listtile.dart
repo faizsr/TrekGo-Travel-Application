@@ -19,13 +19,14 @@ class UserProfileListtile extends StatelessWidget {
           title: Text(
             titleText,
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.2
             ),
           ),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
-            size: 15,
+            size: 13,
             color: Colors.black,
           ),
         ),

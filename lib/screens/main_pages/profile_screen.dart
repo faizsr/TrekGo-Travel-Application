@@ -109,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   radius: 85,
                                   backgroundColor: Colors.white,
                                   backgroundImage: AssetImage(defaultImage),
-                                  foregroundImage: userProfilePic == null
+                                  foregroundImage: userProfilePic == ''
                                       ? Image.asset(defaultImage).image
                                       : Image.network(userProfilePic ?? '')
                                           .image,

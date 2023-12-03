@@ -28,8 +28,15 @@ userSignUp({
 
     // ignore: use_build_context_synchronously
     await authService!
-        .registerUserWithEmailandPassword(fullName!.trim(), email!.trim(),
-            password!.trim(), 'Male', '', context!)
+        .registerUserWithEmailandPassword(
+      fullname: fullName!.trim(),
+      email: email!.trim(),
+      password: password!.trim(),
+      gender: 'Male',
+      mobileNumber: '',
+      profilePic: '',
+      context: context!,
+    )
         .then(
       (value) async {
         if (value == true && email != 'adminlogin@gmail.com') {
@@ -169,6 +176,7 @@ updateUserDetailss({
   String? image,
   String? selectedGender,
   BuildContext? context,
+  GlobalKey<FormState>? formKey,
 }) async {
   try {
     if (selectedImage != null) {
@@ -183,15 +191,15 @@ updateUserDetailss({
     debugPrint(e.toString());
   }
 
-  if (name!.isNotEmpty ||
-      email!.isNotEmpty ||
-      mobile!.isNotEmpty ||
-      imageUrl != null ||
-      selectedGender != null) {
+  if ((formKey!.currentState!.validate() && name!.isNotEmpty) &&
+      (email!.isNotEmpty ||
+          mobile!.isNotEmpty ||
+          imageUrl != null ||
+          selectedGender != null)) {
     await DatabaseService().userCollection.doc(userId).update({
       'profilePic': imageUrl,
       'email': email,
-      'fullname': name.trim(),
+      'fullname': name.trim().replaceAll(RegExp(r'\s+'), ' '),
       'mobile_number': mobile!.trim(),
       'gender': selectedGender,
     });

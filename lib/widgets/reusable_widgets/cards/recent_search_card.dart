@@ -98,11 +98,15 @@ class _RecentSearchCardState extends State<RecentSearchCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.cardTitle ?? '',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    child: Text(
+                      widget.cardTitle!.replaceAll(RegExp(r'\s+'), ' '),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        overflow: TextOverflow.ellipsis
+                      ),
                     ),
                   ),
                   const SizedBox(

@@ -13,6 +13,7 @@ class SavedIcon extends StatefulWidget {
   final double? rating;
   final String? description;
   final String? location;
+  final bool disableOnPressed;
   const SavedIcon({
     super.key,
     this.biggerIcon = false,
@@ -23,6 +24,7 @@ class SavedIcon extends StatefulWidget {
     this.rating,
     this.description,
     this.location,
+    this.disableOnPressed = false,
   });
 
   @override
@@ -45,34 +47,36 @@ class _SavedIconState extends State<SavedIcon> {
     debugPrint('build');
     var savedProvider = Provider.of<SavedProvider>(context);
     return GestureDetector(
-      onTap: () async {
-        if (!savedProvider.savedIds.contains(widget.id)) {
-          // ============ Adding the data to the Saved ============
-          String uniqueKey = widget.id ?? '';
-          await savedBox.put(
-              uniqueKey,
-              Saved(
-                userId: widget.userId,
-                firebaseid: widget.id,
-                image: widget.image,
-                name: widget.name,
-                rating: widget.rating,
-                description: widget.description,
-                location: widget.location,
-              ));
-          savedProvider
-              .updateSavedIds(savedProvider.savedIds..add(widget.id ?? ''));
-          debugPrint('Added successfully');
-          debugPrint('user id on saving ${widget.userId}');
-        } else {
-          int index = savedProvider.savedIds.indexOf(widget.id ?? '');
-          savedBox.deleteAt(index);
-          savedProvider
-              .updateSavedIds(savedProvider.savedIds..remove(widget.id));
-          debugPrint('Deleted successfully');
-          savedBox.compact();
-        }
-      },
+      onTap: widget.disableOnPressed == false
+          ? () async {
+              if (!savedProvider.savedIds.contains(widget.id)) {
+                // ============ Adding the data to the Saved ============
+                String uniqueKey = widget.id ?? '';
+                await savedBox.put(
+                    uniqueKey,
+                    Saved(
+                      userId: widget.userId,
+                      firebaseid: widget.id,
+                      image: widget.image,
+                      name: widget.name,
+                      rating: widget.rating,
+                      description: widget.description,
+                      location: widget.location,
+                    ));
+                savedProvider.updateSavedIds(
+                    savedProvider.savedIds..add(widget.id ?? ''));
+                debugPrint('Added successfully');
+                debugPrint('user id on saving ${widget.userId}');
+              } else {
+                int index = savedProvider.savedIds.indexOf(widget.id ?? '');
+                savedBox.deleteAt(index);
+                savedProvider
+                    .updateSavedIds(savedProvider.savedIds..remove(widget.id));
+                debugPrint('Deleted successfully');
+                savedBox.compact();
+              }
+            }
+          : null,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.090,
         height: MediaQuery.of(context).size.height * 0.045,

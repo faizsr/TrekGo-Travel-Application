@@ -9,7 +9,6 @@ import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/user/widget/edit_gender_drop_down.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
@@ -42,6 +41,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final nameController = TextEditingController();
   final mobileNoController = TextEditingController();
   final emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void updateGenderSelection(String? category) {
     selectedGender = category;
@@ -62,10 +62,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.1,
-        child: const PlaceScreenAppbar(
+        child: PlaceScreenAppbar(
           title: 'Edit Profile',
           isLocationEnable: false,
-          // showCheckIcon: true,
+          showCheckIcon: true,
+          onTap: () {
+            updateUserDetailss(
+              name: nameController.text..replaceAll(RegExp(r'\s+'), ' '),
+              email: emailController.text,
+              mobile: mobileNoController.text,
+              image: widget.image,
+              userId: widget.userId,
+              imageUrl: imageUrl,
+              selectedGender: selectedGender ?? initialGender ?? '',
+              selectedImage: _selectedImage,
+              context: context,
+              formKey: _formKey,
+            );
+          },
         ),
       ),
 
@@ -97,7 +111,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     backgroundImage: AssetImage(defaultImage),
                     foregroundImage: _selectedImage != null
                         ? Image.file(File(_selectedImage!.path)).image
-                        : widget.image == defaultImage
+                        : widget.image == ''
                             ? Image.asset(defaultImage).image
                             : Image.network(widget.image ?? '').image,
                   ),
@@ -130,105 +144,121 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // ===== Name section =====
-                const Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: SectionTitles(
-                    titleText: 'Full Name',
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ===== Name section =====
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12),
+                    child: SectionTitles(
+                      titleText: 'Full Name',
+                    ),
                   ),
-                ),
-                TextFieldWidgetTwo(
-                  controller: nameController,
-                  hintText: 'Full name',
-                ),
-
-                // ===== Gender section =====
-                const Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: SectionTitles(
-                    titleText: 'Gender',
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: EditDropDownWidget(
-                    updateGender: initialGender ?? 'Male',
-                    hintText: 'Gender',
-                    rightPadding: 20,
-                    leftPadding: 20,
-                    onGenderSelectionChange: updateGenderSelection,
-                    validator: (val) {
-                      if (val == null) {
+                  TextFieldWidgetTwo(
+                    controller: nameController,
+                    hintText: 'Full name',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        debugPrint('Name is empty');
                         customSnackbar(
-                            context, 'Please select a category', 0, 20, 20);
+                            context, 'Please enter a name', 20, 20, 20);
                         return;
                       } else {
                         return null;
                       }
                     },
                   ),
-                ),
 
-                // ===== Phone number =====
-                const Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: SectionTitles(
-                    titleText: 'Phone Number',
+                  // ===== Gender section =====
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12),
+                    child: SectionTitles(
+                      titleText: 'Gender',
+                    ),
                   ),
-                ),
-                TextFieldWidgetTwo(
-                  controller: mobileNoController,
-                  hintText: 'Phone number',
-                ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: EditDropDownWidget(
+                      updateGender: initialGender ?? 'Male',
+                      hintText: 'Gender',
+                      rightPadding: 20,
+                      leftPadding: 20,
+                      onGenderSelectionChange: updateGenderSelection,
+                      validator: (val) {
+                        if (val == null) {
+                          customSnackbar(
+                              context, 'Please select a category', 0, 20, 20);
+                          return;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
 
-                // ===== Email section =====
-                const Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: SectionTitles(
-                    titleText: 'Email Address',
+                  // ===== Phone number =====
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12),
+                    child: SectionTitles(
+                      titleText: 'Phone Number',
+                    ),
                   ),
-                ),
-                TextFieldWidgetTwo(
-                  readOnly: true,
-                  controller: emailController,
-                  hintText: 'Email address',
-                ),
+                  TextFieldWidgetTwo(
+                    controller: mobileNoController,
+                    hintText: 'Phone number',
+                  ),
 
-                // ===== Save button =====
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: 30,
+                  // ===== Email section =====
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12),
+                    child: SectionTitles(
+                      titleText: 'Email Address',
+                    ),
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  child: ButtonsWidget(
-                    buttonText: 'SAVE CHANGES',
-                    buttonTextSize: 17,
-                    buttonBorderRadius: 20,
-                    isOutlinedButton: true,
-                    buttonTextWeight: FontWeight.w600,
-                    buttonColor: const Color(0xFFe5e6f6),
-                    buttonTxtColor: const Color(0xB31285b9),
-                    buttonOnPressed: () {
-                      updateUserDetailss(
-                          name: nameController.text,
-                          email: emailController.text,
-                          mobile: mobileNoController.text,
-                          image: widget.image,
-                          userId: widget.userId,
-                          imageUrl: imageUrl,
-                          selectedGender: selectedGender ?? initialGender ?? '',
-                          selectedImage: _selectedImage,
-                          context: context);
-                    },
+                  TextFieldWidgetTwo(
+                    readOnly: true,
+                    controller: emailController,
+                    hintText: 'Email address',
                   ),
-                )
-              ],
+
+                  // // ===== Save button =====
+                  // Container(
+                  //   margin: const EdgeInsets.only(
+                  //     left: 20,
+                  //     right: 20,
+                  //     top: 30,
+                  //   ),
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height * 0.06,
+                  //   child: ButtonsWidget(
+                  //     buttonText: 'SAVE CHANGES',
+                  //     buttonTextSize: 17,
+                  //     buttonBorderRadius: 20,
+                  //     isOutlinedButton: true,
+                  //     buttonTextWeight: FontWeight.w600,
+                  //     buttonColor: const Color(0xFFe5e6f6),
+                  //     buttonTxtColor: const Color(0xB31285b9),
+                  //     buttonOnPressed: () {
+                  //       updateUserDetailss(
+                  //           name: nameController.text
+                  //             ..replaceAll(RegExp(r'\s+'), ' '),
+                  //           email: emailController.text,
+                  //           mobile: mobileNoController.text,
+                  //           image: widget.image,
+                  //           userId: widget.userId,
+                  //           imageUrl: imageUrl,
+                  //           selectedGender:
+                  //               selectedGender ?? initialGender ?? '',
+                  //           selectedImage: _selectedImage,
+                  //           context: context,
+                  //           formKey: _formKey);
+                  //     },
+                  //   ),
+                  // )
+                ],
+              ),
             )
           ],
         ),

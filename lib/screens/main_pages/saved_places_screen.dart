@@ -78,7 +78,7 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
                         height: 65,
                         child: SavedIcon(
                           biggerIcon: true,
-                          // isSaved: true,
+                          disableOnPressed: true,
                         ),
                       ),
                     ),

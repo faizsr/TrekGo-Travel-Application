@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (mounted) {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .get();
       _isUserSignedIn
           ? nextScreenReplace(

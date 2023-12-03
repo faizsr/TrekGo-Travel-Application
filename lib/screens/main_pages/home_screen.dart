@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/model/wishlist.dart';
-// import 'package:trekmate_project/screens/bottom_page_navigator/navigation_drawer.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';

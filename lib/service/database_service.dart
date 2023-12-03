@@ -24,6 +24,7 @@ class DatabaseService {
     String email,
     String gender,
     String mobileNumber,
+    String profilePic,
   ) async {
     return await userCollection.doc(uid).set({
       "fullname": name,
@@ -31,6 +32,7 @@ class DatabaseService {
       "uid": uid,
       "gender": gender,
       "mobile_number": mobileNumber,
+      "profilePic": profilePic,
     });
   }
 

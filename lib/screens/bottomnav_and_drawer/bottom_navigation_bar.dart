@@ -18,18 +18,17 @@ class NavigationBottomBar extends StatefulWidget {
   final String? usermobile;
   final String? usergender;
   final String? userprofile;
-  const NavigationBottomBar({
-    super.key,
-    this.userId,
-    this.isAdmin,
-    this.isUser,
-    this.index,
-    required this.username,
-    required this.useremail,
-    required this.usermobile,
-    required this.usergender,
-    required this.userprofile
-  });
+  const NavigationBottomBar(
+      {super.key,
+      this.userId,
+      this.isAdmin,
+      this.isUser,
+      this.index,
+      required this.username,
+      required this.useremail,
+      required this.usermobile,
+      required this.usergender,
+      required this.userprofile});
 
   @override
   State<NavigationBottomBar> createState() => _NavigationBottomBarState();
@@ -61,6 +60,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
+        updateIndex: onUpdateIndex,
       ),
       AddWishlistScreen(
         userId: widget.userId,

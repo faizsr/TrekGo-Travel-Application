@@ -114,7 +114,7 @@ class _PopularCardState extends State<PopularCard> {
                       // color: Colors.black,
                       width: MediaQuery.of(context).size.width * 0.45,
                       child: Text(
-                        widget.placeName ?? '',
+                        widget.placeName!.replaceAll(RegExp(r'\s+'), ' '),
                         style: const TextStyle(
                           color: Color(0xFF1285b9),
                           fontWeight: FontWeight.w600,

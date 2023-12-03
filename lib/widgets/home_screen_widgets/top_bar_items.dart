@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class TopBarItems extends StatefulWidget {
   final String? userId;
@@ -88,13 +89,23 @@ class _TopBarItemsState extends State<TopBarItems> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: FadeInImage(
-                        placeholder: AssetImage(homeDefaultImage),
-                        fit: BoxFit.cover,
-                        image: userProfilePic == ''
-                            ? Image.asset(homeDefaultImage).image
-                            : Image.network(userProfilePic ?? '').image,
-                      ),
+                      child: userProfilePic != ''
+                          ? CachedNetworkImage(
+                              placeholder: (context, url) => Image.asset(
+                                homeDefaultImage,
+                                fit: BoxFit.cover,
+                              ),
+                              imageUrl: userProfilePic ?? '',
+                              errorWidget: (context, url, error) => Image.asset(
+                                homeDefaultImage,
+                                fit: BoxFit.cover,
+                              ),
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              homeDefaultImage,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 );

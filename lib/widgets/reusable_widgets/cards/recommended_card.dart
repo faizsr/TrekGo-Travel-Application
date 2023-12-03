@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
@@ -74,9 +75,14 @@ class RecommendedCard extends StatelessWidget {
                     topRight: Radius.circular(20),
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10)),
-                child: FadeInImage(
-                  placeholder: AssetImage(lazyLoading),
-                  image: NetworkImage(recommendedCardImage),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => Image.asset(
+                    lazyLoading,
+                    fit: BoxFit.cover,
+                  ),
+                  imageUrl: recommendedCardImage ,
+                  errorWidget: (context, url, error) =>
+                      Image.asset(lazyLoading, fit: BoxFit.cover),
                   fit: BoxFit.cover,
                 ),
               ),

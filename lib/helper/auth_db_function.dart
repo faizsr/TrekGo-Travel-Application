@@ -156,7 +156,7 @@ adminLogin({
               ));
         } else {
           setLoadingCallback(false);
-          customSnackbar(context, 'Enter login details correctly', 140, 55, 55);
+          customSnackbar(context, 'Enter login details correctly', 20, 55, 55);
           debugPrint('Enter admin id correctly');
           debugPrint('$context');
         }

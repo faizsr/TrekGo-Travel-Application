@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -113,7 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ? Image.file(File(_selectedImage!.path)).image
                         : widget.image == ''
                             ? Image.asset(defaultImage).image
-                            : Image.network(widget.image ?? '').image,
+                            : CachedNetworkImageProvider(widget.image ?? ''),
                   ),
                 ),
 
@@ -227,6 +228,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                   TextFieldWidgetTwo(
+                    enableInteractiveSelection: false,
                     controller: emailController,
                     readOnly: true,
                     hintText: 'Email address',

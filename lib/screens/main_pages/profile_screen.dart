@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
@@ -111,8 +112,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   backgroundImage: AssetImage(defaultImage),
                                   foregroundImage: userProfilePic == ''
                                       ? Image.asset(defaultImage).image
-                                      : Image.network(userProfilePic ?? '')
-                                          .image,
+                                      : CachedNetworkImageProvider(
+                                          userProfilePic ?? ''),
                                 ),
                               ),
                             ),

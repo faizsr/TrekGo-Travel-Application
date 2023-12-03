@@ -8,6 +8,7 @@ class TextFieldWidgetTwo extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final bool? enableInteractiveSelection;
   const TextFieldWidgetTwo({
     super.key,
     this.hintText,
@@ -16,7 +17,8 @@ class TextFieldWidgetTwo extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.validator,
-    this.keyboardType
+    this.keyboardType,
+    this.enableInteractiveSelection,
   });
 
   @override
@@ -27,6 +29,7 @@ class TextFieldWidgetTwo extends StatelessWidget {
         right: 20,
       ),
       child: TextFormField(
+        enableInteractiveSelection: enableInteractiveSelection,
         keyboardType: keyboardType,
         keyboardAppearance: Brightness.light,
         readOnly: readOnly,

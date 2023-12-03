@@ -54,6 +54,7 @@ dependencies:
   flutter_slidable: ^3.0.1
   provider: ^6.1.1
   flutter_keyboard_visibility: ^5.4.1
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   dart_code_metrics: ^4.19.2

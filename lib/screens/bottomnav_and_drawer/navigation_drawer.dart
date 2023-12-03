@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
@@ -212,13 +213,29 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
             //   image: NetworkImage(userprofile ?? ''),
             //   fit: BoxFit.cover,
             // ),
-            child: FadeInImage(
-              image: userprofile == ''
-                  ? Image.asset(image).image
-                  : Image.network(userprofile ?? '').image,
-              fit: BoxFit.cover,
-              placeholder: AssetImage(image),
-            ),
+            // child: FadeInImage(
+            //   image: userprofile == ''
+            //       ? Image.asset(image).image
+            //       : Image.network(userprofile ?? '').image,
+            //   fit: BoxFit.cover,
+            //   placeholder: AssetImage(image),
+            // ),
+            child: userprofile != ''
+                ? CachedNetworkImage(
+                    placeholder: (context, url) => Image.asset(
+                      lazyLoading,
+                      fit: BoxFit.cover,
+                    ),
+                    imageUrl: userprofile ?? '',
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Image.asset(
+                      lazyLoading,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Image(
+                    image: AssetImage(image),
+                  ),
           ),
         ),
         const SizedBox(

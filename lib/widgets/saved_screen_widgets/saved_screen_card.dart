@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -118,7 +119,7 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
                       // color: Colors.black,
                       width: MediaQuery.of(context).size.width * 0.45,
                       child: Text(
-                        widget.placeName ?? '',
+                        widget.placeName?.replaceAll(RegExp(r'\s+'), ' ') ?? '',
                         style: const TextStyle(
                           color: Color(0xFF1285b9),
                           fontWeight: FontWeight.w600,
@@ -178,10 +179,17 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
                       : SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
                           height: MediaQuery.of(context).size.height * 0.244,
-                          child: FadeInImage(
-                            placeholder: AssetImage(lazyLoading),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Image.asset(
+                              lazyLoading,
+                              fit: BoxFit.cover,
+                            ),
+                            imageUrl: widget.popularCardImage ?? '',
                             fit: BoxFit.cover,
-                            image: NetworkImage(widget.popularCardImage ?? ''),
+                            errorWidget: (context, url, error) => Image.asset(
+                              lazyLoading,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                 ),

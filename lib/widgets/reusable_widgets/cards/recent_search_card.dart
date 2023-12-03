@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
@@ -82,10 +83,17 @@ class _RecentSearchCardState extends State<RecentSearchCard> {
                         image: AssetImage(lazyLoading),
                         fit: BoxFit.cover,
                       )
-                    : FadeInImage(
-                        placeholder: AssetImage(lazyLoading),
-                        image: NetworkImage(widget.cardImage ?? ''),
+                    : CachedNetworkImage(
+                        placeholder: (context, url) => Image.asset(
+                          lazyLoading,
+                          fit: BoxFit.cover,
+                        ),
+                        imageUrl: widget.cardImage ?? '',
                         fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Image.asset(
+                          lazyLoading,
+                          fit: BoxFit.cover,
+                        ),
                       ),
               ),
             ),
@@ -103,10 +111,9 @@ class _RecentSearchCardState extends State<RecentSearchCard> {
                     child: Text(
                       widget.cardTitle!.replaceAll(RegExp(r'\s+'), ' '),
                       style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        overflow: TextOverflow.ellipsis
-                      ),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          overflow: TextOverflow.ellipsis),
                     ),
                   ),
                   const SizedBox(

@@ -202,7 +202,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                     if (val!.length < 6) {
                                       customSnackbar(
                                           context,
-                                          'Password must be at least 6 characters',
+                                          'Wrong password',
                                           20,
                                           55,
                                           55);

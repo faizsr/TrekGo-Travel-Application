@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
@@ -202,11 +204,11 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                         height: MediaQuery.of(context).size.height * 0.48,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(35),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                destinationSnapshot['place_image'] ?? ''),
-                          ),
+                          // image: DecorationImage(
+                          //   fit: BoxFit.cover,
+                          //   image: NetworkImage(
+                          //       destinationSnapshot['place_image'] ?? ''),
+                          // ),
                           boxShadow: const [
                             BoxShadow(
                               blurRadius: 15,
@@ -214,6 +216,21 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                               color: Color(0x0D000000),
                             ),
                           ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(35),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Image.asset(
+                              lazyLoading,
+                              fit: BoxFit.cover,
+                            ),
+                            imageUrl: destinationSnapshot['place_image'] ?? '',
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => Image.asset(
+                              lazyLoading,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
 
@@ -229,6 +246,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                             fontWeight: FontWeight.w600,
                             overflow: TextOverflow.ellipsis,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       CardRatingBar(

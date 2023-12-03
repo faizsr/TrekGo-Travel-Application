@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 useremail: userSnapshot['email'],
                 usergender: userSnapshot['gender'],
                 usermobile: userSnapshot['mobile_number'],
-                userprofile: userSnapshot['profilePic'],
+                userprofile: userSnapshot['profilePic'] ?? '',
               ),
             )
           : _isAdminSignedIn
@@ -111,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     useremail: userSnapshot['email'],
                     usergender: userSnapshot['gender'],
                     usermobile: userSnapshot['mobile_number'],
-                    userprofile: userSnapshot['profilePic'],
+                    userprofile: userSnapshot['profilePic'] ?? '',
                   ),
                 )
               : nextScreenReplace(context, const UserLoginScreen());

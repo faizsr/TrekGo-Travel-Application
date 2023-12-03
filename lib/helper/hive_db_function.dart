@@ -85,6 +85,7 @@ updateWishlist({
         ));
     debugPrint('Updated at hive key $hiveKey');
     customSnackbar(context, 'Wishlist Updated', 20, 20, 20);
+    Navigator.of(context!).pop();
   } else {
     debugPrint('Not updated');
   }

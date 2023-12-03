@@ -148,40 +148,31 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // ===== Popular or Recommended =====
-                  DropDownWidget(
-                    hintText: 'Select Category',
-                    leftPadding: 20,
-                    listSelect: true,
-                    onCategorySelectionChange: updateCategorySelection,
-                    validator: (val) {
-                      if (val == null) {
-                        customSnackbar(
-                            context, 'Please select a category', 20, 20, 20);
-                        return;
-                      } else {
-                        return null;
-                      }
-                    },
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: DropDownWidget(
+                      iconRightPadding: 5,
+                      isExpanded: false,
+                      hintText: 'Select Category',
+                      listSelect: true,
+                      rightPadding: 5,
+                      onCategorySelectionChange: updateCategorySelection,
+                    ),
                   ),
-
-                  // ===== State =====
-                  DropDownWidget(
-                    hintText: 'Select State',
-                    rightPadding: 20,
-                    onStateCelectionChange: updateStateSelection,
-                    validator: (val) {
-                      if (val == null) {
-                        customSnackbar(
-                            context, 'Please select a state', 20, 20, 20);
-                        return;
-                      } else {
-                        return null;
-                      }
-                    },
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: DropDownWidget(
+                      leftPadding: 5,
+                      iconRightPadding: 5,
+                      isExpanded: false,
+                      hintText: 'Select State',
+                      onStateCelectionChange: updateStateSelection,
+                    ),
                   ),
                 ],
               ),
+
+              // ===== State =====
 
               // ===== Title section =====
               const Padding(

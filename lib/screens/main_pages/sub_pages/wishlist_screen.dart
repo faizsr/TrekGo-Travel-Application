@@ -156,19 +156,48 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         child: GestureDetector(
                           onTap: () {
                             showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
                               context: context,
                               builder: (context) {
                                 return Container(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Wrap(
-                                    spacing: 8.0,
-                                    children: states
-                                        .map((category) => FilterChipWidget(
-                                              selectedState: selectedState,
-                                              category: category,
-                                              onUpdateData: updateData,
-                                            ))
-                                        .toList(),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 20, 10, 0),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 8),
+                                        child: Text(
+                                          'Filter by State:', // Your heading here
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Wrap(
+                                        spacing: 8.0,
+                                        children: states
+                                            .map((category) => FilterChipWidget(
+                                                  selectedState: selectedState,
+                                                  category: category,
+                                                  onUpdateData: updateData,
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ],
                                   ),
                                 );
                               },

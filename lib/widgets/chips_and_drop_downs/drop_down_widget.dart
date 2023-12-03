@@ -7,12 +7,14 @@ class DropDownWidget extends StatefulWidget {
   final String? updateGender;
   final double? leftPadding;
   final double? rightPadding;
+  final double? iconLeftPadding;
+  final double? iconRightPadding;
   final bool listSelect;
   final Function(String?)? onCategorySelectionChange;
   final Function(String?)? onStateCelectionChange;
   final Function(String?)? onGenderSelectionChange;
-
   final String? Function(String?)? validator;
+  final bool? isExpanded;
   const DropDownWidget({
     super.key,
     this.hintText,
@@ -21,11 +23,14 @@ class DropDownWidget extends StatefulWidget {
     this.updateGender,
     this.leftPadding,
     this.rightPadding,
+    this.iconLeftPadding,
+    this.iconRightPadding,
     this.listSelect = false,
     this.onCategorySelectionChange,
     this.onStateCelectionChange,
     this.onGenderSelectionChange,
     this.validator,
+    this.isExpanded,
   });
 
   @override
@@ -64,99 +69,69 @@ class _DropDownWidgetState extends State<DropDownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 2.1,
-      child: DropdownButtonFormField(
-        isExpanded: true,
-        menuMaxHeight: 300,
-        validator: widget.validator,
+    return Container(
+      margin: EdgeInsets.only(
+          left: widget.leftPadding ?? 20, right: widget.rightPadding ?? 20),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        padding: EdgeInsets.only(
-          left: widget.leftPadding ?? 0,
-          right: widget.rightPadding ?? 0,
+        color: Colors.transparent,
+        border: Border.all(width: 2, color: Colors.black12),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: widget.iconLeftPadding ?? 15,
+            right: widget.iconRightPadding ?? 15,
+          ),
+          child: DropdownButton(
+            elevation: 2,
+            isExpanded: widget.isExpanded ?? false,
+            borderRadius: BorderRadius.circular(20),
+            icon: const Icon(Icons.arrow_drop_down),
+            menuMaxHeight: 300,
+            value: widget.listSelect ? selectedCategory : selectedState,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+              overflow: TextOverflow.ellipsis,
+            ),
+            // validator: widget.validator,
+            hint: Text(
+              widget.hintText ?? '',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Color(0x66000000),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            items: widget.listSelect
+                ? categoryList.map((newValue) {
+                    return DropdownMenuItem(
+                      value: newValue,
+                      child: Text(newValue),
+                    );
+                  }).toList()
+                : stateList.map((newValue) {
+                    return DropdownMenuItem(
+                      value: newValue,
+                      child: Text(newValue),
+                    );
+                  }).toList(),
+            onChanged: (newValue) {
+              widget.listSelect
+                  ? setState(() {
+                      selectedCategory = newValue.toString();
+                      debugPrint(selectedCategory);
+                      widget.onCategorySelectionChange!(selectedCategory);
+                    })
+                  : setState(() {
+                      selectedState = newValue.toString();
+                      debugPrint(selectedState);
+                      widget.onStateCelectionChange!(selectedState);
+                    });
+            },
+          ),
         ),
-        // dropdownColor: Colors.amber,
-        decoration: InputDecoration(
-          isDense: true,
-          errorMaxLines: 1,
-          errorText: '',
-          errorStyle: const TextStyle(
-            height: 0,
-            fontSize: 0,
-            color: Colors.transparent,
-          ),
-          contentPadding: const EdgeInsets.only(
-            left: 15,
-            right: 3,
-            top: 16,
-            bottom: 13,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              color: Colors.black12,
-              width: 2.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              color: Colors.black12,
-              width: 2.0,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              color: Colors.black12,
-              width: 2.0,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              color: Colors.black12,
-              width: 2.0,
-            ),
-          ),
-        ),
-        icon: const Icon(Icons.arrow_drop_down),
-        hint: Text(
-          widget.hintText ?? '',
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0x66000000),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        value: widget.listSelect ? selectedCategory : selectedState,
-        items: widget.listSelect
-            ? categoryList.map((newValue) {
-                return DropdownMenuItem(
-                  value: newValue,
-                  child: Text(newValue),
-                );
-              }).toList()
-            : stateList.map((newValue) {
-                return DropdownMenuItem(
-                  value: newValue,
-                  child: Text(newValue),
-                );
-              }).toList(),
-
-        onChanged: (newValue) {
-          widget.listSelect
-              ? setState(() {
-                  selectedCategory = newValue.toString();
-                  debugPrint(selectedCategory);
-                  widget.onCategorySelectionChange!(selectedCategory);
-                })
-              : setState(() {
-                  selectedState = newValue.toString();
-                  debugPrint(selectedState);
-                  widget.onStateCelectionChange!(selectedState);
-                });
-        },
       ),
     );
   }

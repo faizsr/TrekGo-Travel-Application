@@ -15,9 +15,11 @@ import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class AddWishlistScreen extends StatefulWidget {
   final String? userId;
+  final void Function(int)? updateIndex;
   const AddWishlistScreen({
     super.key,
     this.userId,
+    this.updateIndex,
   });
 
   @override
@@ -94,8 +96,8 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 right: 20,
                 child: GestureDetector(
                   onTap: isButtonEnable
-                      ? () {
-                          addWishlist(
+                      ? () async {
+                          await addWishlist(
                             formKey: _formKey,
                             selectedImage: _selectedImage,
                             selectedState: selectedState,
@@ -109,6 +111,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                             setLoadingCallback: setLoading,
                             context: context,
                           );
+                          widget.updateIndex?.call(0);
                         }
                       : null,
                   child: Container(
@@ -166,23 +169,10 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   titleText: 'State',
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: DropDownWidget(
-                  hintText: 'Select State',
-                  rightPadding: 20,
-                  leftPadding: 20,
-                  onStateCelectionChange: updateStateSelection,
-                  validator: (val) {
-                    if (val == null) {
-                      customSnackbar(
-                          context, 'Please select a category', 0, 20, 20);
-                      return '';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
+              DropDownWidget(
+                hintText: 'Select State',
+                isExpanded: true,
+                onStateCelectionChange: updateStateSelection,
               ),
 
               // ===== Title section =====

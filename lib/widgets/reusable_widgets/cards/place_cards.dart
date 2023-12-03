@@ -163,29 +163,20 @@ class _PopularCardState extends State<PopularCard> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: showShimmer
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.244,
-                          child: Image(
-                            image: AssetImage(lazyLoading),
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.244,
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) => Image.asset(
-                              lazyLoading,
-                              fit: BoxFit.cover,
-                            ),
-                            imageUrl: widget.popularCardImage ?? '',
-                            errorWidget: (context, url, error) =>
-                                Image.asset(lazyLoading, fit: BoxFit.cover),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.88,
+                    height: MediaQuery.of(context).size.height * 0.244,
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) => Image.asset(
+                        lazyLoading,
+                        fit: BoxFit.cover,
+                      ),
+                      imageUrl: widget.popularCardImage ?? '',
+                      errorWidget: (context, url, error) =>
+                          Image.asset(lazyLoading, fit: BoxFit.cover),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
               widget.isAdmin == true

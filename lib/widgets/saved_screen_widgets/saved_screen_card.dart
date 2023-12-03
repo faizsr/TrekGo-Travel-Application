@@ -167,16 +167,18 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: showShimmer
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.88,
-                          height: MediaQuery.of(context).size.height * 0.244,
-                          child: Image(
-                            image: AssetImage(lazyLoading),
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : SizedBox(
+                  child:
+                  //  showShimmer
+                  //     ? SizedBox(
+                  //         width: MediaQuery.of(context).size.width * 0.88,
+                  //         height: MediaQuery.of(context).size.height * 0.244,
+                  //         child: Image(
+                  //           image: AssetImage(lazyLoading),
+                  //           fit: BoxFit.cover,
+                  //         ),
+                  //       )
+                  //     :
+                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.88,
                           height: MediaQuery.of(context).size.height * 0.244,
                           child: CachedNetworkImage(

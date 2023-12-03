@@ -78,23 +78,18 @@ class _RecentSearchCardState extends State<RecentSearchCard> {
               height: MediaQuery.of(context).size.height,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
-                child: showShimmer
-                    ? Image(
-                        image: AssetImage(lazyLoading),
-                        fit: BoxFit.cover,
-                      )
-                    : CachedNetworkImage(
-                        placeholder: (context, url) => Image.asset(
-                          lazyLoading,
-                          fit: BoxFit.cover,
-                        ),
-                        imageUrl: widget.cardImage ?? '',
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Image.asset(
-                          lazyLoading,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => Image.asset(
+                    lazyLoading,
+                    fit: BoxFit.cover,
+                  ),
+                  imageUrl: widget.cardImage ?? '',
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Image.asset(
+                    lazyLoading,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             const SizedBox(

@@ -52,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaHeight = MediaQuery.of(context).size.height;
+    var mediaWidth = MediaQuery.of(context).size.width;
     return ValueListenableBuilder(
         valueListenable: wishlistBox.listenable(),
         builder: (context, Box<Wishlist> wishlistBox, snapshot) {
@@ -66,14 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // ===== Custom appbar =====
                   SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.28,
+                    width: mediaWidth,
+                    height: mediaHeight * 0.28,
                     child: Stack(
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.25,
-                          padding: const EdgeInsets.fromLTRB(25, 20, 20, 0),
+                          padding:
+                              EdgeInsets.fromLTRB(25, mediaHeight * 0.02, 20, 0),
                           decoration: const BoxDecoration(
                             color: Color(0xFFe5e6f6),
                             borderRadius: BorderRadius.only(

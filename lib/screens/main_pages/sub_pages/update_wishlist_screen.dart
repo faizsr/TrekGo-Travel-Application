@@ -88,21 +88,21 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
           showCheckIcon: true,
           onTap: () {
             updateWishlist(
-                name: nameController.text.replaceAll(RegExp(r'\s+'), ' '),
-                description:
-                    descriptionController.text.replaceAll(RegExp(r'\s+'), ' '),
-                location:
-                    locationController.text.replaceAll(RegExp(r'\s+'), ' '),
-                image: widget.image,
-                initialState: initialState,
-                imageUrl: imageUrl,
-                userId: widget.userId,
-                hiveKey: widget.hiveKey,
-                selectedImage: _selectedImage,
-                selectedState: selectedState ?? initialState,
-                wishlistBox: wishlistBox,
-                context: context,
-                formkey: _formKey);
+              name: nameController.text.replaceAll(RegExp(r'\s+'), ' '),
+              description:
+                  descriptionController.text.replaceAll(RegExp(r'\s+'), ' '),
+              location: locationController.text.replaceAll(RegExp(r'\s+'), ' '),
+              image: widget.image,
+              initialState: initialState,
+              imageUrl: imageUrl,
+              userId: widget.userId,
+              hiveKey: widget.hiveKey,
+              selectedImage: _selectedImage,
+              selectedState: selectedState ?? initialState,
+              wishlistBox: wishlistBox,
+              context: context,
+              formkey: _formKey,
+            );
           },
         ),
       ),
@@ -148,15 +148,6 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                   rightPadding: 20,
                   leftPadding: 20,
                   onStateCelectionChange: updateStateSelection,
-                  validator: (val) {
-                    if (val == null) {
-                      customSnackbar(
-                          context, 'Please select a category', 20, 20, 20);
-                      return '';
-                    } else {
-                      return null;
-                    }
-                  },
                 ),
               ),
 

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +25,19 @@ addNewDestination({
   String? mapLink,
   BuildContext? context,
 }) async {
+  if (selectedCategory == null) {
+    customSnackbar(context, 'Please select a category', 20, 20, 20);
+  }
+  if (selectedState == null) {
+    customSnackbar(context, 'Please select a state', 20, 20, 20);
+  }
+  if (selectedImage == null) {
+    customSnackbar(context, 'Please select a image', 20, 20, 20);
+  }
+
   if (formKey!.currentState!.validate() &&
+      selectedCategory != null &&
+      selectedState != null &&
       selectedImage != null &&
       ratingCount != null) {
     setLoadingCallback!(true);
@@ -41,10 +55,11 @@ addNewDestination({
     } finally {
       setLoadingCallback(false);
     }
+
     debugPrint(uniqueFileName);
     DatabaseService().savingDestination(
-      selectedCategory!,
-      selectedState!,
+      selectedCategory,
+      selectedState,
       imageUrl!,
       title!.trim(),
       description!.trim(),
@@ -55,10 +70,9 @@ addNewDestination({
     debugPrint(selectedCategory);
     debugPrint(selectedState);
     debugPrint('Data successfully added');
-    // ignore: use_build_context_synchronously
-    customSnackbar(context, 'New Destination Created', 0, 20, 20);
+    customSnackbar(context, 'New Destination Created', 20, 20, 20);
+    Navigator.of(context!).pop();
 
-    // ignore: use_build_context_synchronously
     // nextScreen(
     //   context,
     //   NavigationBottomBar(
@@ -68,7 +82,8 @@ addNewDestination({
     //   ),
     // );
   } else {
-    customSnackbar(context, 'Please fill all forms', 20, 20, 20);
+    debugPrint('New place not added');
+    // customSnackbar(context, 'Please fill all forms', 20, 20, 20);
   }
 }
 
@@ -100,6 +115,12 @@ updateDestinationn({
   } catch (e) {
     debugPrint(e.toString());
   }
+  if (selectedCategory == null) {
+    customSnackbar(context, 'Please select a category', 20, 20, 20);
+  }
+  if (selectedState == null) {
+    customSnackbar(context, 'Please select a state', 20, 20, 20);
+  }
 
   // ===== Saving to the database =====
   if (formkey!.currentState!.validate() &&
@@ -119,8 +140,8 @@ updateDestinationn({
     });
     debugPrint('map link $mapLink');
     debugPrint('Updated');
-    // ignore: use_build_context_synchronously
     customSnackbar(context, 'Updated successfully', 20, 20, 20);
+    Navigator.of(context!).pop();
   } else {
     debugPrint('Not updated');
   }

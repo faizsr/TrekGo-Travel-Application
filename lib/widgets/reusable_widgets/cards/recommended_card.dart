@@ -56,9 +56,8 @@ class RecommendedCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
+              offset: Offset(0, 5),
               blurRadius: 10,
-              offset: Offset(0, 2),
-              spreadRadius: 2,
               color: Color(0x0D000000),
             )
           ],
@@ -80,7 +79,7 @@ class RecommendedCard extends StatelessWidget {
                     lazyLoading,
                     fit: BoxFit.cover,
                   ),
-                  imageUrl: recommendedCardImage ,
+                  imageUrl: recommendedCardImage,
                   errorWidget: (context, url, error) =>
                       Image.asset(lazyLoading, fit: BoxFit.cover),
                   fit: BoxFit.cover,

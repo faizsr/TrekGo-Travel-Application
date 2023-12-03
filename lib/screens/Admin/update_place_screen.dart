@@ -186,38 +186,30 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // ===== Popular or Recommended =====
-                  DropDownWidget(
-                    updateCategory: initialCategory,
-                    updateState: initialState,
-                    leftPadding: 20,
-                    listSelect: true,
-                    onCategorySelectionChange: updateCategorySelection,
-                    validator: (val) {
-                      if (val == null) {
-                        customSnackbar(
-                            context, 'Please select a category', 20, 20, 20);
-                        return '';
-                      } else {
-                        return null;
-                      }
-                    },
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: DropDownWidget(
+                      iconRightPadding: 5,
+                      isExpanded: false,
+                      updateCategory: initialCategory,
+                      updateState: initialState,
+                      rightPadding: 5,
+                      listSelect: true,
+                      onCategorySelectionChange: updateCategorySelection,
+                    ),
                   ),
 
                   // ===== State =====
-                  DropDownWidget(
-                    updateState: initialState,
-                    updateCategory: initialCategory,
-                    rightPadding: 20,
-                    onStateCelectionChange: updateStateSelection,
-                    validator: (val) {
-                      if (val == null) {
-                        customSnackbar(
-                            context, 'Please select a state', 20, 20, 20);
-                        return '';
-                      } else {
-                        return null;
-                      }
-                    },
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: DropDownWidget(
+                      updateState: initialState,
+                      updateCategory: initialCategory,
+                      leftPadding: 5,
+                      iconRightPadding: 5,
+                      isExpanded: false,
+                      onStateCelectionChange: updateStateSelection,
+                    ),
                   ),
                 ],
               ),

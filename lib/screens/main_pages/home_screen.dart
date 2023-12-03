@@ -65,37 +65,34 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   // ===== Custom appbar =====
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFe5e6f6),
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(60),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          padding: const EdgeInsets.fromLTRB(25, 20, 20, 0),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFe5e6f6),
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(60),
+                            ),
                           ),
-                        ),
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            // ===== Appbar top items =====
-                            Positioned(
-                              top: MediaQuery.of(context).size.width * 0.04,
-                              right: 25,
-                              left: 25,
-                              child: TopBarItems(
+                          child: Column(
+                            children: [
+                              // ===== Appbar top items =====
+                              TopBarItems(
                                 userId: widget.userId,
                                 placeLocation: sortName,
                                 updateIndex: widget.updateIndex,
                                 scaffoldContext: context,
                               ),
-                            ),
-                            Positioned(
-                              top: MediaQuery.of(context).size.width * 0.22,
-                              left: 25,
-                              child: Column(
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AppbarSubtitlesStream(
@@ -110,17 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
 
-                      // ===== Appbar choice chips =====
-                      Positioned(
-                        top: MediaQuery.of(context).size.height * 0.204,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.09,
+                        Positioned(
+                          top: MediaQuery.of(context).size.height * 0.208,
                           child: ChoiceChipsWidget(
                             onSortNameChanged: (newSortName) {
                               setState(() {
@@ -129,12 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ),
                         ),
-                      ),
-                    ],
+                        // ===== Appbar choice chips =====
+                      ],
+                    ),
                   ),
 
                   const SizedBox(
-                    height: 30,
+                    height: 0,
                   ),
 
                   Column(

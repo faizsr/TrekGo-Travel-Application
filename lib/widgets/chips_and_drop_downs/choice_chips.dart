@@ -51,79 +51,56 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-            padding: const EdgeInsets.only(
-              left: 15,
-            ),
-            scrollDirection: Axis.horizontal,
-            itemCount: buttonText.length,
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  Container(
-                    // height: 36,
-                    height: MediaQuery.of(context).size.height * 0.0415,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 10,
-                          spreadRadius: 0,
-                          offset: Offset(0, 2),
-                          color: Color(0x1A000000),
-                        ),
-                      ],
-                    ),
-                    child: ChoiceChip(
-                      backgroundColor: Colors.white,
-                      label: Text(
-                        buttonText[index],
-                        style: TextStyle(
-                          color: isSelected![index]
-                              ? Colors.white
-                              : const Color(0xFF1285b9),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                        ),
-                      ),
-                      selectedColor: const Color(0xFF1285b9),
-                      selected: isSelected![index],
-                      onSelected: (active) {
-                        setState(() {
-                          chipSelectionHandle(index);
-                          sortName = buttonText[index];
-                          // viewAll = sortName == null;
-                          widget.onSortNameChanged!(sortName);
-                        });
-                      },
-                      elevation: 0.0,
-                      shadowColor: Colors.transparent.withOpacity(0),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: StadiumBorder(
-                        side: BorderSide(
-                          color: isSelected![index]
-                              ? Colors.white
-                              : const Color(0xFF1285b9),
-                          width: 2.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 14,
-                  )
-                ],
-              );
-            },
-          ),
+    return Container(
+      // color: Colors.red,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.08,
+      child: ListView.builder(
+        padding: const EdgeInsets.only(
+          left: 15,
         ),
-      ],
+        scrollDirection: Axis.horizontal,
+        itemCount: buttonText.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 13),
+            child: ChoiceChip(
+              backgroundColor: Colors.white,
+              label: Text(
+                buttonText[index],
+                style: TextStyle(
+                  color: isSelected![index]
+                      ? Colors.white
+                      : const Color(0xFF1285b9),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+              selectedColor: const Color(0xFF1285b9),
+              selected: isSelected![index],
+              onSelected: (active) {
+                setState(() {
+                  chipSelectionHandle(index);
+                  sortName = buttonText[index];
+                  // viewAll = sortName == null;
+                  widget.onSortNameChanged!(sortName);
+                });
+              },
+              elevation: 0.0,
+              shadowColor: Colors.transparent.withOpacity(0),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: StadiumBorder(
+                side: BorderSide(
+                  color: isSelected![index]
+                      ? Colors.white
+                      : const Color(0xFF1285b9),
+                  width: 2.5,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

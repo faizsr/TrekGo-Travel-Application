@@ -103,10 +103,12 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                       image: widget.image,
                       category: widget.category,
                       state: widget.state,
-                      title: widget.title,
-                      description: widget.description,
-                      location: widget.location,
-                      mapLink: widget.mapLink,
+                      title: widget.title?.replaceAll(RegExp(r'\s+'), ' '),
+                      description:
+                          widget.description?.replaceAll(RegExp(r'\s+'), ' '),
+                      location:
+                          widget.location?.replaceAll(RegExp(r'\s+'), ' '),
+                      mapLink: widget.mapLink?.replaceAll(RegExp(r'\s+'), ' '),
                       rating: widget.rating,
                       context: widget.ctx,
                     );

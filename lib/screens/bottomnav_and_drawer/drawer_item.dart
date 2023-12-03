@@ -34,6 +34,7 @@ class DrawerItem extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black,
+                  letterSpacing: 0.4
                 ),
               )
             ],

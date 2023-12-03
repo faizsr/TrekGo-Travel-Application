@@ -24,11 +24,11 @@ class NavigationBottomBar extends StatefulWidget {
       this.isAdmin,
       this.isUser,
       this.index,
-      required this.username,
-      required this.useremail,
-      required this.usermobile,
-      required this.usergender,
-      required this.userprofile});
+      this.username,
+      this.useremail,
+      this.usermobile,
+      this.usergender,
+      this.userprofile});
 
   @override
   State<NavigationBottomBar> createState() => _NavigationBottomBarState();

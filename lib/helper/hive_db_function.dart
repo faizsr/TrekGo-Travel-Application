@@ -21,12 +21,15 @@ addWishlist({
   Function(bool)? setLoadingCallback,
   BuildContext? context,
 }) {
+  if (selectedImage == null) {
+    customSnackbar(context, 'Please choose a image', 0, 20, 20);
+  }
+
   if (formKey!.currentState!.validate() &&
       selectedImage != null &&
       selectedState != null) {
     setLoadingCallback!(true);
     intHiveKey = DateTime.now().millisecondsSinceEpoch;
-    // formKey.currentState?.save();
     hiveKey = intHiveKey.toString();
     debugPrint('Added at hive key: $hiveKey');
     debugPrint('Added in the user id $userId');
@@ -41,11 +44,10 @@ addWishlist({
           description: descripition?.trim().replaceAll(RegExp(r'\s+'), ' '),
           location: location?.trim().replaceAll(RegExp(r'\s+'), ' '),
         ));
-    // customSnackbar(context, 'New wishlist created!', 0, 20, 20);
+    customSnackbar(context, 'New wishlist created!', 0, 20, 20);
     debugPrint('Data added');
   } else {
     setLoadingCallback!(false);
-    customSnackbar(context, 'Fill all forms!', 0, 20, 20);
     debugPrint('Details not updated');
   }
   setLoadingCallback(true);
@@ -65,14 +67,11 @@ updateWishlist({
   String? hiveKey,
   XFile? selectedImage,
   String? selectedState,
+  GlobalKey<FormState>? formkey,
   Box<Wishlist>? wishlistBox,
   BuildContext? context,
 }) {
-  if (name!.isNotEmpty &&
-      description!.isNotEmpty &&
-      location!.isNotEmpty &&
-      initialState != null &&
-      imageUrl != null) {
+  if (formkey!.currentState!.validate() && imageUrl != null) {
     wishlistBox!.put(
         hiveKey ?? '',
         Wishlist(
@@ -80,12 +79,14 @@ updateWishlist({
           hiveKey: hiveKey,
           image: selectedImage?.path ?? image,
           state: selectedState ?? initialState,
-          name: name.trim().replaceAll(RegExp(r'\s+'), ' '),
-          description: description.trim().replaceAll(RegExp(r'\s+'), ' '),
-          location: location.trim().replaceAll(RegExp(r'\s+'), ' '),
+          name: name?.trim().replaceAll(RegExp(r'\s+'), ' '),
+          description: description?.trim().replaceAll(RegExp(r'\s+'), ' '),
+          location: location?.trim().replaceAll(RegExp(r'\s+'), ' '),
         ));
     debugPrint('Updated at hive key $hiveKey');
     customSnackbar(context, 'Wishlist Updated', 20, 20, 20);
+  } else {
+    debugPrint('Not updated');
   }
 }
 

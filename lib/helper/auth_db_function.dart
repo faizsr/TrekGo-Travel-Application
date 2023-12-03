@@ -148,11 +148,11 @@ adminLogin({
                 isAdmin: true,
                 isUser: false,
                 userId: FirebaseAuth.instance.currentUser!.uid,
-                username: snapshot.docs[0]['fullname'],
-                useremail: snapshot.docs[0]['email'],
-                usergender: snapshot.docs[0]['gender'],
-                usermobile: snapshot.docs[0]['mobile_number'],
-                userprofile: snapshot.docs[0]['profilePic'],
+                username: snapshot.docs[0]['fullname'] ?? '',
+                useremail: snapshot.docs[0]['email'] ?? '',
+                usergender: snapshot.docs[0]['gender'] ?? '',
+                usermobile: snapshot.docs[0]['mobile_number'] ?? '',
+                userprofile: snapshot.docs[0]['profilePic'] ?? '',
               ));
         } else {
           setLoadingCallback(false);
@@ -166,7 +166,7 @@ adminLogin({
 }
 
 // ==================== Update user detials function ====================
-updateUserDetailss({
+void updateUserDetailss({
   XFile? selectedImage,
   String? userId,
   String? imageUrl,
@@ -191,16 +191,12 @@ updateUserDetailss({
     debugPrint(e.toString());
   }
 
-  if ((formKey!.currentState!.validate() && name!.isNotEmpty) &&
-      (email!.isNotEmpty ||
-          mobile!.isNotEmpty ||
-          imageUrl != null ||
-          selectedGender != null)) {
+  if (formKey!.currentState!.validate()) {
     await DatabaseService().userCollection.doc(userId).update({
       'profilePic': imageUrl,
       'email': email,
-      'fullname': name.trim().replaceAll(RegExp(r'\s+'), ' '),
-      'mobile_number': mobile!.trim(),
+      'fullname': name?.trim().replaceAll(RegExp(r'\s+'), ' '),
+      'mobile_number': mobile?.trim(),
       'gender': selectedGender,
     });
     debugPrint('Updated successfully');

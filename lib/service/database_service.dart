@@ -12,7 +12,7 @@ class DatabaseService {
 
   // ===== Reference for admin collection =====
   final CollectionReference adminCollection =
-      FirebaseFirestore.instance.collection("admin");
+      FirebaseFirestore.instance.collection("users");
 
   // ===== Reference for destination collection =====
   final CollectionReference destinationCollection =
@@ -68,7 +68,8 @@ class DatabaseService {
 
   // ===== Getting admin data =====
   Future gettingAdminData(String email) async {
-    QuerySnapshot snapshot = await adminCollection.where('admin_email').get();
+    QuerySnapshot snapshot =
+        await adminCollection.where('email', isEqualTo: email).get();
     return snapshot;
   }
 

@@ -89,6 +89,7 @@ updateDestinationn({
   String? placeId,
   Function(bool)? setLoadingCallback,
   BuildContext? context,
+  GlobalKey<FormState>? formkey,
 }) async {
   Reference referenceImageToUpload =
       FirebaseStorage.instance.refFromURL(placeImage!);
@@ -101,21 +102,16 @@ updateDestinationn({
   }
 
   // ===== Saving to the database =====
-  if (title!.isNotEmpty &&
-      description!.isNotEmpty &&
-      location!.isNotEmpty &&
-      mapLink!.isNotEmpty &&
+  if (formkey!.currentState!.validate() &&
       ratingCount != null &&
-      imageUrl != null &&
-      initialCategory != null &&
-      initialState != null) {
+      imageUrl != null) {
     setLoadingCallback!(true);
 
     await DatabaseService().destinationCollection.doc(placeId).update({
       'place_image': imageUrl,
-      'place_name': title.trim(),
-      'place_description': description.trim(),
-      'place_location': location.trim(),
+      'place_name': title?.trim(),
+      'place_description': description?.trim(),
+      'place_location': location?.trim(),
       'place_rating': ratingCount,
       'place_category': selectedCategory,
       'place_state': selectedState,

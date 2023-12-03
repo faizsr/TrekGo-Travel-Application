@@ -77,6 +77,14 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         ),
         // dropdownColor: Colors.amber,
         decoration: InputDecoration(
+          isDense: true,
+          errorMaxLines: 1,
+          errorText: '',
+          errorStyle: const TextStyle(
+            height: 0,
+            fontSize: 0,
+            color: Colors.transparent,
+          ),
           contentPadding: const EdgeInsets.only(
             left: 15,
             right: 3,
@@ -91,6 +99,20 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             ),
           ),
           focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: const BorderSide(
+              color: Colors.black12,
+              width: 2.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: const BorderSide(
+              color: Colors.black12,
+              width: 2.0,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
             borderSide: const BorderSide(
               color: Colors.black12,

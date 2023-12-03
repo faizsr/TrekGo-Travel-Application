@@ -41,7 +41,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final nameController = TextEditingController();
   final mobileNoController = TextEditingController();
   final emailController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   void updateGenderSelection(String? category) {
     selectedGender = category;
@@ -77,7 +77,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               selectedGender: selectedGender ?? initialGender ?? '',
               selectedImage: _selectedImage,
               context: context,
-              formKey: _formKey,
+              formKey: formKey,
             );
           },
         ),
@@ -145,7 +145,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ],
             ),
             Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -161,10 +161,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     hintText: 'Full name',
                     validator: (value) {
                       if (value!.isEmpty) {
-                        debugPrint('Name is empty');
                         customSnackbar(
                             context, 'Please enter a name', 20, 20, 20);
-                        return;
+                        return '';
                       } else {
                         return null;
                       }
@@ -188,9 +187,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onGenderSelectionChange: updateGenderSelection,
                       validator: (val) {
                         if (val == null) {
-                          customSnackbar(
-                              context, 'Please select a category', 0, 20, 20);
-                          return;
+                          return '';
                         } else {
                           return null;
                         }
@@ -206,8 +203,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                   TextFieldWidgetTwo(
+                    keyboardType: TextInputType.phone,
                     controller: mobileNoController,
                     hintText: 'Phone number',
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return null;
+                      } else if (!(RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)'))
+                          .hasMatch(val)) {
+                        customSnackbar(
+                            context, 'Please enter a valid number', 20, 20, 20);
+                        return '';
+                      }
+                      return null;
+                    },
                   ),
 
                   // ===== Email section =====
@@ -218,45 +227,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                   TextFieldWidgetTwo(
-                    readOnly: true,
                     controller: emailController,
+                    readOnly: true,
                     hintText: 'Email address',
                   ),
-
-                  // // ===== Save button =====
-                  // Container(
-                  //   margin: const EdgeInsets.only(
-                  //     left: 20,
-                  //     right: 20,
-                  //     top: 30,
-                  //   ),
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: MediaQuery.of(context).size.height * 0.06,
-                  //   child: ButtonsWidget(
-                  //     buttonText: 'SAVE CHANGES',
-                  //     buttonTextSize: 17,
-                  //     buttonBorderRadius: 20,
-                  //     isOutlinedButton: true,
-                  //     buttonTextWeight: FontWeight.w600,
-                  //     buttonColor: const Color(0xFFe5e6f6),
-                  //     buttonTxtColor: const Color(0xB31285b9),
-                  //     buttonOnPressed: () {
-                  //       updateUserDetailss(
-                  //           name: nameController.text
-                  //             ..replaceAll(RegExp(r'\s+'), ' '),
-                  //           email: emailController.text,
-                  //           mobile: mobileNoController.text,
-                  //           image: widget.image,
-                  //           userId: widget.userId,
-                  //           imageUrl: imageUrl,
-                  //           selectedGender:
-                  //               selectedGender ?? initialGender ?? '',
-                  //           selectedImage: _selectedImage,
-                  //           context: context,
-                  //           formKey: _formKey);
-                  //     },
-                  //   ),
-                  // )
                 ],
               ),
             )

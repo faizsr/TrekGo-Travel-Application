@@ -48,31 +48,50 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
                 ),
               )
             : const SizedBox(),
-        RatingBar.builder(
-          initialRating: widget.initialRatingCount ?? 0,
-          unratedColor: widget.unRatedColor ?? Colors.yellow.shade300,
-          glow: false,
-          allowHalfRating: true,
-          itemBuilder: (context, index) {
-            return Icon(
-              Icons.star_rounded,
-              color: widget.ratedColor ?? Colors.yellow.shade600,
-            );
-          },
-          onRatingUpdate: (rating) {
-            debugPrint(rating.toString());
-            setState(() {
-              initailRating = rating;
-              ratingCount = rating;
-              widget.onRatingPlace!(ratingCount);
-            });
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            RatingBar.builder(
+              initialRating: widget.initialRatingCount ?? 0,
+              unratedColor: widget.unRatedColor ?? Colors.yellow.shade300,
+              glow: false,
+              allowHalfRating: true,
+              itemBuilder: (context, index) {
+                return Icon(
+                  Icons.star_rounded,
+                  color: widget.ratedColor ?? Colors.yellow.shade600,
+                );
+              },
+              onRatingUpdate: (rating) {
+                debugPrint(rating.toString());
+                setState(() {
+                  initailRating = rating;
+                  ratingCount = rating;
+                  widget.onRatingPlace!(ratingCount);
+                });
+              },
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            widget.onUpdate == true
+                ? widget.isTextNeeded
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: Text(
+                          '($initailRating)',
+                          style: const TextStyle(fontSize: 18),
+                        ))
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: Text(
+                          '($ratingCount)',
+                          style: const TextStyle(fontSize: 20),
+                        ))
+                : const SizedBox(),
+          ],
         ),
-        widget.onUpdate == true
-            ? widget.isTextNeeded
-                ? Text('Rating $initailRating')
-                : Text('Rating $ratingCount')
-            : const SizedBox(),
       ],
     );
   }

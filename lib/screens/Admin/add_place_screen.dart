@@ -113,6 +113,31 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 },
               ),
 
+              // ===== Rating =====
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 25, 20, 0),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2, color: Colors.black12),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SectionTitles(
+                      titleText: 'Rate',
+                      noPadding: 0,
+                    ),
+                    Center(
+                      child: RatingStarWidget(
+                        onUpdate: true,
+                        onRatingPlace: updateRatingCount,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               // ===== Category section =====
               const Padding(
                 padding: EdgeInsets.only(left: 12),
@@ -278,14 +303,6 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
               const SizedBox(
                 height: 15,
-              ),
-
-              // ===== Rating =====
-              Center(
-                child: RatingStarWidget(
-                  onUpdate: true,
-                  onRatingPlace: updateRatingCount,
-                ),
               ),
             ],
           ),

@@ -111,105 +111,100 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                   end: Alignment.topCenter,
                 ),
               ),
-              child: Stack(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // ============ Place Image ============
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 25,
-                      bottom: 20,
-                      left: 25,
-                      right: 25,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.48,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(35),
-                        image: wishlistImage != null && wishlistImage.isNotEmpty
-                            ? DecorationImage(
-                                fit: BoxFit.cover,
-                                image: FileImage(File(wishlistImage)),
-                              )
-                            : null),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: 10,
-                          left: 15,
-                          child: GestureDetector(
-                            onTap: () {
-                              nextScreen(
-                                context,
-                                UpdateWishlistScreen(
-                                  hiveKey: widget.hiveKey,
-                                  userId: widget.userId,
-                                  image: wishlistList?.image ?? '',
-                                  name: wishlistList?.name ?? '',
-                                  state: wishlistList?.state ?? '',
-                                  description: wishlistList?.description ?? '',
-                                  location: wishlistList?.location ?? '',
-                                ),
-                              );
-                            },
-                            child: const CircleAvatar(
-                              backgroundColor: Color(0xFFe5e6f6),
-                              radius: 18,
-                              child: Icon(
-                                Icons.edit,
-                                size: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          right: 15,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await deleteWishlist(
-                                context,
-                                wishlistBox,
-                                widget.hiveKey ?? '',
-                                widget.snackBarBottomPadding ?? 0,
-                              );
-                            },
-                            child: const CircleAvatar(
-                              backgroundColor: Color(0xFFe5e6f6),
-                              radius: 18,
-                              child: Icon(
-                                Icons.delete,
-                                size: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // ============ Place Title ============
-                  Positioned(
-                    top: MediaQuery.of(context).size.height * 0.525,
-                    child: SizedBox(
+              child: SingleChildScrollView(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // ============ Place Image ============
+                    Container(
+                      margin: const EdgeInsets.only(
+                        top: 25,
+                        bottom: 20,
+                        left: 25,
+                        right: 25,
+                      ),
                       width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.48,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(35),
+                          image: wishlistImage != null && wishlistImage.isNotEmpty
+                              ? DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: FileImage(File(wishlistImage)),
+                                )
+                              : null),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 10,
+                            left: 15,
+                            child: GestureDetector(
+                              onTap: () {
+                                nextScreen(
+                                  context,
+                                  UpdateWishlistScreen(
+                                    hiveKey: widget.hiveKey,
+                                    userId: widget.userId,
+                                    image: wishlistList?.image ?? '',
+                                    name: wishlistList?.name ?? '',
+                                    state: wishlistList?.state ?? '',
+                                    description: wishlistList?.description ?? '',
+                                    location: wishlistList?.location ?? '',
+                                  ),
+                                );
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xFFe5e6f6),
+                                radius: 18,
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            right: 15,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await deleteWishlist(
+                                  context,
+                                  wishlistBox,
+                                  widget.hiveKey ?? '',
+                                  widget.snackBarBottomPadding ?? 0,
+                                );
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Color(0xFFe5e6f6),
+                                radius: 18,
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+              
+                    // ============ Place Title ============
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.67,
                       child: Text(
                         wishlistList?.name ?? '',
                         style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            overflow: TextOverflow.ellipsis),
                       ),
                     ),
-                  ),
-
-                  // ============ Tab Bar Heading ============
-                  Positioned(
-                    top: MediaQuery.of(context).size.height * 0.565,
-                    child: SizedBox(
+              
+                    // ============ Tab Bar Heading ============
+                    SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -244,13 +239,9 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                         ],
                       ),
                     ),
-                  ),
-
-                  // ============ Tab Bar Views ============
-                  Positioned(
-                    top: MediaQuery.of(context).size.height * 0.635,
-                    bottom: 0,
-                    child: SizedBox(
+              
+                    // ============ Tab Bar Views ============
+                    SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         child: Column(
@@ -270,7 +261,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(
-                                  left: 15, right: 15, bottom: 10),
+                                  left: 15, right: 15, bottom: 15),
                               width: MediaQuery.of(context).size.width,
                               child: Row(
                                 children: [
@@ -297,8 +288,8 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),

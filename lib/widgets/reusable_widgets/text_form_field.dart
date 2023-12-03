@@ -5,9 +5,9 @@ class TextFieldWidgetTwo extends StatelessWidget {
   final bool minmaxLine;
   final bool readOnly;
   final Function(String)? onChanged;
-
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
   const TextFieldWidgetTwo({
     super.key,
     this.hintText,
@@ -16,6 +16,7 @@ class TextFieldWidgetTwo extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.validator,
+    this.keyboardType
   });
 
   @override
@@ -26,6 +27,8 @@ class TextFieldWidgetTwo extends StatelessWidget {
         right: 20,
       ),
       child: TextFormField(
+        keyboardType: keyboardType,
+        keyboardAppearance: Brightness.light,
         readOnly: readOnly,
         validator: validator,
         controller: controller,
@@ -34,6 +37,14 @@ class TextFieldWidgetTwo extends StatelessWidget {
         onChanged: onChanged,
         style: const TextStyle(fontSize: 15),
         decoration: InputDecoration(
+          isDense: true,
+          errorMaxLines: 1,
+          errorText: '',
+          errorStyle: const TextStyle(
+            height: 0,
+            fontSize: 0,
+            color: Colors.transparent,
+          ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 18,
             vertical: 16,
@@ -52,6 +63,20 @@ class TextFieldWidgetTwo extends StatelessWidget {
             ),
           ),
           focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: const BorderSide(
+              color: Colors.black12,
+              width: 2.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: const BorderSide(
+              color: Colors.black12,
+              width: 2.0,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
             borderSide: const BorderSide(
               color: Colors.black12,

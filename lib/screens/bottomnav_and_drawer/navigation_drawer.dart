@@ -233,6 +233,7 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                 fontSize: 17,
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(
@@ -243,6 +244,7 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
+                overflow: TextOverflow.ellipsis,
               ),
             )
           ],

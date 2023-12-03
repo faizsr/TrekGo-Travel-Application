@@ -100,9 +100,10 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
           onTap: () {
             updateDestinationn(
               context: context,
-              title: titleController.text,
-              description: descriptionController.text,
-              location: locationController.text,
+              title: titleController.text.replaceAll(RegExp(r'\s+'), ' '),
+              description:
+                  descriptionController.text.replaceAll(RegExp(r'\s+'), ' '),
+              location: locationController.text.replaceAll(RegExp(r'\s+'), ' '),
               selectedImage: _selectedImage,
               imageUrl: imageUrl ?? widget.placeImage,
               ratingCount: ratingCount ?? widget.placeRating,
@@ -114,6 +115,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
               placeImage: widget.placeImage,
               mapLink: mapLinkController.text,
               setLoadingCallback: setLoading,
+              formkey: _formKey,
             );
           },
         ),
@@ -146,6 +148,33 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 },
               ),
 
+              // ===== Rating =====
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 25, 20, 0),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2, color: Colors.black12),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SectionTitles(
+                      titleText: 'Rate',
+                      noPadding: 0,
+                    ),
+                    Center(
+                      child: RatingStarWidget(
+                        onUpdate: true,
+                        isTextNeeded: true,
+                        initialRatingCount: ratingCount,
+                        onRatingPlace: updateRatingCount,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               // ===== Category section =====
               const Padding(
                 padding: EdgeInsets.only(left: 12),
@@ -167,7 +196,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                       if (val == null) {
                         customSnackbar(
                             context, 'Please select a category', 20, 20, 20);
-                        return;
+                        return '';
                       } else {
                         return null;
                       }
@@ -184,7 +213,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                       if (val == null) {
                         customSnackbar(
                             context, 'Please select a state', 20, 20, 20);
-                        return;
+                        return '';
                       } else {
                         return null;
                       }
@@ -207,7 +236,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(context, 'Title is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -225,9 +254,10 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 minmaxLine: true,
                 validator: (value) {
                   if (value!.isEmpty) {
+                    debugPrint('Descripiton is empty');
                     customSnackbar(
                         context, 'Description is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -248,7 +278,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(context, 'Location is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -269,7 +299,7 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     customSnackbar(context, 'Location is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -278,15 +308,6 @@ class _UpdatePlaceScreenState extends State<UpdatePlaceScreen> {
 
               const SizedBox(
                 height: 15,
-              ),
-
-              // ===== Rating =====
-              Center(
-                child: RatingStarWidget(
-                  onUpdate: true,
-                  initialRatingCount: ratingCount,
-                  onRatingPlace: updateRatingCount,
-                ),
               ),
             ],
           ),

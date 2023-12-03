@@ -71,82 +71,83 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
 
       // ===== Body =====
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ===== App logo =====
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    top: 20,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ===== App logo =====
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    width: MediaQuery.of(context).size.width * 2,
+                    child: Image.asset(appName),
                   ),
-                  width: MediaQuery.of(context).size.width * 2,
-                  child: Image.asset(appName),
                 ),
-              ),
 
-              // ===== General Section =====
-              const SectionTitles(titleText: 'GENERAL'),
-              ListtileItem(
-                listtileText: 'Edit Profile',
-                onTap: () => nextScreen(
-                    context,
-                    EditProfileScreen(
-                      userId: widget.userId,
-                      image: widget.userImage ,
-                      fullName: widget.userFullName,
-                      mobileNumber: widget.userMobileNumber,
-                      email: widget.userEmail,
-                      gender: widget.userGender,
-                    )),
-              ),
-              ListtileItem(
-                listtileText: 'Reset Password',
-                onTap: () {
-                  nextScreen(
+                // ===== General Section =====
+                const SectionTitles(titleText: 'GENERAL'),
+                ListtileItem(
+                  listtileText: 'Edit Profile',
+                  onTap: () => nextScreen(
                       context,
-                      ForgotPasswordScreen(
-                        resetText: 'Reset Password?',
-                        backToLoginTxt: 'Done',
-                        userEmail: widget.userEmail,
-                        noBackToLogin: true,
-                        adjustHeight: true,
-                      ));
-                },
-              ),
-              _isAdminSignedIn
-                  ? GestureDetector(
-                      onTap: () {
-                        nextScreen(context, const AddPlaceScreen());
-                      },
-                      child:
-                          const ListtileItem(listtileText: 'Add Destination'),
-                    )
-                  : const SizedBox(),
+                      EditProfileScreen(
+                        userId: widget.userId,
+                        image: widget.userImage,
+                        fullName: widget.userFullName,
+                        mobileNumber: widget.userMobileNumber,
+                        email: widget.userEmail,
+                        gender: widget.userGender,
+                      )),
+                ),
+                ListtileItem(
+                  listtileText: 'Reset Password',
+                  onTap: () {
+                    nextScreen(
+                        context,
+                        ForgotPasswordScreen(
+                          resetText: 'Reset Password?',
+                          backToLoginTxt: 'Done',
+                          userEmail: widget.userEmail,
+                          noBackToLogin: true,
+                          adjustHeight: true,
+                        ));
+                  },
+                ),
+                _isAdminSignedIn
+                    ? GestureDetector(
+                        onTap: () {
+                          nextScreen(context, const AddPlaceScreen());
+                        },
+                        child:
+                            const ListtileItem(listtileText: 'Add Destination'),
+                      )
+                    : const SizedBox(),
 
-              // ===== Logout section
-              const SectionTitles(titleText: 'About'),
-              ListtileItem(
-                onTap: () {
-                  nextScreen(context, const TermsAndConditions());
-                },
-                listtileText: 'Terms & Conditions',
-              ),
-              ListtileItem(
-                onTap: () {
-                  nextScreen(context, const PrivacyPolicy());
-                },
-                listtileText: 'Privacy policy',
-              )
-            ],
-          ),
+                // ===== Logout section
+                const SectionTitles(titleText: 'About'),
+                ListtileItem(
+                  onTap: () {
+                    nextScreen(context, const TermsAndConditions());
+                  },
+                  listtileText: 'Terms & Conditions',
+                ),
+                ListtileItem(
+                  onTap: () {
+                    nextScreen(context, const PrivacyPolicy());
+                  },
+                  listtileText: 'Privacy policy',
+                )
+              ],
+            ),
 
-          //Social links
-          Positioned(
-            bottom: 30,
-            child: SizedBox(
+            //Social links
+            Container(
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.24),
               width: MediaQuery.of(context).size.width,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -198,8 +199,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

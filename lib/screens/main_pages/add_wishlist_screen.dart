@@ -150,6 +150,11 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   XFile? pickedImage = await pickImageFromGallery();
                   setState(() {
                     _selectedImage = pickedImage;
+                    isButtonEnable = nameController.text.isNotEmpty &&
+                        descriptionController.text.isNotEmpty &&
+                        locationController.text.isNotEmpty &&
+                        selectedState != null &&
+                        _selectedImage != null;
                   });
                 },
               ),
@@ -172,7 +177,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                     if (val == null) {
                       customSnackbar(
                           context, 'Please select a category', 0, 20, 20);
-                      return;
+                      return '';
                     } else {
                       return null;
                     }
@@ -195,13 +200,15 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   setState(() {
                     isButtonEnable = nameController.text.isNotEmpty &&
                         descriptionController.text.isNotEmpty &&
-                        locationController.text.isNotEmpty;
+                        locationController.text.isNotEmpty &&
+                        selectedState != null &&
+                        _selectedImage != null;
                   });
                 },
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(context, 'Title is required', 0, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -221,14 +228,16 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   setState(() {
                     isButtonEnable = nameController.text.isNotEmpty &&
                         descriptionController.text.isNotEmpty &&
-                        locationController.text.isNotEmpty;
+                        locationController.text.isNotEmpty &&
+                        selectedState != null &&
+                        _selectedImage != null;
                   });
                 },
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(
                         context, 'Description is required', 0, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -250,13 +259,15 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   setState(() {
                     isButtonEnable = nameController.text.isNotEmpty &&
                         descriptionController.text.isNotEmpty &&
-                        locationController.text.isNotEmpty;
+                        locationController.text.isNotEmpty &&
+                        selectedState != null &&
+                        _selectedImage != null;
                   });
                 },
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(context, 'Location is required', 0, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }

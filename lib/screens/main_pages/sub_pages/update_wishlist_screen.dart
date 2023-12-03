@@ -88,9 +88,11 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
           showCheckIcon: true,
           onTap: () {
             updateWishlist(
-                name: nameController.text,
-                description: descriptionController.text,
-                location: locationController.text,
+                name: nameController.text.replaceAll(RegExp(r'\s+'), ' '),
+                description:
+                    descriptionController.text.replaceAll(RegExp(r'\s+'), ' '),
+                location:
+                    locationController.text.replaceAll(RegExp(r'\s+'), ' '),
                 image: widget.image,
                 initialState: initialState,
                 imageUrl: imageUrl,
@@ -99,7 +101,8 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 selectedImage: _selectedImage,
                 selectedState: selectedState ?? initialState,
                 wishlistBox: wishlistBox,
-                context: context);
+                context: context,
+                formkey: _formKey);
           },
         ),
       ),
@@ -149,7 +152,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                     if (val == null) {
                       customSnackbar(
                           context, 'Please select a category', 20, 20, 20);
-                      return 'This field is required';
+                      return '';
                     } else {
                       return null;
                     }
@@ -171,7 +174,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(context, 'Title is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -191,7 +194,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                   if (val!.isEmpty) {
                     customSnackbar(
                         context, 'Description is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }
@@ -212,7 +215,7 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 validator: (val) {
                   if (val!.isEmpty) {
                     customSnackbar(context, 'Location is required', 20, 20, 20);
-                    return;
+                    return '';
                   } else {
                     return null;
                   }

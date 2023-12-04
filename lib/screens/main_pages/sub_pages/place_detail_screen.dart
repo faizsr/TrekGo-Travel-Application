@@ -422,7 +422,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                               // disableTitle: false,
                                               title: 'Post Rating?',
                                               description:
-                                                  'Add a reveiw to post your rating',
+                                                  'Your review will be only posted only if you add a review.',
                                               descriptionTxtSize: 14,
                                               actionBtnTxt: 'Add review',
                                               onTap: () {

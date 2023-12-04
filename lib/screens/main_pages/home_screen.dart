@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFe5e6f6));
     var mediaHeight = MediaQuery.of(context).size.height;
     var mediaWidth = MediaQuery.of(context).size.width;
     return ValueListenableBuilder(
@@ -75,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.25,
-                          padding:
-                              EdgeInsets.fromLTRB(25, mediaHeight * 0.02, 20, 0),
+                          padding: EdgeInsets.fromLTRB(
+                              25, mediaHeight * 0.02, 20, 0),
                           decoration: const BoxDecoration(
                             color: Color(0xFFe5e6f6),
                             borderRadius: BorderRadius.only(

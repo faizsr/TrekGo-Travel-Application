@@ -68,6 +68,8 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFe5e6f6));
+
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
@@ -95,25 +97,24 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                 bottom: 30,
                 right: 20,
                 child: GestureDetector(
-                  onTap: isButtonEnable
-                      ? () async {
-                          await addWishlist(
-                            formKey: _formKey,
-                            selectedImage: _selectedImage,
-                            selectedState: selectedState,
-                            intHiveKey: inthiveKey,
-                            hiveKey: hiveKey,
-                            userId: widget.userId,
-                            name: nameController.text,
-                            descripition: descriptionController.text,
-                            location: locationController.text,
-                            wishlistBox: wishlistBox,
-                            setLoadingCallback: setLoading,
-                            context: context,
-                          );
-                          widget.updateIndex?.call(0);
-                        }
-                      : null,
+                  onTap: () {
+                    addWishlist(
+                      formKey: _formKey,
+                      selectedImage: _selectedImage,
+                      selectedState: selectedState,
+                      intHiveKey: inthiveKey,
+                      hiveKey: hiveKey,
+                      userId: widget.userId,
+                      name: nameController.text,
+                      descripition: descriptionController.text,
+                      location: locationController.text,
+                      wishlistBox: wishlistBox,
+                      setLoadingCallback: setLoading,
+                      context: context,
+                      updateIndex: widget.updateIndex,
+                    );
+                    // widget.updateIndex?.call(0);
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
@@ -196,7 +197,8 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   });
                 },
                 validator: (val) {
-                  if (val!.isEmpty) {
+                  String trimmedTitle = val!.trim();
+                  if (trimmedTitle.isEmpty) {
                     customSnackbar(context, 'Title is required', 0, 20, 20);
                     return '';
                   } else {
@@ -224,7 +226,8 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   });
                 },
                 validator: (val) {
-                  if (val!.isEmpty) {
+                  String trimmedDescription = val!.trim();
+                  if (trimmedDescription.isEmpty) {
                     customSnackbar(
                         context, 'Description is required', 0, 20, 20);
                     return '';
@@ -255,7 +258,8 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
                   });
                 },
                 validator: (val) {
-                  if (val!.isEmpty) {
+                  String trimmedLocation = val!.trim();
+                  if (trimmedLocation.isEmpty) {
                     customSnackbar(context, 'Location is required', 0, 20, 20);
                     return '';
                   } else {

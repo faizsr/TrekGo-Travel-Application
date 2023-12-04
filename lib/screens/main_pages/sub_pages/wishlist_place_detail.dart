@@ -200,7 +200,9 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                             overflow: TextOverflow.ellipsis),
+                            textAlign: TextAlign.center,
                       ),
+                      
                     ),
               
                     // ============ Tab Bar Heading ============

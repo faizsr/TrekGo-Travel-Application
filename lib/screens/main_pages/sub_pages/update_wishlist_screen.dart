@@ -163,7 +163,8 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 hintText: 'Title of the place...',
                 minmaxLine: false,
                 validator: (val) {
-                  if (val!.isEmpty) {
+                  String trimmedTitle = val!.trim();
+                  if (trimmedTitle.isEmpty) {
                     customSnackbar(context, 'Title is required', 20, 20, 20);
                     return '';
                   } else {
@@ -182,7 +183,8 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 hintText: 'Description of the place...',
                 minmaxLine: true,
                 validator: (val) {
-                  if (val!.isEmpty) {
+                  String trimmedDescription = val!.trim();
+                  if (trimmedDescription.isEmpty) {
                     customSnackbar(
                         context, 'Description is required', 20, 20, 20);
                     return '';
@@ -204,7 +206,8 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
                 hintText: 'Location of the place...',
                 minmaxLine: false,
                 validator: (val) {
-                  if (val!.isEmpty) {
+                  String trimmedLocation = val!.trim();
+                  if (trimmedLocation.isEmpty) {
                     customSnackbar(context, 'Location is required', 20, 20, 20);
                     return '';
                   } else {

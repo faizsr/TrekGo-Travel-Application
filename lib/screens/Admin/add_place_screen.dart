@@ -195,7 +195,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   });
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  String trimmedTitle = value!.trim();
+                  if (trimmedTitle.isEmpty) {
                     customSnackbar(context, 'Title is required', 20, 20, 20);
                     return;
                   } else {
@@ -223,7 +224,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   });
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  String trimmedDescription = value!.trim();
+                  if (trimmedDescription.isEmpty) {
                     customSnackbar(
                         context, 'Description is required', 20, 20, 20);
                     return;
@@ -254,7 +256,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   });
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  String trimmedLocation = value!.trim();
+                  if (trimmedLocation.isEmpty) {
                     customSnackbar(context, 'Location is required', 20, 20, 20);
                     return;
                   } else {
@@ -283,7 +286,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   });
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  String trimmedMapLink = value!.trim();
+                  if (trimmedMapLink.isEmpty) {
                     customSnackbar(context, 'Map Link is required', 20, 20, 20);
                     return;
                   } else {

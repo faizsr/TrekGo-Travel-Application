@@ -20,6 +20,7 @@ addWishlist({
   Box<Wishlist>? wishlistBox,
   Function(bool)? setLoadingCallback,
   BuildContext? context,
+  void Function(int)? updateIndex,
 }) {
   if (selectedImage == null) {
     customSnackbar(context, 'Please choose a image', 0, 20, 20);
@@ -46,6 +47,7 @@ addWishlist({
         ));
     customSnackbar(context, 'New wishlist created!', 0, 20, 20);
     debugPrint('Data added');
+    updateIndex!.call(0);
   } else {
     setLoadingCallback!(false);
     debugPrint('Details not updated');

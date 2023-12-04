@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/recent_search_card.dart';
 
@@ -25,11 +27,21 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController searchController = TextEditingController();
+  Map<String, dynamic>? recentSearch;
+  List<QueryDocumentSnapshot>? recentSearchResult;
+  List<QueryDocumentSnapshot>? searchResults;
 
   String name = '';
 
   @override
+  void initState() {
+    debugPrint('recentSearch : $recentSearch');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFe5e6f6));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(
@@ -131,54 +143,99 @@ class _SearchScreenState extends State<SearchScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return ListView.builder(
-              padding: const EdgeInsets.only(top: 20, bottom: 100),
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                var data =
-                    snapshot.data!.docs[index].data() as Map<String, dynamic>;
+            List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
 
-                DocumentSnapshot destinationSnapshot =
-                    snapshot.data!.docs[index];
+            recentSearchResult = documents
+                .where((search) =>
+                    recentSearch != null &&
+                    recentSearch!['place_id'] == search.id)
+                .toList();
 
-                // ========== When no filtering ==========
-                if (name.isEmpty) {
-                  debugPrint('No Sorting');
-                  return RecentSearchCard(
-                    userId: widget.userId,
-                    isAdmin: widget.isAdmin,
-                    isUser: widget.isAdmin,
-                    placeId: destinationSnapshot.id,
-                    cardImage: data['place_image'],
-                    cardTitle: data['place_name'],
-                    ratingCount: data['place_rating'],
+            searchResults = documents
+                .where((search) =>
+                    recentSearch == null &&
+                    (search['place_name']
+                            .toString()
+                            .toLowerCase()
+                            .startsWith(name.toLowerCase()) ||
+                        search['place_state']
+                            .toString()
+                            .toLowerCase()
+                            .startsWith(name.toLowerCase())))
+                .toList();
+
+            if (recentSearch != null && recentSearchResult!.isNotEmpty) {
+              return ListView.builder(
+                padding: const EdgeInsets.only(top: 20, bottom: 100),
+                // itemCount: snapshot.data!.docs.length,
+                itemCount: recentSearchResult!.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      debugPrint('On recent searches');
+                      nextScreen(
+                        context,
+                        PlaceDetailScreen(
+                          userId: widget.userId,
+                          isAdmin: widget.isAdmin,
+                          isUser: widget.isUser,
+                          placeid: recentSearchResult![index].id,
+                        ),
+                      );
+                    },
+                    child: RecentSearchCard(
+                      userId: widget.userId,
+                      isAdmin: widget.isAdmin,
+                      isUser: widget.isAdmin,
+                      placeId: recentSearchResult![index].id,
+                      cardImage: recentSearch!['place_image'],
+                      cardTitle: recentSearch!['place_name'],
+                      ratingCount: recentSearch!['place_rating'],
+                    ),
                   );
-                }
+                },
+              );
+            } else if (searchResults!.isNotEmpty) {
+              debugPrint('Search Sorting');
+              return ListView.builder(
+                padding: const EdgeInsets.only(top: 20, bottom: 100),
+                // itemCount: snapshot.data!.docs.length,
+                itemCount: searchResults!.length,
+                itemBuilder: (context, index) {
+                  var data =
+                      searchResults![index].data() as Map<String, dynamic>;
 
-                // ========== Search field sorting ==========
-                if (data['place_name']
-                        .toString()
-                        .toLowerCase()
-                        .startsWith(name.toLowerCase()) ||
-                    data['place_state']
-                        .toString()
-                        .toLowerCase()
-                        .startsWith(name.toLowerCase())) {
-                  debugPrint('Search Sorting');
-                  return RecentSearchCard(
-                    userId: widget.userId,
-                    isAdmin: widget.isAdmin,
-                    isUser: widget.isAdmin,
-                    placeId: destinationSnapshot.id,
-                    cardImage: data['place_image'],
-                    cardTitle: data['place_name'],
-                    ratingCount: data['place_rating'],
+                  return GestureDetector(
+                    onTap: () {
+                      debugPrint('On recent searches');
+                      nextScreen(
+                        context,
+                        PlaceDetailScreen(
+                          userId: widget.userId,
+                          isAdmin: widget.isAdmin,
+                          isUser: widget.isUser,
+                          placeid: searchResults![index].id,
+                        ),
+                      );
+                    },
+                    child: RecentSearchCard(
+                      userId: widget.userId,
+                      isAdmin: widget.isAdmin,
+                      isUser: widget.isAdmin,
+                      placeId: searchResults![index].id,
+                      cardImage: data['place_image'],
+                      cardTitle: data['place_name'],
+                      ratingCount: data['place_rating'],
+                    ),
                   );
-                }
-
-                return Container();
-              },
-            );
+                },
+              );
+            } else {
+              debugPrint('No search');
+              return const Center(
+                child: Text('No recent searches or results'),
+              );
+            }
           }
           return Container();
         },

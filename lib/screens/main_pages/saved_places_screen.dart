@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/model/saved.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/saved_screen_widgets/saved_screen_card.dart';
 import 'package:trekmate_project/widgets/saved_screen_widgets/saved_icon.dart';
 
@@ -33,6 +34,8 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFe5e6f6));
+
     // final savedPlaces = savedList!.toList();
     return ValueListenableBuilder(
       valueListenable: savedBox.listenable(),

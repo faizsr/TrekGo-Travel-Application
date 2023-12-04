@@ -5,11 +5,13 @@ class FilterChipWidget extends StatefulWidget {
   final List<String>? selectedState;
   final String? category;
   final VoidCallback? onUpdateData;
+  final bool? isSelectedFilter;
   const FilterChipWidget({
     super.key,
     this.selectedState,
     this.category,
     this.onUpdateData,
+    this.isSelectedFilter,
   });
 
   @override
@@ -17,16 +19,23 @@ class FilterChipWidget extends StatefulWidget {
 }
 
 class _FilterChipWidgetState extends State<FilterChipWidget> {
-  bool isSelected = false;
+  late bool isSelected;
+
+  @override
+  void initState() {
+    super.initState();
+    isSelected = widget.isSelectedFilter!;
+  }
+
   @override
   Widget build(BuildContext context) {
     setStatusBarColor(const Color(0xFF696a71));
     return FilterChip(
-        labelStyle: TextStyle(
-            color: isSelected ? Colors.white : const Color(0xFF1485b9)),
-        // side: const BorderSide(width: 2, color: Color(0xFF1485b9)),
-        selectedColor: const Color(0xFF1485b9),
-        backgroundColor: Colors.white,
+        color: MaterialStateProperty.all(Colors.white),
+        pressElevation: 0,
+        labelStyle: const TextStyle(color: Colors.black),
+        selectedColor: const Color(0xFFe5e6f6),
+        backgroundColor: Colors.transparent.withOpacity(0),
         showCheckmark: false,
         selected: widget.selectedState != null &&
             widget.selectedState!.contains(widget.category?.toLowerCase()),
@@ -34,6 +43,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
         onSelected: (selected) {
           setState(() {
             isSelected = !isSelected;
+            debugPrint('is selected: $isSelected');
             if (selected) {
               widget.selectedState!.add(widget.category!.toLowerCase());
             } else {

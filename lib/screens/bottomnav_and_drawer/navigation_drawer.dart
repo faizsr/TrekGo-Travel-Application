@@ -112,21 +112,21 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                 name: 'Saved',
                 icon: FeatherIcons.bookmark,
                 onPressed: () {
-                  nextScreen(
-                    context,
-                    WishlistScreen(
-                      currentUserId: widget.userId,
-                    ),
-                  );
+                  widget.updateIndex?.call(3);
+                  debugPrint('Wishlist Pressed');
+                  Navigator.of(context).pop();
                 },
               ),
               DrawerItem(
                 name: 'Wishlists',
                 icon: FeatherIcons.heart,
                 onPressed: () {
-                  widget.updateIndex?.call(3);
-                  debugPrint('Home Pressed');
-                  Navigator.of(context).pop();
+                  nextScreen(
+                    context,
+                    WishlistScreen(
+                      currentUserId: widget.userId,
+                    ),
+                  );
                 },
               ),
               DrawerItem(

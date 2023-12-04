@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
@@ -8,6 +9,7 @@ import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/p
 import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/terms_and_conditions.dart';
 import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
+import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/listtile_item.dart';
@@ -36,12 +38,14 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final AuthService authService = AuthService();
+  Stream<DocumentSnapshot>? userDataStream;
 
   bool _isAdminSignedIn = false;
 
   @override
   void initState() {
     getAdminLoggedInStatus();
+    userDataStream = DatabaseService().getUserDetails(widget.userId ?? '');
     super.initState();
   }
 
@@ -90,18 +94,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 // ===== General Section =====
                 const SectionTitles(titleText: 'GENERAL'),
-                ListtileItem(
-                  listtileText: 'Edit Profile',
-                  onTap: () => nextScreen(
-                      context,
-                      EditProfileScreen(
-                        userId: widget.userId,
-                        image: widget.userImage,
-                        fullName: widget.userFullName,
-                        mobileNumber: widget.userMobileNumber,
-                        email: widget.userEmail,
-                        gender: widget.userGender,
-                      )),
+                StreamBuilder(
+                  stream: userDataStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      final userDataSnapshot =
+                          snapshot.data?.data() as Map<String, dynamic>;
+                      return ListtileItem(
+                        listtileText: 'Edit Profile',
+                        onTap: () => nextScreen(
+                            context,
+                            EditProfileScreen(
+                              userId: widget.userId,
+                              image: userDataSnapshot['profilePic'],
+                              fullName: userDataSnapshot['fullname'],
+                              mobileNumber: userDataSnapshot['mobile_number'],
+                              email: userDataSnapshot['email'],
+                              gender: userDataSnapshot['gender'],
+                            )),
+                      );
+                    }
+                    return Container();
+                  },
                 ),
                 ListtileItem(
                   listtileText: 'Reset Password',

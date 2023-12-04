@@ -217,8 +217,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       // ===== Wishlist places button =====
                       UserProfileListtile(
                         titleText: 'Your Wishlists',
-                        onTapIcon: () =>
-                            nextScreen(context, const WishlistScreen()),
+                        onTapIcon: () => nextScreen(
+                            context,
+                            WishlistScreen(
+                              currentUserId: widget.userId,
+                            )),
                       ),
                       Divider(
                         thickness: MediaQuery.of(context).size.height * 0.0007,

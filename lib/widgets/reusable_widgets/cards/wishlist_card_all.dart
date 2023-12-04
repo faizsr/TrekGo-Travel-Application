@@ -79,12 +79,16 @@ class WishlistCardAll extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          placeName,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: Text(
+                            placeName,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                         const Icon(

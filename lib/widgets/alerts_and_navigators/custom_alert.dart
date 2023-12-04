@@ -3,7 +3,9 @@ import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_naviga
 
 class CustomAlertDialog extends StatefulWidget {
   final String? title;
+  final bool disableTitle;
   final String? description;
+  final double? descriptionTxtSize;
   final bool? disableActionBtn;
   final String? popBtnText;
   final Function()? onTap;
@@ -11,7 +13,9 @@ class CustomAlertDialog extends StatefulWidget {
   const CustomAlertDialog({
     super.key,
     this.title,
+    this.disableTitle = true,
     this.description,
+    this.descriptionTxtSize,
     this.onTap,
     this.disableActionBtn = false,
     this.popBtnText,
@@ -35,20 +39,23 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const SizedBox(height: 15),
-        Text(
-          widget.title ?? '',
-          style: const TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        SizedBox(height: widget.disableTitle ? 15 : 0),
+        widget.disableTitle
+            ? Text(
+                widget.title ?? '',
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            : const SizedBox(),
         const SizedBox(height: 15),
         Padding(
           padding: const EdgeInsets.only(left: 50, right: 50),
           child: Text(
             widget.description ?? '',
             textAlign: TextAlign.center,
+            style: TextStyle(fontSize: widget.descriptionTxtSize ?? 13),
           ),
         ),
         const SizedBox(height: 10),
@@ -64,7 +71,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                     child: Text(
                       widget.actionBtnTxt ?? 'Delete',
                       style: const TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 16.0,
                         color: Color(0xFF1285b9),
                         fontWeight: FontWeight.w600,
                       ),

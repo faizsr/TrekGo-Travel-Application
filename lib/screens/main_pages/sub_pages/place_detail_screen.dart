@@ -9,6 +9,7 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_buttons.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
@@ -414,19 +415,38 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                       buttonColor: Colors.transparent,
                                       buttonText: 'POST RATING',
                                       buttonOnPressed: () {
-                                        setState(() {
-                                          addedRating = ratingCount;
-                                          debugPrint(
-                                              'Rating after posting: $addedRating');
-                                          FirebaseFirestore.instance
-                                              .collection('destination')
-                                              .doc(widget.placeid)
-                                              .collection('reviews')
-                                              .doc()
-                                              .set({
-                                            'user_rating_count': addedRating
-                                          });
-                                        });
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CustomAlertDialog(
+                                              // disableTitle: false,
+                                              title: 'Post Rating?',
+                                              description:
+                                                  'Add a reveiw to post your rating',
+                                              descriptionTxtSize: 14,
+                                              actionBtnTxt: 'Add review',
+                                              onTap: () {
+                                                // On tapping changing the tab to review.
+                                                tabController.animateTo(2);
+                                                setState(() {
+                                                  addedRating = ratingCount;
+                                                  debugPrint(
+                                                      'Rating after posting: $addedRating');
+                                                  FirebaseFirestore.instance
+                                                      .collection('destination')
+                                                      .doc(widget.placeid)
+                                                      .collection('reviews')
+                                                      .doc()
+                                                      .set({
+                                                    'user_rating_count':
+                                                        addedRating
+                                                  });
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
+                                            );
+                                          },
+                                        );
                                       },
                                     ),
                                   ),
@@ -450,9 +470,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                   child: ReviewTextField(
                                     controller: reviewController,
                                     onTap: () {
-                                      if (reviewController.text.isNotEmpty &&
-                                          !reviewController.text
-                                              .contains(RegExp(r'\s+'))) {
+                                      String trimmedText =
+                                          reviewController.text.trim();
+                                      if (trimmedText.isNotEmpty) {
                                         addComment(
                                           reviewText: reviewController.text,
                                           userIdd: userId,

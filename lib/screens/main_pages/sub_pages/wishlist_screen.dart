@@ -1,6 +1,5 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
@@ -194,6 +193,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                                   selectedState: selectedState,
                                                   category: category,
                                                   onUpdateData: updateData,
+                                                  isSelectedFilter: false,
                                                 ))
                                             .toList(),
                                       ),

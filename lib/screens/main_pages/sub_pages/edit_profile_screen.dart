@@ -43,6 +43,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final mobileNoController = TextEditingController();
   final emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  String? trimmedName;
 
   void updateGenderSelection(String? category) {
     selectedGender = category;
@@ -161,7 +162,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     controller: nameController,
                     hintText: 'Full name',
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      trimmedName = value!.trim();
+                      debugPrint(
+                          'value name on validation: ${trimmedName ?? 'name'}');
+                      if (trimmedName!.isEmpty) {
                         customSnackbar(
                             context, 'Please enter a name', 20, 20, 20);
                         return '';
@@ -183,16 +187,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: EditDropDownWidget(
                       updateGender: initialGender ?? 'Male',
                       hintText: 'Gender',
-                      rightPadding: 20,
-                      leftPadding: 20,
                       onGenderSelectionChange: updateGenderSelection,
-                      validator: (val) {
-                        if (val == null) {
-                          return '';
-                        } else {
-                          return null;
-                        }
-                      },
                     ),
                   ),
 
@@ -208,13 +203,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     controller: mobileNoController,
                     hintText: 'Phone number',
                     validator: (val) {
-                      if (val!.isEmpty) {
-                        return null;
-                      } else if (!(RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)'))
-                          .hasMatch(val)) {
-                        customSnackbar(
-                            context, 'Please enter a valid number', 20, 20, 20);
-                        return '';
+                      // if (val!.isEmpty) {
+                      //   return null;
+                      // } else
+                      if (val!.isNotEmpty) {
+                        if (!(RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)'))
+                            .hasMatch(val)) {
+                          customSnackbar(context, 'Please enter a valid number',
+                              20, 20, 20);
+                          return '';
+                        }
                       }
                       return null;
                     },

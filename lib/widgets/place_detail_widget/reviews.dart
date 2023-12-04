@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -96,9 +97,9 @@ class _ReviewPlaceState extends State<ReviewPlace> {
                         child: FadeInImage(
                           placeholder: AssetImage(defaultImage),
                           fit: BoxFit.cover,
-                          image: userProfile == null
+                          image: userProfile == ''
                               ? Image.asset(defaultImage).image
-                              : Image.network(userProfile ?? '').image,
+                              : CachedNetworkImageProvider(userProfile ?? ''),
                         ),
                       ),
                     ),

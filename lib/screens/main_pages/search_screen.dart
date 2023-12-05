@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
 import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/recent_search_card.dart';
 
@@ -30,8 +31,29 @@ class _SearchScreenState extends State<SearchScreen> {
   Map<String, dynamic>? recentSearch;
   List<QueryDocumentSnapshot>? recentSearchResult;
   List<QueryDocumentSnapshot>? searchResults;
+  List<String> selectedState = [];
+
+  final List<String> states = [
+    'Kerala',
+    'Karnataka',
+    'Rajasthan',
+    'Goa',
+    'Himachal Pradesh',
+    'Tamil Nadu',
+    'Meghalaya',
+    'Gujarat',
+    'Andhra pradesh',
+    'Madhya Pradesh',
+    'Maharashtra',
+  ];
 
   String name = '';
+
+  updateData() {
+    setState(() {
+      searchResults = null;
+    });
+  }
 
   @override
   void initState() {
@@ -112,21 +134,70 @@ class _SearchScreenState extends State<SearchScreen> {
                         });
                       },
                     ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            offset: Offset(0, 2),
-                            color: Color(0x0D000000),
-                          )
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              padding: const EdgeInsets.fromLTRB(16, 20, 10, 0),
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      'Filter by State:', // Your heading here
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Wrap(
+                                    spacing: 8.0,
+                                    children: states
+                                        .map((category) => FilterChipWidget(
+                                              selectedState: selectedState,
+                                              category: category,
+                                              onUpdateData: updateData,
+                                              isSelectedFilter: false,
+                                            ))
+                                        .toList(),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
+                              color: Color(0x0D000000),
+                            )
+                          ],
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.14,
+                        height: MediaQuery.of(context).size.height * 0.0625,
+                        child: const Icon(FeatherIcons.filter),
                       ),
-                      width: MediaQuery.of(context).size.width * 0.14,
-                      height: MediaQuery.of(context).size.height * 0.0625,
-                      child: const Icon(FeatherIcons.search),
                     ),
                   ],
                 ),
@@ -153,12 +224,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
             searchResults = documents
                 .where((search) =>
-                    recentSearch == null &&
-                    (search['place_name']
-                            .toString()
-                            .toLowerCase()
-                            .startsWith(name.toLowerCase()) ||
-                        search['place_state']
+                    (recentSearch == null ||
+                        search['place_id'] != recentSearch!['place_id']) &&
+                    (selectedState.isEmpty ||
+                        selectedState.contains(
+                            search['place_state'].toString().toLowerCase())) &&
+                    (name.isEmpty ||
+                        search['place_name']
                             .toString()
                             .toLowerCase()
                             .startsWith(name.toLowerCase())))

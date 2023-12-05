@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   // ===== Function for navigating based on roles =====
   Future<void> checkLoginStatus() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(microseconds: 500));
 
     if (mounted) {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance

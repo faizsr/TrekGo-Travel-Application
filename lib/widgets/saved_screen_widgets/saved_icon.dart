@@ -52,6 +52,7 @@ class _SavedIconState extends State<SavedIcon> {
               if (!savedProvider.savedIds.contains(widget.id)) {
                 // ============ Adding the data to the Saved ============
                 String uniqueKey = widget.id ?? '';
+                DateTime dateTime = DateTime.now();
                 await savedBox.put(
                     uniqueKey,
                     Saved(
@@ -62,6 +63,7 @@ class _SavedIconState extends State<SavedIcon> {
                       rating: widget.rating,
                       description: widget.description,
                       location: widget.location,
+                      dateTime: dateTime,
                     ));
                 savedProvider.updateSavedIds(
                     savedProvider.savedIds..add(widget.id ?? ''));

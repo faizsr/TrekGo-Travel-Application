@@ -43,6 +43,11 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
         var savedPlaces = savedBox.values
             // .where((saved) => saved.userId == widget.userId)
             .toList();
+
+        savedPlaces.sort(
+          (a, b) => b.dateTime!.compareTo(a.dateTime!),
+        );
+
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: Size(MediaQuery.of(context).size.width,

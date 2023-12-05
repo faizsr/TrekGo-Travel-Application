@@ -28,6 +28,9 @@ class Saved extends HiveObject {
   @HiveField(7)
   final String? userId;
 
+  @HiveField(8)
+  final DateTime? dateTime;
+
   Saved({
     this.name,
     this.rating,
@@ -37,5 +40,6 @@ class Saved extends HiveObject {
     this.isSaved,
     this.firebaseid,
     this.userId,
+    this.dateTime,
   });
 }

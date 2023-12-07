@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   const PrivacyPolicy({super.key});

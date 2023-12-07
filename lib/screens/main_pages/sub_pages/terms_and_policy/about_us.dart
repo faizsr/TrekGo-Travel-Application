@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
@@ -60,51 +60,6 @@ class AboutUs extends StatelessWidget {
                 joinUs ?? '',
                 softWrap: true,
               ),
-              // const SectionTitles(
-              //   titleText: 'Security',
-              //   noPadding: 0,
-              //   textSize: 16,
-              // ),
-              // Text(
-              //   security ?? '',
-              //   softWrap: true,
-              // ),
-              // const SectionTitles(
-              //   titleText: 'Links to Other Sites',
-              //   noPadding: 0,
-              //   textSize: 16,
-              // ),
-              // Text(
-              //   linksToOtherSites ?? '',
-              //   softWrap: true,
-              // ),
-              // const SectionTitles(
-              //   titleText: "Children's Privacy",
-              //   noPadding: 0,
-              //   textSize: 16,
-              // ),
-              // Text(
-              //   childrensPrivacy ?? '',
-              //   softWrap: true,
-              // ),
-              // const SectionTitles(
-              //   titleText: "Changes to This Privacy Policy",
-              //   noPadding: 0,
-              //   textSize: 16,
-              // ),
-              // Text(
-              //   changesToPrivayPolicy ?? '',
-              //   softWrap: true,
-              // ),
-              // const SectionTitles(
-              //   titleText: "Contacy Us",
-              //   noPadding: 0,
-              //   textSize: 16,
-              // ),
-              // Text(
-              //   contactUs ?? '',
-              //   softWrap: true,
-              // ),
             ],
           ),
         ),

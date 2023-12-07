@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-// import 'package:provider/provider.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
@@ -12,10 +11,8 @@ import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_scree
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/card_rating_bar.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/place_card_buttons.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
 import 'package:trekmate_project/widgets/saved_screen_widgets/saved_icon.dart';
-// import 'package:trekmate_project/widgets/saved_provider.dart';
 
 class PopularCard extends StatefulWidget {
   final String? userId;

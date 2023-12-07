@@ -10,8 +10,6 @@ import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_naviga
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/section_titles.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/text_form_field.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   const AddPlaceScreen({super.key});

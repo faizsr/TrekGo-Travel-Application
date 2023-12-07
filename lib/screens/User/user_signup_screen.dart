@@ -3,9 +3,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
+import 'package:trekmate_project/screens/user/widget/widgets.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   const UserSignUpScreen({super.key});

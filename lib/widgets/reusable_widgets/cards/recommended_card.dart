@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class RecommendedCard extends StatelessWidget {

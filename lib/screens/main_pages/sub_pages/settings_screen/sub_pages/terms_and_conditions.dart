@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
-class AboutUs extends StatelessWidget {
-  const AboutUs({super.key});
+class TermsAndConditions extends StatelessWidget {
+  const TermsAndConditions({super.key});
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(const Color(0xFFe5e6f6));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.1,
-        child: const PlaceScreenAppbar(
-          title: 'About Us',
+        child: const CustomAppbar(
+          title: 'Terms & Conditions',
           isLocationEnable: false,
         ),
       ),
@@ -25,39 +26,30 @@ class AboutUs extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SectionTitles(
-                titleText: 'Welcome to TrekGo,',
+                titleText: 'TrekGo',
                 noPadding: 0,
-                textSize: 24,
+                textSize: 18,
               ),
               Text(
-                aboutUs!,
+                termsAndConditions!,
                 softWrap: true,
               ),
               const SectionTitles(
-                titleText: 'Our Vision',
+                titleText: 'Changes to This Terms and Conditions',
                 noPadding: 0,
                 textSize: 16,
               ),
               Text(
-                ourVision ?? '',
+                changesToTermsConditions ?? '',
                 softWrap: true,
               ),
               const SectionTitles(
-                titleText: 'Our Commitment',
+                titleText: 'Contact Us',
                 noPadding: 0,
                 textSize: 16,
               ),
               Text(
-                ourCommitment ?? '',
-                softWrap: true,
-              ),
-              const SectionTitles(
-                titleText: 'Join Us on the Journey',
-                noPadding: 0,
-                textSize: 16,
-              ),
-              Text(
-                joinUs ?? '',
+                contactUs ?? '',
                 softWrap: true,
               ),
             ],

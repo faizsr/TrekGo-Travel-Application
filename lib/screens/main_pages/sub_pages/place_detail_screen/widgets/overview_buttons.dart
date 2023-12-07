@@ -4,10 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/admin/update_place_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
-import 'package:trekmate_project/widgets/place_detail_widget/bottom_buttons.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/bottom_buttons.dart';
 import 'package:trekmate_project/provider/saved_provider.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OverviewBottomButtons extends StatefulWidget {

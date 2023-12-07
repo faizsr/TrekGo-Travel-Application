@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 // =============== Appbar subtitle with stream ===============
 
@@ -95,13 +96,7 @@ class _AppbarSubtitlesState extends State<AppbarSubtitles> {
   }
 }
 
-// =============== String Capitalise ===============
 
-extension MyExtension on String {
-  String capitalise() {
-    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
-  }
-}
 
 // =============== Appbar Subtitle ===============
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class PrivacyPolicy extends StatelessWidget {
@@ -11,7 +10,7 @@ class PrivacyPolicy extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.1,
-        child: const PlaceScreenAppbar(
+        child: const CustomAppbar(
           title: 'Privacy Policy',
           isLocationEnable: false,
         ),

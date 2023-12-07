@@ -8,9 +8,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/user/widget/edit_gender_drop_down.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
+import 'package:trekmate_project/screens/user/widget/widgets.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -71,7 +70,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.1,
-        child: PlaceScreenAppbar(
+        child: CustomAppbar(
           title: 'Edit Profile',
           isLocationEnable: false,
           showCheckIcon: true,

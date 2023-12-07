@@ -7,12 +7,11 @@ import 'package:hive/hive.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/Admin/update_place_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
-import 'package:trekmate_project/widgets/saved_screen_widgets/saved_screen_icon.dart';
+import 'package:trekmate_project/screens/main_pages/saved_places_screen/widgets/saved_screen_icon.dart';
 
 class SavedScreenCard extends StatefulWidget {
   final String? userId;
@@ -210,7 +209,7 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
                                   placeRating: widget.ratingCount,
                                 ),
                               ),
-                          child: const PlaceCardButton(buttonText: 'UPDATE')),
+                          child: const CardButton(buttonText: 'UPDATE')),
                     )
                   : const SizedBox(),
               widget.isAdmin == true
@@ -221,7 +220,7 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
                         onTap: () {
                           deleteDestination(widget.placeid ?? '', context);
                         },
-                        child: const PlaceCardButton(buttonText: 'REMOVE'),
+                        child: const CardButton(buttonText: 'REMOVE'),
                       ),
                     )
                   : const SizedBox(),

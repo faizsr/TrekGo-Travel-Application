@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/place_cards.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class RecommendedPlacesScreen extends StatefulWidget {
   final bool? isAdmin;
@@ -30,7 +30,7 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
       // ===== Appbar =====
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.105,
-        child: PlaceScreenAppbar(
+        child: CustomAppbar(
           iconPadding: 25,
           titlePadding: 20,
           toolBarHeight: 80,

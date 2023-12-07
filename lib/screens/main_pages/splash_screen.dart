@@ -1,4 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/bottomnav_and_drawer/bottom_navigation_bar.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

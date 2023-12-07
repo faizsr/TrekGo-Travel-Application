@@ -7,8 +7,8 @@ import 'package:trekmate_project/firebase_options.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/screens/main_pages/splash_screen.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/provider/saved_provider.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

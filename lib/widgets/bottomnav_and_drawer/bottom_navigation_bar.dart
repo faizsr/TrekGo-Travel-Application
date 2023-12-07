@@ -1,11 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/screens/bottomnav_and_drawer/navigation_drawer.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/navigation_drawer.dart';
 import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
-import 'package:trekmate_project/screens/main_pages/home_screen.dart';
-import 'package:trekmate_project/screens/main_pages/saved_places_screen.dart';
-import 'package:trekmate_project/screens/main_pages/profile_screen.dart';
+import 'package:trekmate_project/screens/main_pages/home_screen/home_screen.dart';
+import 'package:trekmate_project/screens/main_pages/saved_places_screen/saved_places_screen.dart';
+import 'package:trekmate_project/screens/main_pages/profile_screen/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
 
 class NavigationBottomBar extends StatefulWidget {

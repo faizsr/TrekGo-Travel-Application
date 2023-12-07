@@ -6,11 +6,11 @@ import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_scr
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
 import 'package:trekmate_project/widgets/carousel_slider/popular_carousel_slider_copy.dart';
 import 'package:trekmate_project/widgets/carousel_slider/recommended_slider.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/carousel_slider/wishlist_carousel_slider.dart';
-import 'package:trekmate_project/widgets/home_screen_widgets/top_bar_items.dart';
-import 'package:trekmate_project/widgets/home_screen_widgets/appbar_subtitles.dart';
+import 'package:trekmate_project/screens/main_pages/home_screen/widgets/top_bar_items.dart';
+import 'package:trekmate_project/screens/main_pages/home_screen/widgets/appbar_subtitles.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/choice_chips.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? userId;

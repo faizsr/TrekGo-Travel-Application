@@ -14,8 +14,6 @@ class ReviewTextField extends StatefulWidget {
   State<ReviewTextField> createState() => _ReviewTextFieldState();
 }
 
-// final TextEditingController reviewController = TextEditingController();
-
 class _ReviewTextFieldState extends State<ReviewTextField> {
   @override
   Widget build(BuildContext context) {

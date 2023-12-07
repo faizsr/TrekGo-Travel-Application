@@ -8,11 +8,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/bottomnav_and_drawer/bottom_navigation_bar.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 // ==================== User Sign Up function ====================
 userSignUp({

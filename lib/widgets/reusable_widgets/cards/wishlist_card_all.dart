@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class WishlistCardAll extends StatelessWidget {
   final String backgroundImage;

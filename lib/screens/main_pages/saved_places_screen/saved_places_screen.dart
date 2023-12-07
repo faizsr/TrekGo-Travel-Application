@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:trekmate_project/model/saved.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/saved_screen_widgets/saved_screen_card.dart';
-import 'package:trekmate_project/widgets/saved_screen_widgets/saved_icon.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/cards/saved_screen_card.dart';
+import 'package:trekmate_project/screens/main_pages/saved_places_screen/widgets/saved_icon.dart';
 
 class SavedPlacesScreen extends StatefulWidget {
   final String userId;

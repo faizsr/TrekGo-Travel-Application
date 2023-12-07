@@ -51,7 +51,7 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       // color: Colors.red,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.08,

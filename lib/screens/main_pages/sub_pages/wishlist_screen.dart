@@ -4,9 +4,9 @@ import 'package:hive/hive.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_place_detail.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
+import 'package:trekmate_project/screens/user/widget/widgets.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/wishlist_card_all.dart';
 
 class WishlistScreen extends StatefulWidget {

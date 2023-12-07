@@ -6,8 +6,8 @@ import 'package:trekmate_project/screens/Admin/admin_login_screen.dart';
 import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
 import 'package:trekmate_project/screens/user/user_signup_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/login_signup_widgets/widgets.dart';
+import 'package:trekmate_project/screens/user/widget/widgets.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class UserLoginScreen extends StatefulWidget {
   const UserLoginScreen({super.key});

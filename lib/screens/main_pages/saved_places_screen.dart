@@ -51,7 +51,7 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: Size(MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height * 0.12),
+                MediaQuery.of(context).size.height * 0.11),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.12,
               width: MediaQuery.of(context).size.width,
@@ -100,8 +100,26 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
                   onTap: () {
                     debugPrint('saved places is empty: ${savedPlaces.isEmpty}');
                   },
-                  child: const Center(
-                    child: Text('No Saved Places'),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                        ),
+                        Image.asset('assets/images/Empty_saved_icon.png'),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        const Text(
+                          'No Saved Places.',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFadd3e4),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : ListView.builder(

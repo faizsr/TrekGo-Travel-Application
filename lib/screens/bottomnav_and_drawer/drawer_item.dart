@@ -13,10 +13,11 @@ class DrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mediaHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 8, 0),
+        padding: EdgeInsets.fromLTRB(10, mediaHeight * 0.01, 8, 0),
         child: SizedBox(
           height: 50,
           child: Row(
@@ -32,10 +33,7 @@ class DrawerItem extends StatelessWidget {
               Text(
                 name,
                 style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  letterSpacing: 0.4
-                ),
+                    fontSize: 16, color: Colors.black, letterSpacing: 0.4),
               )
             ],
           ),

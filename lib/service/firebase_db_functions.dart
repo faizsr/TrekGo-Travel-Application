@@ -83,6 +83,7 @@ addNewDestination({
     // );
   } else {
     debugPrint('New place not added');
+    setLoadingCallback!(false);
     // customSnackbar(context, 'Please fill all forms', 20, 20, 20);
   }
 }
@@ -144,6 +145,6 @@ updateDestinationn({
     Navigator.of(context!).pop();
   } else {
     debugPrint('Not updated');
+    setLoadingCallback!(false);
   }
-  setLoadingCallback!(false);
 }

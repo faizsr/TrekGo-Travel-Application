@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/widget/add_place_rating_widget.dart';
 import 'package:trekmate_project/service/firebase_db_functions.dart';
@@ -66,7 +67,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         child: PlaceScreenAppbar(
           title: 'Add Destination',
           isLocationEnable: false,
-          showCheckIcon: isButtonEnable ? true : false,
+          // showCheckIcon: isButtonEnable ? true : false,
+          showCheckIcon: true,
           onTap: isButtonEnable
               ? () {
                   addNewDestination(
@@ -84,225 +86,238 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     context: context,
                   );
                 }
-              : null,
+              : () {
+                  customSnackbar(context,
+                      'Fill all forms to create a new Destination', 20, 20, 20);
+                },
           isLoading: isLoading,
         ),
       ),
 
       // ===== Body =====
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ===== Image Container =====
-
-              AddUpdateImageContainer(
-                image: _selectedImage != null
-                    ? DecorationImage(
-                        image: FileImage(File(_selectedImage!.path)),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-                onPressed: () async {
-                  XFile? pickedImage = await pickImageFromGallery();
-                  setState(() {
-                    _selectedImage = pickedImage;
-                  });
-                },
+      body: isLoading
+          ? Center(
+              child: LoadingAnimationWidget.threeArchedCircle(
+                color: const Color(0xFF1485b9),
+                size: 40,
               ),
-
-              // ===== Rating =====
-              Container(
-                margin: const EdgeInsets.fromLTRB(20, 25, 20, 0),
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: Colors.black12),
-                  borderRadius: BorderRadius.circular(20),
-                ),
+            )
+          : SingleChildScrollView(
+              child: Form(
+                key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SectionTitles(
-                      titleText: 'Rate',
-                      noPadding: 0,
+                    // ===== Image Container =====
+
+                    AddUpdateImageContainer(
+                      image: _selectedImage != null
+                          ? DecorationImage(
+                              image: FileImage(File(_selectedImage!.path)),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                      onPressed: () async {
+                        XFile? pickedImage = await pickImageFromGallery();
+                        setState(() {
+                          _selectedImage = pickedImage;
+                        });
+                      },
                     ),
-                    Center(
-                      child: RatingStarWidget(
-                        onUpdate: true,
-                        onRatingPlace: updateRatingCount,
+
+                    // ===== Rating =====
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(20, 25, 20, 0),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: Colors.black12),
+                        borderRadius: BorderRadius.circular(20),
                       ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SectionTitles(
+                            titleText: 'Rate',
+                            noPadding: 0,
+                          ),
+                          Center(
+                            child: RatingStarWidget(
+                              onUpdate: true,
+                              onRatingPlace: updateRatingCount,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // ===== Category section =====
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: SectionTitles(
+                        titleText: 'Category',
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: DropDownWidget(
+                            iconRightPadding: 5,
+                            isExpanded: false,
+                            hintText: 'Select Category',
+                            listSelect: true,
+                            rightPadding: 5,
+                            onCategorySelectionChange: updateCategorySelection,
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: DropDownWidget(
+                            leftPadding: 5,
+                            iconRightPadding: 5,
+                            isExpanded: false,
+                            hintText: 'Select State',
+                            onStateCelectionChange: updateStateSelection,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // ===== State =====
+
+                    // ===== Title section =====
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: SectionTitles(
+                        titleText: 'Title',
+                      ),
+                    ),
+                    TextFieldWidgetTwo(
+                      controller: _titleController,
+                      hintText: 'Title of the place...',
+                      minmaxLine: false,
+                      onChanged: (value) {
+                        title = value;
+                        setState(() {
+                          isButtonEnable = _titleController.text.isNotEmpty &&
+                              _descriptionController.text.isNotEmpty &&
+                              _locationController.text.isNotEmpty &&
+                              mapLinkController.text.isNotEmpty;
+                        });
+                      },
+                      validator: (value) {
+                        String trimmedTitle = value!.trim();
+                        if (trimmedTitle.isEmpty) {
+                          customSnackbar(
+                              context, 'Title is required', 20, 20, 20);
+                          return;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+
+                    // ===== Description section =====
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: SectionTitles(titleText: 'Description'),
+                    ),
+                    TextFieldWidgetTwo(
+                      controller: _descriptionController,
+                      hintText: 'Description of the place...',
+                      minmaxLine: true,
+                      onChanged: (value) {
+                        description = value;
+                        setState(() {
+                          isButtonEnable = _titleController.text.isNotEmpty &&
+                              _descriptionController.text.isNotEmpty &&
+                              _locationController.text.isNotEmpty &&
+                              mapLinkController.text.isNotEmpty;
+                        });
+                      },
+                      validator: (value) {
+                        String trimmedDescription = value!.trim();
+                        if (trimmedDescription.isEmpty) {
+                          customSnackbar(
+                              context, 'Description is required', 20, 20, 20);
+                          return;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+
+                    // ===== Location section =====
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: SectionTitles(
+                        titleText: 'Location',
+                      ),
+                    ),
+                    TextFieldWidgetTwo(
+                      controller: _locationController,
+                      hintText: 'Location of the place...',
+                      minmaxLine: false,
+                      onChanged: (value) {
+                        location = value;
+                        setState(() {
+                          isButtonEnable = _titleController.text.isNotEmpty &&
+                              _descriptionController.text.isNotEmpty &&
+                              _locationController.text.isNotEmpty &&
+                              mapLinkController.text.isNotEmpty;
+                        });
+                      },
+                      validator: (value) {
+                        String trimmedLocation = value!.trim();
+                        if (trimmedLocation.isEmpty) {
+                          customSnackbar(
+                              context, 'Location is required', 20, 20, 20);
+                          return;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: SectionTitles(
+                        titleText: 'Map Link',
+                      ),
+                    ),
+                    TextFieldWidgetTwo(
+                      controller: mapLinkController,
+                      hintText: 'Map link of the place...',
+                      minmaxLine: false,
+                      onChanged: (value) {
+                        mapLink = value;
+                        setState(() {
+                          isButtonEnable = _titleController.text.isNotEmpty &&
+                              _descriptionController.text.isNotEmpty &&
+                              _locationController.text.isNotEmpty &&
+                              mapLinkController.text.isNotEmpty;
+                        });
+                      },
+                      validator: (value) {
+                        String trimmedMapLink = value!.trim();
+                        if (trimmedMapLink.isEmpty) {
+                          customSnackbar(
+                              context, 'Map Link is required', 20, 20, 20);
+                          return;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+
+                    const SizedBox(
+                      height: 15,
                     ),
                   ],
                 ),
               ),
-
-              // ===== Category section =====
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: SectionTitles(
-                  titleText: 'Category',
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: DropDownWidget(
-                      iconRightPadding: 5,
-                      isExpanded: false,
-                      hintText: 'Select Category',
-                      listSelect: true,
-                      rightPadding: 5,
-                      onCategorySelectionChange: updateCategorySelection,
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: DropDownWidget(
-                      leftPadding: 5,
-                      iconRightPadding: 5,
-                      isExpanded: false,
-                      hintText: 'Select State',
-                      onStateCelectionChange: updateStateSelection,
-                    ),
-                  ),
-                ],
-              ),
-
-              // ===== State =====
-
-              // ===== Title section =====
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: SectionTitles(
-                  titleText: 'Title',
-                ),
-              ),
-              TextFieldWidgetTwo(
-                controller: _titleController,
-                hintText: 'Title of the place...',
-                minmaxLine: false,
-                onChanged: (value) {
-                  title = value;
-                  setState(() {
-                    isButtonEnable = _titleController.text.isNotEmpty &&
-                        _descriptionController.text.isNotEmpty &&
-                        _locationController.text.isNotEmpty &&
-                        mapLinkController.text.isNotEmpty;
-                  });
-                },
-                validator: (value) {
-                  String trimmedTitle = value!.trim();
-                  if (trimmedTitle.isEmpty) {
-                    customSnackbar(context, 'Title is required', 20, 20, 20);
-                    return;
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-
-              // ===== Description section =====
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: SectionTitles(titleText: 'Description'),
-              ),
-              TextFieldWidgetTwo(
-                controller: _descriptionController,
-                hintText: 'Description of the place...',
-                minmaxLine: true,
-                onChanged: (value) {
-                  description = value;
-                  setState(() {
-                    isButtonEnable = _titleController.text.isNotEmpty &&
-                        _descriptionController.text.isNotEmpty &&
-                        _locationController.text.isNotEmpty &&
-                        mapLinkController.text.isNotEmpty;
-                  });
-                },
-                validator: (value) {
-                  String trimmedDescription = value!.trim();
-                  if (trimmedDescription.isEmpty) {
-                    customSnackbar(
-                        context, 'Description is required', 20, 20, 20);
-                    return;
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-
-              // ===== Location section =====
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: SectionTitles(
-                  titleText: 'Location',
-                ),
-              ),
-              TextFieldWidgetTwo(
-                controller: _locationController,
-                hintText: 'Location of the place...',
-                minmaxLine: false,
-                onChanged: (value) {
-                  location = value;
-                  setState(() {
-                    isButtonEnable = _titleController.text.isNotEmpty &&
-                        _descriptionController.text.isNotEmpty &&
-                        _locationController.text.isNotEmpty &&
-                        mapLinkController.text.isNotEmpty;
-                  });
-                },
-                validator: (value) {
-                  String trimmedLocation = value!.trim();
-                  if (trimmedLocation.isEmpty) {
-                    customSnackbar(context, 'Location is required', 20, 20, 20);
-                    return;
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: SectionTitles(
-                  titleText: 'Map Link',
-                ),
-              ),
-              TextFieldWidgetTwo(
-                controller: mapLinkController,
-                hintText: 'Map link of the place...',
-                minmaxLine: false,
-                onChanged: (value) {
-                  mapLink = value;
-                  setState(() {
-                    isButtonEnable = _titleController.text.isNotEmpty &&
-                        _descriptionController.text.isNotEmpty &&
-                        _locationController.text.isNotEmpty &&
-                        mapLinkController.text.isNotEmpty;
-                  });
-                },
-                validator: (value) {
-                  String trimmedMapLink = value!.trim();
-                  if (trimmedMapLink.isEmpty) {
-                    customSnackbar(context, 'Map Link is required', 20, 20, 20);
-                    return;
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-
-              const SizedBox(
-                height: 15,
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

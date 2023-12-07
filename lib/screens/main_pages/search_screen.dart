@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
@@ -68,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: PreferredSize(
         preferredSize: Size(
           MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height * 0.215,
+          MediaQuery.of(context).size.height * 0.20,
         ),
         child: Container(
           // height: MediaQuery.of(context).size.height * 0.2,
@@ -81,7 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           child: Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.width * 0.07,
+              top: MediaQuery.of(context).size.width * 0.045,
               left: 20,
               right: 20,
             ),
@@ -210,8 +211,11 @@ class _SearchScreenState extends State<SearchScreen> {
         stream: DatabaseService().destinationCollection.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: LoadingAnimationWidget.threeArchedCircle(
+                color: const Color(0xFF1485b9),
+                size: 40,
+              ),
             );
           } else if (snapshot.hasData) {
             List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
@@ -304,8 +308,26 @@ class _SearchScreenState extends State<SearchScreen> {
               );
             } else {
               debugPrint('No search');
-              return const Center(
-                child: Text('No recent searches or results'),
+              return Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                    ),
+                    Image.asset('assets/images/Empty_search_icon.png'),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    const Text(
+                      'No Search Results.',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFadd3e4),
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
           }

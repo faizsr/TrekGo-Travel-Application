@@ -13,7 +13,7 @@ class ReviewPlace extends StatefulWidget {
   final String? reviewId;
   final String? userId;
   final String? currentUserId;
-  final String? time;
+  final String? date;
   final num? ratingCount;
   const ReviewPlace({
     super.key,
@@ -22,7 +22,7 @@ class ReviewPlace extends StatefulWidget {
     this.reviewId,
     this.userId,
     this.currentUserId,
-    this.time,
+    this.date,
     this.ratingCount,
   });
 
@@ -129,12 +129,16 @@ class _ReviewPlaceState extends State<ReviewPlace> {
                                   )
                                 ],
                               ),
-                              Text(
-                                widget.time ?? '',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 10,
-                                ),
+                              Column(
+                                children: [
+                                  Text(
+                                    widget.date ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

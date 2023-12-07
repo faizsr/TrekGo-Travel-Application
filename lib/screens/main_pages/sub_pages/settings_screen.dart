@@ -5,6 +5,7 @@ import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/admin/add_place_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/about_us.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/privacy_policies.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/terms_and_policy/terms_and_conditions.dart';
 import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
@@ -67,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       // ===== Appbar =====
       appBar: PreferredSize(
-        preferredSize: MediaQuery.of(context).size * 0.1,
+        preferredSize: MediaQuery.of(context).size * 0.09,
         child: const PlaceScreenAppbar(
           title: 'Settings',
           isLocationEnable: false,
@@ -154,14 +155,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     nextScreen(context, const PrivacyPolicy());
                   },
                   listtileText: 'Privacy policy',
+                ),
+                ListtileItem(
+                  onTap: () {
+                    nextScreen(context, const AboutUs());
+                  },
+                  listtileText: 'About Us',
                 )
               ],
             ),
 
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.13,
+            ),
+
             //Social links
-            Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.24),
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -169,6 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Text(
                     'FOLLOW OUR SOCIALS',
                     style: TextStyle(
+                      fontSize: 12,
                       fontWeight: FontWeight.w600,
                       color: Color(0x33000000),
                     ),
@@ -181,7 +191,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       Icon(
                         FeatherIcons.instagram,
-                        size: 17,
+                        size: 14,
                         color: Color(0x33000000),
                       ),
                       SizedBox(
@@ -190,14 +200,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Icon(
                         FeatherIcons.twitter,
                         color: Color(0x33000000),
-                        size: 17,
+                        size: 14,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Icon(
                         FeatherIcons.facebook,
-                        size: 17,
+                        size: 14,
                         color: Color(0x33000000),
                       ),
                       SizedBox(
@@ -205,11 +215,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       Icon(
                         FeatherIcons.linkedin,
-                        size: 17,
+                        size: 14,
                         color: Color(0x33000000),
                       )
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'v2.0.1',
+                    style: TextStyle(
+                        color: Color(0x1A000000),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ],
               ),
             ),

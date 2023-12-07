@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +28,6 @@ userSignUp({
   if (formKey!.currentState!.validate()) {
     setLoadingCallback!(true);
 
-    // ignore: use_build_context_synchronously
     await authService!
         .registerUserWithEmailandPassword(
       fullname: fullName!.trim(),
@@ -42,7 +43,6 @@ userSignUp({
         if (value == true && email != 'adminlogin@gmail.com') {
           debugPrint('Account created');
 
-          // ignore: use_build_context_synchronously
           customSnackbar(context, 'Account created successfully', 130, 55, 55);
 
           setLoadingCallback(false);
@@ -81,7 +81,6 @@ userLoginFunction({
           await HelperFunctions.saveUserFullName(snapshot.docs[0]["fullname"]);
           await HelperFunctions.saveUserEmail(email ?? '');
 
-          // ignore: use_build_context_synchronously
           nextScreenRemoveUntil(
               context,
               NavigationBottomBar(
@@ -141,7 +140,6 @@ adminLogin({
           await HelperFunctions.saveAdminEmail(email ?? '');
           await HelperFunctions.saveAdminId(snapshot.docs[0]["admin_id"]);
 
-          // ignore: use_build_context_synchronously
           nextScreenRemoveUntil(
               context,
               NavigationBottomBar(
@@ -166,7 +164,7 @@ adminLogin({
 }
 
 // ==================== Update user detials function ====================
-void updateUserDetailss({
+updateUserDetailss({
   XFile? selectedImage,
   String? userId,
   String? imageUrl,
@@ -177,6 +175,8 @@ void updateUserDetailss({
   String? selectedGender,
   BuildContext? context,
   GlobalKey<FormState>? formKey,
+  bool? isLoading,
+  Function(bool)? setLoadingCallback,
 }) async {
   try {
     if (selectedImage != null) {
@@ -192,6 +192,7 @@ void updateUserDetailss({
   }
 
   if (formKey!.currentState!.validate()) {
+    setLoadingCallback!(true);
     await DatabaseService().userCollection.doc(userId).update({
       'profilePic': imageUrl,
       'email': email,
@@ -200,9 +201,12 @@ void updateUserDetailss({
       'gender': selectedGender,
     });
     debugPrint('Updated successfully');
-    // ignore: use_build_context_synchronously
-    customSnackbar(context, 'Updated Successfully', 20, 20, 20);
+    customSnackbar(context, 'Updated Successfully', 0, 20, 20);
+    // setLoadingCallback!(true);
+    Navigator.of(context!).pop();
   } else {
     debugPrint('Update failed');
+    setLoadingCallback!(false);
+    // setLoadingCallback!(false);
   }
 }

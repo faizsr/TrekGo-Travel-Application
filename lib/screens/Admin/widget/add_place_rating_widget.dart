@@ -41,7 +41,7 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
       children: [
         widget.onUserRating == true
             ? Text(
-                '${ratingCount == 0 ? initailRating : ratingCount}',
+                '${ratingCount == 0 ? initailRating ?? 0 : ratingCount}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 25,
@@ -54,13 +54,13 @@ class _RatingStarWidgetState extends State<RatingStarWidget> {
           children: [
             RatingBar.builder(
               initialRating: widget.initialRatingCount ?? 0,
-              unratedColor: widget.unRatedColor ?? Colors.yellow.shade300,
+              unratedColor: widget.unRatedColor ?? Colors.yellow.shade500,
               glow: false,
               allowHalfRating: true,
               itemBuilder: (context, index) {
                 return Icon(
                   Icons.star_rounded,
-                  color: widget.ratedColor ?? Colors.yellow.shade600,
+                  color: widget.ratedColor ?? const  Color(0xFFFFD711),
                 );
               },
               onRatingUpdate: (rating) {

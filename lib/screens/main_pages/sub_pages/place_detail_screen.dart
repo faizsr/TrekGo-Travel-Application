@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
-
+import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feather_icons/feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
@@ -89,7 +90,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
       'reviewText': reviewText,
       'reviewUserId': userIdd,
       'reviewDate': Timestamp.now(),
-      'ratingCount': addedRating ?? 0,
+      'ratingCount': addedRating ?? 3.5,
     });
     debugPrint('Added comment: $reviewText');
     debugPrint('Posted rating on comment $addedRating');
@@ -395,7 +396,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                         0.02,
                                   ),
                                   RatingStarWidget(
-                                    initialRatingCount: addedRating ?? 0,
+                                    initialRatingCount: addedRating ?? 3.5,
                                     onUserRating: true,
                                     unRatedColor: Colors.purple.shade100,
                                     ratedColor: Colors.purple.shade300,
@@ -431,7 +432,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                 setState(() {
                                                   addedRating = ratingCount;
                                                   debugPrint(
-                                                      'Rating after posting: $addedRating');
+                                                      'Rating after posting: ${addedRating ?? 3.5}');
                                                   FirebaseFirestore.instance
                                                       .collection('destination')
                                                       .doc(widget.placeid)
@@ -439,7 +440,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                       .doc()
                                                       .set({
                                                     'user_rating_count':
-                                                        addedRating
+                                                        addedRating ?? 3.5
                                                   });
                                                 });
                                                 Navigator.of(context).pop();
@@ -497,32 +498,71 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                             descending: false)
                                         .snapshots(),
                                     builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
+                                      if (snapshot.hasData) {
+                                        if (snapshot.data!.docs.isNotEmpty) {
+                                          return SingleChildScrollView(
+                                            child: Column(
+                                              children: snapshot.data!.docs
+                                                  .map((review) {
+                                                final reviewData = review.data()
+                                                    as Map<String, dynamic>;
+
+                                                return ReviewPlace(
+                                                  placeId: widget.placeid,
+                                                  reviewId: review.id,
+                                                  currentUserId: widget.userId,
+                                                  ratingCount: reviewData[
+                                                              'ratingCount'] ==
+                                                          0
+                                                      ? 3.5
+                                                      : reviewData[
+                                                          'ratingCount'],
+                                                  text:
+                                                      reviewData['reviewText'],
+                                                  userId: reviewData[
+                                                      'reviewUserId'],
+                                                  date: formatDate(
+                                                      reviewData['reviewDate']),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          );
+                                        } else {
+                                          debugPrint('No reviews');
+                                          return const Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                FeatherIcons.frown,
+                                                size: 30,
+                                                color: Color(0xFFdbe8f1),
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                'No Reviews!!!',
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFFbcdae8),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Text(
+                                                'Be the first to write a review.',
+                                                style: TextStyle(
+                                                  color: Color(0xFFbcdae8),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        }
                                       }
-                                      return SingleChildScrollView(
-                                        child: Column(
-                                          children:
-                                              snapshot.data!.docs.map((review) {
-                                            final reviewData = review.data()
-                                                as Map<String, dynamic>;
-                                            return ReviewPlace(
-                                              placeId: widget.placeid,
-                                              reviewId: review.id,
-                                              currentUserId: widget.userId,
-                                              ratingCount:
-                                                  reviewData['ratingCount'],
-                                              text: reviewData['reviewText'],
-                                              userId:
-                                                  reviewData['reviewUserId'],
-                                              time: formatDate(
-                                                  reviewData['reviewDate']),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      );
+                                      return Container();
                                     },
                                   ),
                                 ),
@@ -552,11 +592,6 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
 
 String formatDate(Timestamp timestamp) {
   DateTime dateTime = timestamp.toDate();
-  String year = dateTime.year.toString();
-  String month = dateTime.month.toString();
-  String day = dateTime.day.toString();
-
-  String formattedDate = '$day/$month/$year';
-
+  String formattedDate = DateFormat('MMM d, yyyy').format(dateTime);
   return formattedDate;
 }

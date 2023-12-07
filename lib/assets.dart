@@ -76,3 +76,19 @@ String? changesToPrivayPolicy =
     '''I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page.
 This policy is effective as of 2023-12-01
 ''';
+
+String? aboutUs =
+    '''A revolutionary travel application crafted with passion and innovation by Devlex! At Devlex, we believe that every journey should be an exploration of the extraordinary, unveiling the beauty of both well-known landmarks and hidden gems. Our team is dedicated to enhancing your travel experience, making it seamless, informative, and filled with delightful discoveries.
+''';
+
+String? ourVision =
+    '''At the core of Devlex's mission is the vision to inspire wanderlust and foster a sense of adventure. Trekgo was born out of the idea that travel should be more than just reaching a destination; it should be a journey of discovery, curiosity, and connection.
+    ''';
+
+String? ourCommitment =
+    '''Devlex is committed to continuously improving and expanding Trekgo to meet the evolving needs of our users. We value feedback from our community and strive to incorporate innovative features that enhance the overall travel experience.
+''';
+
+String? joinUs = '''Whether you're a seasoned traveler or embarking on your first adventure, Trekgo invites you to explore the world with fresh eyes. Devlex is thrilled to be your companion on this exciting journey of discovery, and we look forward to transforming the way you experience travel.
+
+Thank you for choosing Trekgo. Let the exploration begin!''';

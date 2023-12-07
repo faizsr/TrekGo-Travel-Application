@@ -52,7 +52,7 @@ class PlaceScreenAppbar extends StatelessWidget {
             ),
             isLocationEnable
                 ? SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.4,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -89,9 +89,13 @@ class PlaceScreenAppbar extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 2, right: 10),
                 child: GestureDetector(
                   onTap: onTap,
-                  child: Icon(
-                    MdiIcons.check,
-                    color: Colors.black,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.transparent,
+                    child: Icon(
+                      MdiIcons.check,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               )

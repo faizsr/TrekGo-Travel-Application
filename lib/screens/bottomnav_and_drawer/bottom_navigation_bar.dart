@@ -139,6 +139,21 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
                 label: '',
               ),
               BottomNavigationBarItem(
+                activeIcon: Container(
+                  width: MediaQuery.of(context).size.width * 0.09,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(70),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: 25,
+                    color: Color(0xFF1285b9),
+                  ),
+                ),
                 icon: Container(
                   width: MediaQuery.of(context).size.width * 0.09,
                   height: MediaQuery.of(context).size.height * 0.04,

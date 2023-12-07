@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/helper/auth_db_function.dart';
 import 'package:trekmate_project/helper/helper_functions.dart';
@@ -44,6 +45,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String? trimmedName;
+  bool isLoading = false;
+
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
 
   void updateGenderSelection(String? category) {
     selectedGender = category;
@@ -80,163 +88,174 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               selectedImage: _selectedImage,
               context: context,
               formKey: formKey,
+              isLoading: isLoading,
+              setLoadingCallback: setLoading,
             );
+            debugPrint('isloading: $isLoading');
           },
         ),
       ),
 
       // ===== Body =====
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Stack(
-              children: [
-                // ===== User profile picture =====
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(80),
-                      border: Border.all(width: 2.5, color: Colors.white),
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 17,
-                          spreadRadius: 6,
-                          color: Color(0x0D000000),
-                        )
-                      ]),
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.white,
-                    backgroundImage: AssetImage(defaultImage),
-                    foregroundImage: _selectedImage != null
-                        ? Image.file(File(_selectedImage!.path)).image
-                        : widget.image == ''
-                            ? Image.asset(defaultImage).image
-                            : CachedNetworkImageProvider(widget.image ?? ''),
-                  ),
-                ),
-
-                // ===== Button for picking image from camera =====
-                Positioned(
-                  bottom: 12,
-                  right: 6,
-                  child: GestureDetector(
-                    onTap: () async {
-                      XFile? pickedImage = await pickImageFromGallery();
-                      setState(() {
-                        _selectedImage = pickedImage;
-                      });
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.08,
-                      height: MediaQuery.of(context).size.height * 0.04,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.white,
-                      ),
-                      child: const Icon(
-                        FeatherIcons.camera,
-                        size: 16,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ===== Name section =====
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: SectionTitles(
-                      titleText: 'Full Name',
-                    ),
-                  ),
-                  TextFieldWidgetTwo(
-                    controller: nameController,
-                    hintText: 'Full name',
-                    validator: (value) {
-                      trimmedName = value!.trim();
-                      debugPrint(
-                          'value name on validation: ${trimmedName ?? 'name'}');
-                      if (trimmedName!.isEmpty) {
-                        customSnackbar(
-                            context, 'Please enter a name', 20, 20, 20);
-                        return '';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-
-                  // ===== Gender section =====
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: SectionTitles(
-                      titleText: 'Gender',
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: EditDropDownWidget(
-                      updateGender: initialGender ?? 'Male',
-                      hintText: 'Gender',
-                      onGenderSelectionChange: updateGenderSelection,
-                    ),
-                  ),
-
-                  // ===== Phone number =====
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: SectionTitles(
-                      titleText: 'Phone Number',
-                    ),
-                  ),
-                  TextFieldWidgetTwo(
-                    keyboardType: TextInputType.phone,
-                    controller: mobileNoController,
-                    hintText: 'Phone number',
-                    validator: (val) {
-                      // if (val!.isEmpty) {
-                      //   return null;
-                      // } else
-                      if (val!.isNotEmpty) {
-                        if (!(RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)'))
-                            .hasMatch(val)) {
-                          customSnackbar(context, 'Please enter a valid number',
-                              20, 20, 20);
-                          return '';
-                        }
-                      }
-                      return null;
-                    },
-                  ),
-
-                  // ===== Email section =====
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: SectionTitles(
-                      titleText: 'Email Address',
-                    ),
-                  ),
-                  TextFieldWidgetTwo(
-                    enableInteractiveSelection: false,
-                    controller: emailController,
-                    readOnly: true,
-                    hintText: 'Email address',
-                  ),
-                ],
+      body: isLoading
+          ? Center(
+              child: LoadingAnimationWidget.threeArchedCircle(
+                color: const Color(0xFF1485b9),
+                size: 40,
               ),
             )
-          ],
-        ),
-      ),
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Stack(
+                    children: [
+                      // ===== User profile picture =====
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(80),
+                            border: Border.all(width: 2.5, color: Colors.white),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 17,
+                                spreadRadius: 6,
+                                color: Color(0x0D000000),
+                              )
+                            ]),
+                        child: CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage(defaultImage),
+                          foregroundImage: _selectedImage != null
+                              ? Image.file(File(_selectedImage!.path)).image
+                              : widget.image == ''
+                                  ? Image.asset(defaultImage).image
+                                  : CachedNetworkImageProvider(
+                                      widget.image ?? ''),
+                        ),
+                      ),
+
+                      // ===== Button for picking image from camera =====
+                      Positioned(
+                        bottom: 12,
+                        right: 6,
+                        child: GestureDetector(
+                          onTap: () async {
+                            XFile? pickedImage = await pickImageFromGallery();
+                            setState(() {
+                              _selectedImage = pickedImage;
+                            });
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.08,
+                            height: MediaQuery.of(context).size.height * 0.04,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                            ),
+                            child: const Icon(
+                              FeatherIcons.camera,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ===== Name section =====
+                        const Padding(
+                          padding: EdgeInsets.only(left: 12),
+                          child: SectionTitles(
+                            titleText: 'Full Name',
+                          ),
+                        ),
+                        TextFieldWidgetTwo(
+                          controller: nameController,
+                          hintText: 'Full name',
+                          validator: (value) {
+                            trimmedName = value!.trim();
+                            debugPrint(
+                                'value name on validation: ${trimmedName ?? 'name'}');
+                            if (trimmedName!.isEmpty) {
+                              customSnackbar(
+                                  context, 'Please enter a name', 20, 20, 20);
+                              return '';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+
+                        // ===== Gender section =====
+                        const Padding(
+                          padding: EdgeInsets.only(left: 12),
+                          child: SectionTitles(
+                            titleText: 'Gender',
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: EditDropDownWidget(
+                            updateGender: initialGender ?? 'Male',
+                            hintText: 'Gender',
+                            onGenderSelectionChange: updateGenderSelection,
+                          ),
+                        ),
+
+                        // ===== Phone number =====
+                        const Padding(
+                          padding: EdgeInsets.only(left: 12),
+                          child: SectionTitles(
+                            titleText: 'Phone Number',
+                          ),
+                        ),
+                        TextFieldWidgetTwo(
+                          keyboardType: TextInputType.phone,
+                          controller: mobileNoController,
+                          hintText: 'Phone number',
+                          validator: (val) {
+                            // if (val!.isEmpty) {
+                            //   return null;
+                            // } else
+                            if (val!.isNotEmpty) {
+                              if (!(RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)'))
+                                  .hasMatch(val)) {
+                                customSnackbar(context,
+                                    'Please enter a valid number', 20, 20, 20);
+                                return '';
+                              }
+                            }
+                            return null;
+                          },
+                        ),
+
+                        // ===== Email section =====
+                        const Padding(
+                          padding: EdgeInsets.only(left: 12),
+                          child: SectionTitles(
+                            titleText: 'Email Address',
+                          ),
+                        ),
+                        TextFieldWidgetTwo(
+                          enableInteractiveSelection: false,
+                          controller: emailController,
+                          readOnly: true,
+                          hintText: 'Email address',
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 

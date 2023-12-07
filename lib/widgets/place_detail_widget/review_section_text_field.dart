@@ -35,7 +35,7 @@ class _ReviewTextFieldState extends State<ReviewTextField> {
           horizontal: 20,
           vertical: 16,
         ),
-        hintText: 'Add a comment',
+        hintText: 'Add a review...',
         hintStyle: const TextStyle(
           color: Color(0x66000000),
           fontWeight: FontWeight.w500,

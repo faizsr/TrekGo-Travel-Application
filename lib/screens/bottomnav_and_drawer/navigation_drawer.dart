@@ -47,11 +47,13 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaHeight = MediaQuery.of(context).size.height;
+
     return Drawer(
       child: Material(
         color: const Color(0xFFe5e6f6),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
+          padding: EdgeInsets.fromLTRB(20, mediaHeight * 0.1, 20, 0),
           child: Column(
             children: [
               StreamBuilder(
@@ -80,7 +82,7 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                     return Container();
                   }),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.07,
+                height: mediaHeight * 0.07,
               ),
               const Divider(
                 height: 2,
@@ -88,7 +90,7 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                 color: Color(0x331486b9),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.04,
+                height: mediaHeight * 0.04,
               ),
               DrawerItem(
                 name: 'Home',
@@ -168,7 +170,7 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                 },
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.04,
+                height: mediaHeight * 0.04,
               ),
               const Divider(
                 height: 2,
@@ -178,8 +180,8 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
               Align(
                 alignment: Alignment.center,
                 child: Container(
-                  margin: const EdgeInsets.only(
-                    top: 150,
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.13,
                   ),
                   width: MediaQuery.of(context).size.width * 1,
                   child: Image.asset(appName),
@@ -195,78 +197,86 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
   Widget headerWidget(
       {String? username, String? useremail, String? userprofile}) {
     String image = defaultImage;
-    return Row(
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(
-              width: 2,
-              color: userprofile == '' ? const Color(0xFF1485b9) : Colors.black,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        children: [
+          Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                width: 2,
+                color:
+                    userprofile == '' ? const Color(0xFF1485b9) : Colors.black,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              // child: Image(
+              //   image: NetworkImage(userprofile ?? ''),
+              //   fit: BoxFit.cover,
+              // ),
+              // child: FadeInImage(
+              //   image: userprofile == ''
+              //       ? Image.asset(image).image
+              //       : Image.network(userprofile ?? '').image,
+              //   fit: BoxFit.cover,
+              //   placeholder: AssetImage(image),
+              // ),
+              child: userprofile != ''
+                  ? CachedNetworkImage(
+                      placeholder: (context, url) => Image.asset(
+                        lazyLoading,
+                        fit: BoxFit.cover,
+                      ),
+                      imageUrl: userprofile ?? '',
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Image.asset(
+                        lazyLoading,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Image(
+                      image: AssetImage(image),
+                    ),
             ),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            // child: Image(
-            //   image: NetworkImage(userprofile ?? ''),
-            //   fit: BoxFit.cover,
-            // ),
-            // child: FadeInImage(
-            //   image: userprofile == ''
-            //       ? Image.asset(image).image
-            //       : Image.network(userprofile ?? '').image,
-            //   fit: BoxFit.cover,
-            //   placeholder: AssetImage(image),
-            // ),
-            child: userprofile != ''
-                ? CachedNetworkImage(
-                    placeholder: (context, url) => Image.asset(
-                      lazyLoading,
-                      fit: BoxFit.cover,
-                    ),
-                    imageUrl: userprofile ?? '',
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => Image.asset(
-                      lazyLoading,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                : Image(
-                    image: AssetImage(image),
+          const SizedBox(
+            width: 20,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                username ?? '',
+                style: const TextStyle(
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              SizedBox(
+                // color: Colors.yellow,
+                width: MediaQuery.of(context).size.width * 0.39,
+                child: Text(
+                  useremail ?? '',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.black54,
+                    overflow: TextOverflow.ellipsis,
                   ),
-          ),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              username ?? '',
-              style: const TextStyle(
-                fontSize: 17,
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              useremail ?? '',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-                overflow: TextOverflow.ellipsis,
-              ),
-            )
-          ],
-        )
-      ],
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

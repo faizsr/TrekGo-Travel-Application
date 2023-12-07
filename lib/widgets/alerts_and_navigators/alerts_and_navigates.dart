@@ -21,7 +21,7 @@ void customSnackbar(context, message, double bottomMargin, double rightMargin,
       ),
       // backgroundColor: const Color(0xFF1285b9),
       backgroundColor: const Color(0xFF1285b9),
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 1000),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

@@ -41,15 +41,15 @@ class _CardRatingBarState extends State<CardRatingBar> {
           ratingWidget: RatingWidget(
             full: const Icon(
               Icons.star_rounded,
-              color: Colors.yellow,
+              color: Color(0xFFFFD711),
             ),
             half: const Icon(
               Icons.star_half_rounded,
-              color: Colors.yellow,
+              color: Color(0xFFFFD711),
             ),
             empty: const Icon(
               Icons.star_outline_rounded,
-              color: Colors.yellow,
+              color: Color(0xFFFFD711),
             ),
           ),
           onRatingUpdate: (rating) {

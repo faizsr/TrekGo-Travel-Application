@@ -11,7 +11,7 @@ import 'package:trekmate_project/helper/helper_functions.dart';
 import 'package:trekmate_project/screens/user/widget/edit_gender_drop_down.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/home_screen_widgets/pop_and_recd_appbar.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? userId;

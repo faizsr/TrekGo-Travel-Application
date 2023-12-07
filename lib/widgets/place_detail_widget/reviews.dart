@@ -5,7 +5,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class ReviewPlace extends StatefulWidget {
   final String? text;

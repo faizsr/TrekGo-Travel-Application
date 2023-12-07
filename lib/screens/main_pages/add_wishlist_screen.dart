@@ -9,7 +9,7 @@ import 'package:trekmate_project/helper/hive_db_function.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class AddWishlistScreen extends StatefulWidget {
   final String? userId;

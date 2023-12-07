@@ -11,7 +11,7 @@ import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_scree
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/alerts_and_navigators/custom_alert.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 import 'package:trekmate_project/widgets/saved_screen_widgets/saved_screen_icon.dart';
 
 class SavedScreenCard extends StatefulWidget {

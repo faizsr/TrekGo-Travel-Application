@@ -16,7 +16,7 @@ import 'package:trekmate_project/widgets/place_detail_widget/overview_buttons.da
 import 'package:trekmate_project/widgets/place_detail_widget/overview_section.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/review_section_text_field.dart';
 import 'package:trekmate_project/widgets/place_detail_widget/reviews.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/app_update_image_widget.dart';
+import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;

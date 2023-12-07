@@ -140,7 +140,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                       savedProvider.updateSavedIds(
                         savedProvider.savedIds..add(widget.placeId ?? ''),
                       );
-                      debugPrint('Added successfully');
+                      debugPrint('Added successfully at id: ${widget.placeId}');
                     } else {
                       int index =
                           savedProvider.savedIds.indexOf(widget.placeId ?? '');
@@ -148,7 +148,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                       savedProvider.updateSavedIds(
                         savedProvider.savedIds..remove(widget.placeId),
                       );
-                      debugPrint('Deleted successfully');
+                      debugPrint('Deleted successfully at id: ${widget.placeId}');
                       savedBox.compact();
                     }
                   },

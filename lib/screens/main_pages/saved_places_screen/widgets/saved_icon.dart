@@ -67,14 +67,14 @@ class _SavedIconState extends State<SavedIcon> {
                     ));
                 savedProvider.updateSavedIds(
                     savedProvider.savedIds..add(widget.id ?? ''));
-                debugPrint('Added successfully');
-                debugPrint('user id on saving ${widget.userId}');
+                debugPrint('Added successfully at placeId = ${widget.id}');
+                // debugPrint('user id on saving ${widget.userId}');
               } else {
                 int index = savedProvider.savedIds.indexOf(widget.id ?? '');
                 savedBox.deleteAt(index);
                 savedProvider
                     .updateSavedIds(savedProvider.savedIds..remove(widget.id));
-                debugPrint('Deleted successfully');
+                debugPrint('Deleted successfully at placeId = ${widget.id}');
                 savedBox.compact();
               }
             }

@@ -54,7 +54,7 @@ class _SavedScreenIconState extends State<SavedScreenIcon> {
           savedProvider.updateSavedIds(
             savedProvider.savedIds..remove(widget.id),
           );
-          debugPrint('Deleted successfully');
+          debugPrint('Deleted successfully ${widget.id}');
           savedBox.compact();
         }
       },

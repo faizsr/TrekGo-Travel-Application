@@ -129,26 +129,26 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                       await savedBox.put(
                           uniqueKey,
                           Saved(
-                            firebaseid: widget.placeId,
-                            image: widget.image,
-                            name: widget.title,
-                            rating: widget.rating,
-                            description: widget.description,
-                            location: widget.location,
-                            dateTime: dateTime
-                          ));
+                              firebaseid: widget.placeId,
+                              image: widget.image,
+                              name: widget.title,
+                              rating: widget.rating,
+                              description: widget.description,
+                              location: widget.location,
+                              dateTime: dateTime));
                       savedProvider.updateSavedIds(
                         savedProvider.savedIds..add(widget.placeId ?? ''),
                       );
                       debugPrint('Added successfully at id: ${widget.placeId}');
                     } else {
-                      int index =
-                          savedProvider.savedIds.indexOf(widget.placeId ?? '');
-                      savedBox.deleteAt(index);
+                      // int index =
+                      //     savedProvider.savedIds.indexOf(widget.placeId ?? '');
+                      savedBox.delete(widget.placeId);
                       savedProvider.updateSavedIds(
                         savedProvider.savedIds..remove(widget.placeId),
                       );
-                      debugPrint('Deleted successfully at id: ${widget.placeId}');
+                      debugPrint(
+                          'Deleted successfully at id: ${widget.placeId}');
                       savedBox.compact();
                     }
                   },

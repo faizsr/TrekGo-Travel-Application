@@ -140,14 +140,18 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 10),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Icon(
-                          Icons.keyboard_backspace_rounded,
-                          color: Colors.black,
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.transparent,
+                          child: Icon(
+                            Icons.keyboard_backspace_rounded,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -221,16 +225,60 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(35),
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) => Image.asset(
-                              lazyLoading,
+                          child: GestureDetector(
+                            onTap: () {
+                              debugPrint('Tapped');
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  // setStatusBarColor(const Color(0xFF577073));
+                                  return Dialog(
+                                    elevation: 10,
+                                    backgroundColor: const Color(0xFFFFFFFF),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            lazyLoading,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          imageUrl: destinationSnapshot[
+                                                  'place_image'] ??
+                                              '',
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            lazyLoading,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) => Image.asset(
+                                lazyLoading,
+                                fit: BoxFit.cover,
+                              ),
+                              imageUrl:
+                                  destinationSnapshot['place_image'] ?? '',
                               fit: BoxFit.cover,
-                            ),
-                            imageUrl: destinationSnapshot['place_image'] ?? '',
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) => Image.asset(
-                              lazyLoading,
-                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) => Image.asset(
+                                lazyLoading,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),

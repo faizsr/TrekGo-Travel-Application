@@ -46,6 +46,8 @@ class OverviewBottomButtons extends StatefulWidget {
 class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
   late Box<Saved> savedBox;
 
+  DateTime dateTime = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -124,6 +126,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                   onPressed: () async {
                     if (!savedProvider.savedIds.contains(widget.placeId)) {
                       String uniqueKey = widget.placeId ?? '';
+                      DateTime dateTime = DateTime.now();
                       await savedBox.put(
                           uniqueKey,
                           Saved(
@@ -133,6 +136,7 @@ class _OverviewBottomButtonsState extends State<OverviewBottomButtons> {
                             rating: widget.rating,
                             description: widget.description,
                             location: widget.location,
+                            dateTime: dateTime
                           ));
                       savedProvider.updateSavedIds(
                         savedProvider.savedIds..add(widget.placeId ?? ''),

@@ -57,6 +57,7 @@ dependencies:
   cached_network_image: ^3.3.0
   intl: ^0.18.1
   popup_banner: ^1.0.0
+  flutter_plugin_android_lifecycle: ^2.0.16
 
 dev_dependencies:
   dart_code_metrics: ^4.19.2

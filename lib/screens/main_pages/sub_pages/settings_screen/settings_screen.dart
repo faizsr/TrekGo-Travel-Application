@@ -111,6 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               mobileNumber: userDataSnapshot['mobile_number'],
                               email: userDataSnapshot['email'],
                               gender: userDataSnapshot['gender'],
+                              snackBarBtmPadding: 20,
                             )),
                       );
                     }

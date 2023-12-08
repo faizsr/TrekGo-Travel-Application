@@ -176,6 +176,7 @@ updateUserDetailss({
   GlobalKey<FormState>? formKey,
   bool? isLoading,
   Function(bool)? setLoadingCallback,
+  double? snackBarBtmPadding,
 }) async {
   try {
     if (selectedImage != null) {
@@ -200,7 +201,8 @@ updateUserDetailss({
       'gender': selectedGender,
     });
     debugPrint('Updated successfully');
-    customSnackbar(context, 'Updated Successfully', 0, 20, 20);
+    customSnackbar(
+        context, 'Updated Successfully', snackBarBtmPadding ?? 0, 20, 20);
     // setLoadingCallback!(true);
     Navigator.of(context!).pop();
   } else {

@@ -3,7 +3,6 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/provider/saved_provider.dart';
-// import 'package:trekmate_project/widgets/saved_provider.dart';
 
 class SavedScreenIcon extends StatefulWidget {
   final int? index;

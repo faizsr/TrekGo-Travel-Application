@@ -19,6 +19,7 @@ class EditProfileScreen extends StatefulWidget {
   final String? gender;
   final String? mobileNumber;
   final String? email;
+  final double? snackBarBtmPadding;
   const EditProfileScreen({
     super.key,
     this.userId,
@@ -27,6 +28,7 @@ class EditProfileScreen extends StatefulWidget {
     this.gender,
     this.mobileNumber,
     this.email,
+    this.snackBarBtmPadding,
   });
 
   @override
@@ -88,6 +90,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               formKey: formKey,
               isLoading: isLoading,
               setLoadingCallback: setLoading,
+              snackBarBtmPadding: widget.snackBarBtmPadding,
             );
             debugPrint('isloading: $isLoading');
           },

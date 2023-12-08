@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:ui';
-import 'package:intl/intl.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
@@ -8,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/admin/widgets/add_place_rating_widget.dart';
+import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/appbar.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/screens/user/widget/widgets.dart';
@@ -111,55 +111,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
           MediaQuery.of(context).size.width,
           MediaQuery.of(context).size.height * 0.11,
         ),
-        child: Container(
-          margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.05,
-            left: 45,
-            right: 45,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 7.0,
-                sigmaY: 4.0,
-              ),
-              child: Stack(
-                children: [
-                  const Align(
-                    child: Text(
-                      'Details',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          foregroundColor: Colors.transparent,
-                          child: Icon(
-                            Icons.keyboard_backspace_rounded,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+        child: const PlaceDetailAppbar(),
       ),
       backgroundColor: const Color(0xFFf0f3f7),
 
@@ -209,11 +161,6 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                         height: MediaQuery.of(context).size.height * 0.48,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(35),
-                          // image: DecorationImage(
-                          //   fit: BoxFit.cover,
-                          //   image: NetworkImage(
-                          //       destinationSnapshot['place_image'] ?? ''),
-                          // ),
                           boxShadow: const [
                             BoxShadow(
                               blurRadius: 15,
@@ -637,8 +584,4 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
   }
 }
 
-String formatDate(Timestamp timestamp) {
-  DateTime dateTime = timestamp.toDate();
-  String formattedDate = DateFormat('MMM d, yyyy').format(dateTime);
-  return formattedDate;
-}
+

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
 // =============== Custom Snackbar ===============
@@ -220,4 +222,12 @@ extension MyExtension on String {
   String capitalise() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
+}
+
+// =============== Date Formatter ===============
+
+String formatDate(Timestamp timestamp) {
+  DateTime dateTime = timestamp.toDate();
+  String formattedDate = DateFormat('MMM d, yyyy').format(dateTime);
+  return formattedDate;
 }

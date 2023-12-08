@@ -294,9 +294,6 @@ class TextFieldWidgetTwo extends StatelessWidget {
   }
 }
 
-
-
-
 // =============== Custom Appbar ===============
 
 class CustomAppbar extends StatelessWidget {
@@ -328,11 +325,15 @@ class CustomAppbar extends StatelessWidget {
       leading: GestureDetector(
         onTap: () => Navigator.pop(context, 'refresh'),
         child: Padding(
-          padding: EdgeInsets.only(top: iconPadding ?? 5),
-          child: const Icon(
-            Icons.keyboard_backspace_rounded,
-            color: Colors.black,
-            size: 25,
+          padding: EdgeInsets.only(top: iconPadding ?? 8),
+          child: const CircleAvatar(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.transparent,
+            child: Icon(
+              Icons.keyboard_backspace_rounded,
+              color: Colors.black,
+              size: 25,
+            ),
           ),
         ),
       ),
@@ -406,5 +407,3 @@ class CustomAppbar extends StatelessWidget {
     );
   }
 }
-
-

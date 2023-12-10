@@ -71,6 +71,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         userId: widget.userId ?? '',
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
+        updateIndex: onUpdateIndex,
       ),
       ProfileScreen(
         userId: widget.userId,

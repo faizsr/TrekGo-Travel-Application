@@ -9,7 +9,7 @@ class PlaceDetailAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.05,
+        top: MediaQuery.of(context).size.height * 0.035,
         left: 45,
         right: 45,
       ),

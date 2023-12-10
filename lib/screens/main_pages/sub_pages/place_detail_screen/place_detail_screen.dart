@@ -109,7 +109,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
       appBar: PreferredSize(
         preferredSize: Size(
           MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height * 0.11,
+          MediaQuery.of(context).size.height * 0.095,
         ),
         child: const PlaceDetailAppbar(),
       ),
@@ -152,13 +152,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       // ============ Place Image ============
                       Container(
                         margin: const EdgeInsets.only(
-                          top: 25,
+                          top: 10,
                           bottom: 20,
                           left: 25,
                           right: 25,
                         ),
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.48,
+                        height: MediaQuery.of(context).size.height * 0.495,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(35),
                           boxShadow: const [
@@ -469,7 +469,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                           reviewController.text.trim();
                                       if (trimmedText.isNotEmpty) {
                                         addComment(
-                                          reviewText: reviewController.text,
+                                          reviewText: reviewController.text.trim(),
                                           userIdd: userId,
                                           userProfile: userProfile,
                                         );

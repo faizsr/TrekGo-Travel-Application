@@ -42,7 +42,7 @@ userSignUp({
         if (value == true && email != 'adminlogin@gmail.com') {
           debugPrint('Account created');
 
-          customSnackbar(context, 'Account created successfully', 130, 55, 55);
+          customSnackbar(context, 'Account created successfully', 20, 20, 20);
 
           setLoadingCallback(false);
         } else {
@@ -153,7 +153,7 @@ adminLogin({
               ));
         } else {
           setLoadingCallback(false);
-          customSnackbar(context, 'Enter login details correctly', 20, 55, 55);
+          customSnackbar(context, 'Enter login details correctly', 20, 29, 20);
           debugPrint('Enter admin id correctly');
           debugPrint('$context');
         }

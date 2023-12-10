@@ -109,9 +109,10 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                     });
                                   },
                                   validator: (val) {
-                                    if (val!.isEmpty) {
+                                    String trimmedName = val!.trim();
+                                    if (trimmedName.isEmpty) {
                                       customSnackbar(context,
-                                          'Please enter a name', 20, 55, 55);
+                                          'Please enter a name', 20, 20, 20);
                                       return;
                                     } else {
                                       return null;
@@ -145,8 +146,8 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                           context,
                                           'Please enter a valid email',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     }
                                   },
@@ -187,13 +188,24 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                     });
                                   },
                                   validator: (val) {
-                                    if (val!.length < 6) {
+                                    String trimmedPassword = val!.trim();
+                                    // if(trimmedPassword)
+                                    if(trimmedPassword.isEmpty) {
+                                         customSnackbar(
+                                          context,
+                                          'Please enter a valid password',
+                                          20,
+                                          20,
+                                          20);
+                                      return;
+                                    }
+                                    if (trimmedPassword.length < 6) {
                                       customSnackbar(
                                           context,
                                           'Passowrd must be at least 6 character',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     } else {
                                       return null;

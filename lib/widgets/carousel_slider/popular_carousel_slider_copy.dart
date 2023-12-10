@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/place_cards.dart';
@@ -45,6 +46,24 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                 .where('place_state', isEqualTo: widget.sortName)
                 .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: MediaQuery.of(context).size.height / 2.7,
+              margin: const EdgeInsets.only(top: 20, bottom: 15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(
+                child: LoadingAnimationWidget.threeArchedCircle(
+                  color: const Color(0xFF1485b9),
+                  size: 35,
+                ),
+              ),
+            );
+          }
+
           if (snapshot.hasData && snapshot.data.docs.length > 0) {
             // widget.onSortNameChanged;
             return CarouselSlider.builder(
@@ -80,25 +99,42 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                 ));
           } else {
             return Container(
-              margin: const EdgeInsets.only(top: 20),
-              decoration: const BoxDecoration(
-                boxShadow: [
+              width: MediaQuery.of(context).size.width * 0.88,
+              height: MediaQuery.of(context).size.height / 2.7,
+              margin: const EdgeInsets.only(top: 20, bottom: 15),
+              decoration: BoxDecoration(
+                boxShadow: const [
                   BoxShadow(
                     blurRadius: 10,
-                    offset: Offset(0, 4),
-                    spreadRadius: 2,
+                    offset: Offset(0, 2),
+                    spreadRadius: 0,
                     color: Color(0x0D000000),
                   )
                 ],
-              ),
-              width: MediaQuery.of(context).size.width * 0.88,
-              height: MediaQuery.of(context).size.height / 2.95,
-              child: ClipRRect(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                child: Image(
-                  image: AssetImage(lazyLoading),
-                  fit: BoxFit.cover,
-                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.32,
+                    child: Image.asset(searchNoResult),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Text(
+                    'No Popular Destinations Found In \n"${widget.sortName}"',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color(0xFF1285b9),
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
               ),
             );
           }

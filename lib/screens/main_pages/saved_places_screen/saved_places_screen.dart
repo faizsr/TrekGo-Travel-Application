@@ -4,16 +4,19 @@ import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/saved_screen_card.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen/widgets/saved_icon.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SavedPlacesScreen extends StatefulWidget {
   final String userId;
   final bool? isAdmin;
   final bool? isUser;
+  final void Function(int)? updateIndex;
   const SavedPlacesScreen({
     super.key,
     required this.userId,
     required this.isAdmin,
     required this.isUser,
+    required this.updateIndex,
   });
 
   @override
@@ -96,30 +99,36 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
             ),
           ),
           body: savedPlaces.isEmpty
-              ? GestureDetector(
-                  onTap: () {
-                    debugPrint('saved places is empty: ${savedPlaces.isEmpty}');
-                  },
-                  child: Center(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.3,
+              ? Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.28,
+                      ),
+                      Image.asset('assets/images/Empty_saved_icon.png'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0x73000000),
                         ),
-                        Image.asset('assets/images/Empty_saved_icon.png'),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
+                        child: AnimatedTextKit(
+                          animatedTexts: [
+                            TyperAnimatedText(
+                              'Add To Save?',
+                              speed: const Duration(milliseconds: 100),
+                              curve: Curves.fastEaseInToSlowEaseOut,
+                            ),
+                          ],
+                          onTap: () {
+                            widget.updateIndex!.call(0);
+                          },
                         ),
-                        const Text(
-                          'No Saved Places.',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFFadd3e4),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 )
               : ListView.builder(

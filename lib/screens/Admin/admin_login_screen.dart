@@ -122,8 +122,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                           context,
                                           'Please enter a valid id',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     } else {
                                       return null;
@@ -158,8 +158,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                           context,
                                           'Please enter a valid email',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     }
                                   },
@@ -204,8 +204,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                           context,
                                           'Wrong password',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     } else {
                                       return null;

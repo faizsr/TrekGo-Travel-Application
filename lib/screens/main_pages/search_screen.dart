@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
@@ -237,7 +238,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         search['place_name']
                             .toString()
                             .toLowerCase()
-                            .startsWith(name.toLowerCase())))
+                            .contains(name.toLowerCase())))
                 .toList();
 
             if (recentSearch != null && recentSearchResult!.isNotEmpty) {
@@ -312,18 +313,21 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                    Image.asset('assets/images/Empty_search_icon.png'),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Image.asset(emptysearchResult),
+                    ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
+                      height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     const Text(
                       'No Search Results.',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFFadd3e4),
+                        color: Color(0xFF6fb2d2),
                       ),
                     ),
                   ],

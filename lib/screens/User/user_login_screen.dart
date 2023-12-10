@@ -119,8 +119,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                           context,
                                           'Please enter a valid email',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     }
                                   },
@@ -165,7 +165,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                       validator: (val) {
                                         if (val!.length < 6) {
                                           customSnackbar(context,
-                                              'Incorrect Password', 20, 55, 55);
+                                              'Incorrect Password', 20, 20, 20);
                                           return;
                                         } else {
                                           return null;

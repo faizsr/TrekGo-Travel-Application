@@ -113,7 +113,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     debugPrint(email);
                                     setState(() {
                                       isButtonEnable =
-                                          email.isNotEmpty;
+                                          emailController.text.isNotEmpty;
                                     });
                                   },
                                   fieldHintText:
@@ -128,8 +128,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                           context,
                                           'Please enter a valid email',
                                           20,
-                                          55,
-                                          55);
+                                          20,
+                                          20);
                                       return;
                                     }
                                   },
@@ -141,38 +141,49 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 // ===== Confirm button =====
                                 ButtonsWidget(
                                   buttonText: 'CONFIRM',
-                                  isOutlinedButton: true,
+                                  // isOutlinedButton: true,
                                   buttonWidth: 180,
-                                  buttonOnPressed: isButtonEnable ? () async {
-                                    try {
-                                      await FirebaseAuth.instance
-                                          .sendPasswordResetEmail(
-                                              email: emailController.text);
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => CustomAlertDialog(
-                                          title: 'Password Reset Email Sent',
-                                          description:
-                                              'Check your email for instructions to reset your password.',
-                                          popBtnText: widget.backToLoginTxt ??
-                                              'Back To Login',
-                                          disableActionBtn: true,
-                                          onTap:
-                                              widget.backToLoginTxt == null
-                                                  ? () {
-                                                      nextScreenReplace(context,
-                                                          const UserLoginScreen());
-                                                    }
-                                                  : () => null,
-                                        ),
-                                      );
+                                  buttonOnPressed: isButtonEnable
+                                      ? () async {
+                                          if (formkey.currentState!
+                                              .validate()) {
+                                            try {
+                                              await FirebaseAuth.instance
+                                                  .sendPasswordResetEmail(
+                                                      email:
+                                                          emailController.text);
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    CustomAlertDialog(
+                                                  title:
+                                                      'Password Reset Email Sent',
+                                                  description:
+                                                      'Check your email for instructions to reset your password.',
+                                                  popBtnText:
+                                                      widget.backToLoginTxt ??
+                                                          'Back To Login',
+                                                  disableActionBtn: true,
+                                                  onTap:
+                                                      widget.backToLoginTxt ==
+                                                              null
+                                                          ? () {
+                                                              nextScreenReplace(
+                                                                  context,
+                                                                  const UserLoginScreen());
+                                                            }
+                                                          : () => null,
+                                                ),
+                                              );
 
-                                      return true;
-                                    } on FirebaseAuthException catch (e) {
-                                      debugPrint(e.message);
-                                      return false;
-                                    }
-                                  }: null,
+                                              return true;
+                                            } on FirebaseAuthException catch (e) {
+                                              debugPrint(e.message);
+                                              return false;
+                                            }
+                                          }
+                                        }
+                                      : null,
                                 ),
                                 const SizedBox(
                                   height: 20,

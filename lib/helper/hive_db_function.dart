@@ -106,10 +106,10 @@ deleteWishlist(BuildContext context, Box<Wishlist> wishlistBox, String hiveKey,
           await wishlistBox.delete(hiveKey);
           debugPrint('Deleted successfully at index $hiveKey');
           // ignore: use_build_context_synchronously
-          Navigator.of(context).pop();
+          Navigator.of(context).pop('refresh');
 
           // ignore: use_build_context_synchronously
-          Navigator.of(context).pop();
+          Navigator.of(context).pop('refresh');
 
           // ignore: use_build_context_synchronously
           customSnackbar(

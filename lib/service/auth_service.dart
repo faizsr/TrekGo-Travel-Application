@@ -47,7 +47,7 @@ class AuthService {
         debugPrint('Email already in use');
         // ignore: use_build_context_synchronously
         customSnackbar(
-            context, 'This email address is already in use', 130, 55, 55);
+            context, 'This email address is already in use', 20, 20, 20);
       }
       debugPrint(e.message);
       return e.message;

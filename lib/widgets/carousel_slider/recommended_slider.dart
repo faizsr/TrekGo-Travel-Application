@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/recommended_card.dart';
+import 'package:trekmate_project/assets.dart';
 
 class RecommendedPlaceSlider extends StatefulWidget {
   final String? sortName;
@@ -45,6 +46,23 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
                   .where('place_state', isEqualTo: widget.sortName)
                   .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                width: MediaQuery.of(context).size.width / 2.3,
+                height: MediaQuery.of(context).size.height / 4.3,
+                margin: const EdgeInsets.only(top: 20, bottom: 15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: LoadingAnimationWidget.threeArchedCircle(
+                    color: const Color(0xFF1485b9),
+                    size: 30,
+                  ),
+                ),
+              );
+            }
             if (snapshot.hasData && snapshot.data.docs.length > 0) {
               return Row(
                 children: snapshot.data.docs
@@ -68,15 +86,42 @@ class _RecommendedPlaceSliderState extends State<RecommendedPlaceSlider> {
                 }).toList(),
               );
             } else {
-              return SizedBox(
-                width: MediaQuery.of(context).size.width / 2.2,
-                height: MediaQuery.of(context).size.height / 5.0,
-                child: ClipRRect(
+              return Container(
+                width: MediaQuery.of(context).size.width / 2.3,
+                height: MediaQuery.of(context).size.height / 4.3,
+                decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  child: Image(
-                    image: AssetImage(lazyLoading),
-                    fit: BoxFit.cover,
-                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 10,
+                      offset: Offset(0, 2),
+                      spreadRadius: 0,
+                      color: Color(0x0D000000),
+                    )
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: Image.asset(searchNoResult),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    Text(
+                      'No Destinations Found In \n"${widget.sortName}"',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Color(0xFF1285b9),
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
                 ),
               );
             }

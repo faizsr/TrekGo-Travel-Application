@@ -147,31 +147,20 @@ class _PopularCardState extends State<PopularCard> {
                   ],
                 ),
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 10),
-                      blurRadius: 10,
-                      color: Color(0x0D000000),
-                    )
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.88,
-                    height: MediaQuery.of(context).size.height * 0.244,
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) => Image.asset(
-                        lazyLoading,
-                        fit: BoxFit.cover,
-                      ),
-                      imageUrl: widget.popularCardImage ?? '',
-                      errorWidget: (context, url, error) =>
-                          Image.asset(lazyLoading, fit: BoxFit.cover),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.88,
+                  height: MediaQuery.of(context).size.height * 0.244,
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => Image.asset(
+                      lazyLoading,
                       fit: BoxFit.cover,
                     ),
+                    imageUrl: widget.popularCardImage ?? '',
+                    errorWidget: (context, url, error) =>
+                        Image.asset(lazyLoading, fit: BoxFit.cover),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

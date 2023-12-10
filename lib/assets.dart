@@ -13,6 +13,12 @@ String homeDefaultImage = 'assets/images/home_default_profile_image.jpg';
 //Profile picture background
 String profileBackground = 'assets/images/profile_image_background.png';
 
+//Cards no result image
+String searchNoResult = 'assets/images/search_no_results.png';
+
+//Empty search result icon
+String emptysearchResult = 'assets/images/Empty_search_icon.png';
+
 String? termsAndConditions =
     '''By downloading or using the app, these terms will automatically apply to you - you should make sure therefore that you read them carefully before using the app. You're not allowed to copy or modify the app, any part of the app, or our trademarks in any way. You're not allowed to attempt to extract the source code of the app, and you also shouldn't try to translate the app into other languages or make derivative versions. The app itself, and all the trademarks, copyright, database rights, and other intellectual property rights related to it, still belong to Devlex.
               
@@ -89,6 +95,7 @@ String? ourCommitment =
     '''Devlex is committed to continuously improving and expanding Trekgo to meet the evolving needs of our users. We value feedback from our community and strive to incorporate innovative features that enhance the overall travel experience.
 ''';
 
-String? joinUs = '''Whether you're a seasoned traveler or embarking on your first adventure, Trekgo invites you to explore the world with fresh eyes. Devlex is thrilled to be your companion on this exciting journey of discovery, and we look forward to transforming the way you experience travel.
+String? joinUs =
+    '''Whether you're a seasoned traveler or embarking on your first adventure, Trekgo invites you to explore the world with fresh eyes. Devlex is thrilled to be your companion on this exciting journey of discovery, and we look forward to transforming the way you experience travel.
 
 Thank you for choosing Trekgo. Let the exploration begin!''';

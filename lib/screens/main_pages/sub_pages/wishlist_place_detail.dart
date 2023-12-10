@@ -12,12 +12,10 @@ import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.d
 class WishlistPlaceDetail extends StatefulWidget {
   final String? hiveKey;
   final String? userId;
-  final double? snackBarBottomPadding;
   const WishlistPlaceDetail({
     super.key,
     this.hiveKey,
     this.userId,
-    this.snackBarBottomPadding,
   });
 
   @override
@@ -45,10 +43,10 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
       // ============ Appbar ============
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.11),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.095),
         child: Container(
-          margin: const EdgeInsets.only(
-            top: 45,
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.035,
             left: 45,
             right: 45,
           ),
@@ -118,7 +116,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                     // ============ Place Image ============
                     Container(
                       margin: const EdgeInsets.only(
-                        top: 25,
+                        top: 10,
                         bottom: 20,
                         left: 25,
                         right: 25,
@@ -127,12 +125,13 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                       height: MediaQuery.of(context).size.height * 0.48,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(35),
-                          image: wishlistImage != null && wishlistImage.isNotEmpty
-                              ? DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: FileImage(File(wishlistImage)),
-                                )
-                              : null),
+                          image:
+                              wishlistImage != null && wishlistImage.isNotEmpty
+                                  ? DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: FileImage(File(wishlistImage)),
+                                    )
+                                  : null),
                       child: Stack(
                         children: [
                           Positioned(
@@ -148,7 +147,8 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                                     image: wishlistList?.image ?? '',
                                     name: wishlistList?.name ?? '',
                                     state: wishlistList?.state ?? '',
-                                    description: wishlistList?.description ?? '',
+                                    description:
+                                        wishlistList?.description ?? '',
                                     location: wishlistList?.location ?? '',
                                   ),
                                 );
@@ -173,7 +173,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                                   context,
                                   wishlistBox,
                                   widget.hiveKey ?? '',
-                                  widget.snackBarBottomPadding ?? 0,
+                                  20,
                                 );
                               },
                               child: const CircleAvatar(
@@ -190,7 +190,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                         ],
                       ),
                     ),
-              
+
                     // ============ Place Title ============
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.67,
@@ -200,11 +200,13 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                             overflow: TextOverflow.ellipsis),
-                            textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
                       ),
-                      
                     ),
-              
+                    const SizedBox(
+                      height: 10,
+                    ),
+
                     // ============ Tab Bar Heading ============
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -241,7 +243,7 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                         ],
                       ),
                     ),
-              
+
                     // ============ Tab Bar Views ============
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -249,11 +251,14 @@ class _WishlistPlaceDetailState extends State<WishlistPlaceDetail> {
                         child: Column(
                           children: [
                             Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 30),
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                               child: Text(
                                 wishlistList?.description ?? '',
-                                style: const TextStyle(fontSize: 13),
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
+                                textAlign: TextAlign.start,
                               ),
                             ),
                             const Divider(

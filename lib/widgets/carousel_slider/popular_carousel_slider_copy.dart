@@ -27,6 +27,7 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
   @override
   void initState() {
     super.initState();
+    debugPrint(widget.sortName);
   }
 
   @override

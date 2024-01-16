@@ -65,6 +65,7 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
           return Padding(
             padding: const EdgeInsets.only(right: 13),
             child: ChoiceChip(
+              showCheckmark: false,
               backgroundColor: Colors.white,
               label: Text(
                 buttonText[index],

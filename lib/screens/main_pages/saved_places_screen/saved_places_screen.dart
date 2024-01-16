@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/saved.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/saved_screen_card.dart';
@@ -11,12 +12,13 @@ class SavedPlacesScreen extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
   final void Function(int)? updateIndex;
+
   const SavedPlacesScreen({
     super.key,
     required this.userId,
     required this.isAdmin,
     required this.isUser,
-    required this.updateIndex,
+    this.updateIndex,
   });
 
   @override
@@ -124,7 +126,8 @@ class _SavedPlacesScreenState extends State<SavedPlacesScreen> {
                             ),
                           ],
                           onTap: () {
-                            widget.updateIndex!.call(0);
+                            indexChangeNotifier.value = 0;
+                            // widget.updateIndex!.call(0);
                           },
                         ),
                       ),

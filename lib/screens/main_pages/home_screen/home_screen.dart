@@ -17,7 +17,8 @@ class HomeScreen extends StatefulWidget {
   final bool? isAdmin;
   final bool? isUser;
   final String? userFullname;
-  final void Function(int)? updateIndex;
+    final void Function(int)? updateIndex;
+
   const HomeScreen({
     super.key,
     this.userId,
@@ -90,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               TopBarItems(
                                 userId: widget.userId,
                                 placeLocation: sortName,
-                                updateIndex: widget.updateIndex,
                                 scaffoldContext: context,
+                                updateIndex: widget.updateIndex,
                               ),
                               const SizedBox(
                                 height: 30,

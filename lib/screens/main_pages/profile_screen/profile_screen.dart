@@ -14,6 +14,7 @@ import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.d
 class ProfileScreen extends StatefulWidget {
   final String? userId;
   final void Function(int)? updateIndex;
+
   const ProfileScreen({
     super.key,
     this.userId,
@@ -202,7 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       UserProfileListtile(
                         titleText: 'Saved Places',
                         onTapIcon: () {
-                          widget.updateIndex?.call(3);
+                          indexChangeNotifier.value = 3;
+                          // widget.updateIndex!.call(3);
                         },
                       ),
                       Divider(

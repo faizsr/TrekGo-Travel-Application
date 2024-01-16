@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
@@ -19,7 +20,7 @@ addWishlist({
   Box<Wishlist>? wishlistBox,
   Function(bool)? setLoadingCallback,
   BuildContext? context,
-  void Function(int)? updateIndex,
+  final void Function(int)? updateIndex,
 }) {
   if (selectedImage == null) {
     customSnackbar(context, 'Please choose a image', 0, 20, 20);
@@ -46,7 +47,8 @@ addWishlist({
         ));
     customSnackbar(context, 'New wishlist created!', 0, 20, 20);
     debugPrint('Data added');
-    updateIndex!.call(0);
+    indexChangeNotifier.value = 0;
+    // updateIndex!.call(0);
   } else {
     setLoadingCallback!(false);
     debugPrint('Details not updated');

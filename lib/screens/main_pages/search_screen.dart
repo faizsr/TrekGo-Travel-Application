@@ -103,7 +103,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        widget.updateIndex?.call(4);
+                        // widget.updateIndex!.call(4);
+                        indexChangeNotifier.value = 4;
                         debugPrint('Search Profile icon tapped');
                       },
                       child: const CircleAvatar(

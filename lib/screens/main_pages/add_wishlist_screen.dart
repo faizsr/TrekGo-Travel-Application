@@ -14,6 +14,7 @@ import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart'
 class AddWishlistScreen extends StatefulWidget {
   final String? userId;
   final void Function(int)? updateIndex;
+
   const AddWishlistScreen({
     super.key,
     this.userId,

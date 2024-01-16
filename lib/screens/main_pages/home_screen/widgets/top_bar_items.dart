@@ -8,14 +8,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 class TopBarItems extends StatefulWidget {
   final String? userId;
   final String? placeLocation;
-  final void Function(int)? updateIndex;
   final BuildContext scaffoldContext;
+  final void Function(int)? updateIndex;
+
   const TopBarItems({
     super.key,
     this.userId,
     this.placeLocation,
-    this.updateIndex,
     required this.scaffoldContext,
+    this.updateIndex,
   });
 
   @override
@@ -78,7 +79,8 @@ class _TopBarItemsState extends State<TopBarItems> {
                 userProfilePic = userDataSnapshot['profilePic'];
                 return GestureDetector(
                   onTap: () {
-                    widget.updateIndex?.call(4);
+                    indexChangeNotifier.value = 4;
+                    // widget.updateIndex!.call(4);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.093,

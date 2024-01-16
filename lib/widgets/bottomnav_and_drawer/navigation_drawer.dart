@@ -13,21 +13,21 @@ import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.d
 
 class NavigationDrawerr extends StatefulWidget {
   final String userId;
-  final void Function(int)? updateIndex;
   final String? username;
   final String? useremail;
   final String? usermobile;
   final String? usergender;
   final String? userprofile;
+  final GlobalKey<ScaffoldState> scaffoldKey;
   const NavigationDrawerr({
     super.key,
     required this.userId,
-    required this.updateIndex,
     required this.username,
     required this.useremail,
     required this.usermobile,
     required this.usergender,
     required this.userprofile,
+    required this.scaffoldKey,
   });
 
   @override
@@ -67,9 +67,9 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                       String userProfile = userDataSnapshot['profilePic'];
                       return InkWell(
                         onTap: () {
-                          widget.updateIndex?.call(4);
+                          widget.scaffoldKey.currentState?.openEndDrawer();
+                          indexChangeNotifier.value = 4;
                           debugPrint('Profile Pressed');
-                          Navigator.of(context).pop();
                         },
                         child: headerWidget(
                           username: username,
@@ -95,27 +95,27 @@ class _NavigationDrawerrState extends State<NavigationDrawerr> {
                 name: 'Home',
                 icon: FeatherIcons.home,
                 onPressed: () {
-                  widget.updateIndex?.call(0);
+                  widget.scaffoldKey.currentState?.openEndDrawer();
+                  indexChangeNotifier.value = 0;
                   debugPrint('Home Pressed');
-                  Navigator.of(context).pop();
                 },
               ),
               DrawerItem(
                 name: 'Explore',
                 icon: FeatherIcons.search,
                 onPressed: () {
-                  widget.updateIndex?.call(1);
+                  widget.scaffoldKey.currentState?.openEndDrawer();
+                  indexChangeNotifier.value = 1;
                   debugPrint('Explore Pressed');
-                  Navigator.of(context).pop();
                 },
               ),
               DrawerItem(
                 name: 'Saved',
                 icon: FeatherIcons.bookmark,
                 onPressed: () {
-                  widget.updateIndex?.call(3);
+                  widget.scaffoldKey.currentState?.openEndDrawer();
+                  indexChangeNotifier.value = 3;
                   debugPrint('Wishlist Pressed');
-                  Navigator.of(context).pop();
                 },
               ),
               DrawerItem(

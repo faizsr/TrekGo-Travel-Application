@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 String appLogo = 'assets/images/trekgo_logo.png';
 String appName = 'assets/images/trekgo_name.png';
 
@@ -99,3 +101,6 @@ String? joinUs =
     '''Whether you're a seasoned traveler or embarking on your first adventure, Trekgo invites you to explore the world with fresh eyes. Devlex is thrilled to be your companion on this exciting journey of discovery, and we look forward to transforming the way you experience travel.
 
 Thank you for choosing Trekgo. Let the exploration begin!''';
+
+
+ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);

@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/widgets/bottomnav_and_drawer/navigation_drawer.dart';
 import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/home_screen/home_screen.dart';
@@ -36,16 +37,17 @@ class NavigationBottomBar extends StatefulWidget {
 }
 
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
-  int selectedIndex = 0;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   List pages = [];
+  // int selectedIndex = 0;
 
-  void onUpdateIndex(int newIindex) {
-    setState(() {
-      selectedIndex = newIindex;
-    });
-    debugPrint('index on nav: $selectedIndex');
-  }
+  // void onUpdateIndex(int newIindex) {
+  //   setState(() {
+  //     selectedIndex = newIindex;
+  //   });
+  //   debugPrint('index on nav: $selectedIndex');
+  // }
 
   @override
   void initState() {
@@ -55,27 +57,22 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
-        updateIndex: onUpdateIndex,
       ),
       SearchScreen(
         userId: widget.userId,
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
-        updateIndex: onUpdateIndex,
       ),
       AddWishlistScreen(
         userId: widget.userId,
-        updateIndex: onUpdateIndex,
       ),
       SavedPlacesScreen(
         userId: widget.userId ?? '',
         isAdmin: widget.isAdmin,
         isUser: widget.isUser,
-        updateIndex: onUpdateIndex,
       ),
       ProfileScreen(
         userId: widget.userId,
-        updateIndex: onUpdateIndex,
       ),
     ];
     debugPrint('Admin logged in ${widget.isAdmin}');
@@ -85,110 +82,128 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: NavigationDrawerr(
-        userId: widget.userId ?? '',
-        updateIndex: onUpdateIndex,
-        username: widget.username,
-        useremail: widget.useremail,
-        usergender: widget.usergender,
-        usermobile: widget.usermobile,
-        userprofile: widget.userprofile,
-      ),
-      // ===== Body =====
-      body: PageTransitionSwitcher(
-        duration: const Duration(milliseconds: 250),
-        transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
-            FadeTransition(
-          opacity: primaryAnimation,
-          child: child,
+    return PopScope(
+      canPop: indexChangeNotifier.value != 0,
+      onPopInvoked: (didPop) {
+        indexChangeNotifier.value = 0;
+        return;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        drawer: NavigationDrawerr(
+          userId: widget.userId ?? '',
+          username: widget.username,
+          useremail: widget.useremail,
+          usergender: widget.usergender,
+          usermobile: widget.usermobile,
+          userprofile: widget.userprofile,
+          scaffoldKey: scaffoldKey,
         ),
-        child: pages[selectedIndex],
-      ),
-      extendBody: true,
-
-      // ===== Bottom navigation bar =====
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: BottomNavigationBar(
-            backgroundColor: const Color(0xFFe5e6f6),
-            landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: selectedIndex,
-            onTap: (index) => setState(() {
-              selectedIndex = index;
+        // ===== Body =====
+        body: ValueListenableBuilder(
+            valueListenable: indexChangeNotifier,
+            builder: (context, int index, child) {
+              return PageTransitionSwitcher(
+                duration: const Duration(milliseconds: 250),
+                transitionBuilder:
+                    (child, primaryAnimation, secondaryAnimation) =>
+                        FadeTransition(
+                  opacity: primaryAnimation,
+                  child: child,
+                ),
+                child: pages[index],
+              );
             }),
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            unselectedItemColor: const Color(0xFF1285b9),
-            selectedItemColor: Colors.black,
-            items: [
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  FeatherIcons.home,
-                  size: 28,
-                ),
-                label: '',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  FeatherIcons.search,
-                  size: 28,
-                ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                activeIcon: Container(
-                  width: MediaQuery.of(context).size.width * 0.09,
-                  height: MediaQuery.of(context).size.height * 0.04,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(70),
-                    ),
+        extendBody: true,
+
+        // ===== Bottom navigation bar =====
+        bottomNavigationBar: ValueListenableBuilder(
+            valueListenable: indexChangeNotifier,
+            builder: (context, int newIndex, _) {
+              return Container(
+                margin: const EdgeInsets.all(20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: BottomNavigationBar(
+                    currentIndex: newIndex,
+                    onTap: (index) {
+                      indexChangeNotifier.value = index;
+                    },
+                    backgroundColor: const Color(0xFFe5e6f6),
+                    landscapeLayout:
+                        BottomNavigationBarLandscapeLayout.centered,
+                    type: BottomNavigationBarType.fixed,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    unselectedItemColor: const Color(0xFF1285b9),
+                    selectedItemColor: Colors.black,
+                    items: [
+                      const BottomNavigationBarItem(
+                        icon: Icon(
+                          FeatherIcons.home,
+                          size: 28,
+                        ),
+                        label: '',
+                      ),
+                      const BottomNavigationBarItem(
+                        icon: Icon(
+                          FeatherIcons.search,
+                          size: 28,
+                        ),
+                        label: '',
+                      ),
+                      BottomNavigationBarItem(
+                        activeIcon: Container(
+                          width: MediaQuery.of(context).size.width * 0.09,
+                          height: MediaQuery.of(context).size.height * 0.04,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(70),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            size: 25,
+                            color: Color(0xFF1285b9),
+                          ),
+                        ),
+                        icon: Container(
+                          width: MediaQuery.of(context).size.width * 0.09,
+                          height: MediaQuery.of(context).size.height * 0.04,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF1285b9),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(70),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            size: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                        label: '',
+                      ),
+                      const BottomNavigationBarItem(
+                        icon: Icon(
+                          FeatherIcons.bookmark,
+                          size: 28,
+                        ),
+                        label: '',
+                      ),
+                      const BottomNavigationBarItem(
+                        icon: Icon(
+                          FeatherIcons.user,
+                          size: 28,
+                        ),
+                        label: '',
+                      ),
+                    ],
                   ),
-                  child: const Icon(
-                    Icons.add,
-                    size: 25,
-                    color: Color(0xFF1285b9),
-                  ),
                 ),
-                icon: Container(
-                  width: MediaQuery.of(context).size.width * 0.09,
-                  height: MediaQuery.of(context).size.height * 0.04,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF1285b9),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(70),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.add,
-                    size: 25,
-                    color: Colors.white,
-                  ),
-                ),
-                label: '',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  FeatherIcons.bookmark,
-                  size: 28,
-                ),
-                label: '',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  FeatherIcons.user,
-                  size: 28,
-                ),
-                label: '',
-              ),
-            ],
-          ),
-        ),
+              );
+            }),
       ),
     );
   }

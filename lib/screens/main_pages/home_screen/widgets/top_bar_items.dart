@@ -4,6 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/service/database_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 
 class TopBarItems extends StatefulWidget {
   final String? userId;

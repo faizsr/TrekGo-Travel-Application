@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/saved.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/cards/saved_screen_card.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen/widgets/saved_icon.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/model/wishlist.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 // ==================== Add new wishlist ====================

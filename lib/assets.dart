@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 String appLogo = 'assets/images/trekgo_logo.png';
 String appName = 'assets/images/trekgo_name.png';
 
@@ -103,4 +101,8 @@ String? joinUs =
 Thank you for choosing Trekgo. Let the exploration begin!''';
 
 
-ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
+// Admin Login Details
+
+// Admin ID = admin@321
+// Admin email = adminlogin@gmail.com
+// Admin password = 12345678

@@ -1,13 +1,14 @@
 import 'package:animations/animations.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
 import 'package:trekmate_project/widgets/bottomnav_and_drawer/navigation_drawer.dart';
 import 'package:trekmate_project/screens/main_pages/add_wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/home_screen/home_screen.dart';
 import 'package:trekmate_project/screens/main_pages/saved_places_screen/saved_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/profile_screen/profile_screen.dart';
 import 'package:trekmate_project/screens/main_pages/search_screen.dart';
+
+ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
 
 class NavigationBottomBar extends StatefulWidget {
   final String? userId;
@@ -40,14 +41,6 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   List pages = [];
-  // int selectedIndex = 0;
-
-  // void onUpdateIndex(int newIindex) {
-  //   setState(() {
-  //     selectedIndex = newIindex;
-  //   });
-  //   debugPrint('index on nav: $selectedIndex');
-  // }
 
   @override
   void initState() {

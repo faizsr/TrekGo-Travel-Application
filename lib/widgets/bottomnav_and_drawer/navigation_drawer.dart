@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekmate_project/assets.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/widgets/bottomnav_and_drawer/drawer_item.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/settings_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';

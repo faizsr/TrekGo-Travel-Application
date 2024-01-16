@@ -94,7 +94,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
           ),
         ),
         const SizedBox(height: 10),
-        const Divider(height: 1.2),
+        Divider(
+          height: 1.2,
+          color: Colors.grey.shade200,
+        ),
         widget.disableActionBtn == false
             ? SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -115,7 +118,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 ),
               )
             : const SizedBox(),
-        Divider(height: widget.disableActionBtn == false ? 1 : 0),
+        Divider(
+            height: widget.disableActionBtn == false ? 1.2 : 0,
+            color: Colors.grey.shade200),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 48,

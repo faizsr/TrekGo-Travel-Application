@@ -9,6 +9,7 @@ import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/se
 import 'package:trekmate_project/screens/user/user_login_screen.dart';
 import 'package:trekmate_project/service/auth_service.dart';
 import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class ProfileScreen extends StatefulWidget {

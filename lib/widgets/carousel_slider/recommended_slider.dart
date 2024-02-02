@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/cards/recommended_card.dart';
-import 'package:trekmate_project/assets.dart';
+import 'package:trekgo_project/service/database_service.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/cards/recommended_card.dart';
+import 'package:trekgo_project/assets.dart';
 
 class RecommendedPlaceSlider extends StatefulWidget {
   final String? sortName;

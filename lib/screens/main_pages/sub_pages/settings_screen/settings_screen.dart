@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/admin/add_place_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/widgets/widgets.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/sub_pages/about_us.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/sub_pages/privacy_policies.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/sub_pages/terms_and_conditions.dart';
-import 'package:trekmate_project/screens/user/forgot_password_screen.dart';
-import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/helper/helper_functions.dart';
+import 'package:trekgo_project/screens/admin/add_place_screen.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/settings_screen/widgets/widgets.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/settings_screen/sub_pages/about_us.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/settings_screen/sub_pages/privacy_policies.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/settings_screen/sub_pages/terms_and_conditions.dart';
+import 'package:trekgo_project/screens/user/forgot_password_screen.dart';
+import 'package:trekgo_project/service/auth_service.dart';
+import 'package:trekgo_project/service/database_service.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String? userId;

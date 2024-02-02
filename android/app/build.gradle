@@ -29,7 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.example.trekmate_project"
+    namespace "com.example.trekgo_project"
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 

@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/main_pages/profile_screen/widgets/widgets.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/settings_screen/settings_screen.dart';
-import 'package:trekmate_project/screens/user/user_login_screen.dart';
-import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/screens/main_pages/profile_screen/widgets/widgets.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/edit_profile_screen.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/wishlist_screen.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/settings_screen/settings_screen.dart';
+import 'package:trekgo_project/screens/user/user_login_screen.dart';
+import 'package:trekgo_project/service/auth_service.dart';
+import 'package:trekgo_project/service/database_service.dart';
+import 'package:trekgo_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? userId;

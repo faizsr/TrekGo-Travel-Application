@@ -2,11 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/user/user_login_screen.dart';
-import 'package:trekmate_project/service/auth_service.dart';
-import 'package:trekmate_project/screens/user/widget/widgets.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/screens/user/user_login_screen.dart';
+import 'package:trekgo_project/service/auth_service.dart';
+import 'package:trekgo_project/screens/user/widget/widgets.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   final String? resetText;

@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/service/database_service.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/service/database_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
+import 'package:trekgo_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
 
 class TopBarItems extends StatefulWidget {
   final String? userId;

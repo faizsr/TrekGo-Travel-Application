@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});

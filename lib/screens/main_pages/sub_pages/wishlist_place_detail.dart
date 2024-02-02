@@ -4,10 +4,10 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:trekmate_project/helper/hive_db_function.dart';
-import 'package:trekmate_project/model/wishlist.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/update_wishlist_screen.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/helper/hive_db_function.dart';
+import 'package:trekgo_project/model/wishlist.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/update_wishlist_screen.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class WishlistPlaceDetail extends StatefulWidget {
   final String? hiveKey;

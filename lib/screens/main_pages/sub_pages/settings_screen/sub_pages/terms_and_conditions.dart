@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});

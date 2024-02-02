@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class FilterChipWidget extends StatefulWidget {
   final List<String>? selectedState;

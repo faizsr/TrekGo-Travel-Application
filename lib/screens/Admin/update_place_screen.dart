@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/admin/widgets/add_place_rating_widget.dart';
-import 'package:trekmate_project/service/firebase_db_functions.dart';
-import 'package:trekmate_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/helper/helper_functions.dart';
+import 'package:trekgo_project/screens/admin/widgets/add_place_rating_widget.dart';
+import 'package:trekgo_project/service/firebase_db_functions.dart';
+import 'package:trekgo_project/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class UpdatePlaceScreen extends StatefulWidget {
   final String? placeid;

@@ -5,17 +5,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/admin/widgets/add_place_rating_widget.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/appbar.dart';
-import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekmate_project/screens/user/widget/widgets.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/overview_buttons.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/overview_tabview.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/review_section_text_field.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/widgets/reviews.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/screens/admin/widgets/add_place_rating_widget.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/place_detail_screen/widgets/appbar.dart';
+import 'package:trekgo_project/service/database_service.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/screens/user/widget/widgets.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/place_detail_screen/widgets/overview_buttons.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/place_detail_screen/widgets/overview_tabview.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/place_detail_screen/widgets/review_section_text_field.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/place_detail_screen/widgets/reviews.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class PlaceDetailScreen extends StatefulWidget {
   final String? placeid;

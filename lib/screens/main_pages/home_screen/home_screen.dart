@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:trekmate_project/model/wishlist.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
-import 'package:trekmate_project/widgets/carousel_slider/popular_carousel_slider.dart';
-import 'package:trekmate_project/widgets/carousel_slider/recommended_slider.dart';
-import 'package:trekmate_project/widgets/carousel_slider/wishlist_carousel_slider.dart';
-import 'package:trekmate_project/screens/main_pages/home_screen/widgets/top_bar_items.dart';
-import 'package:trekmate_project/screens/main_pages/home_screen/widgets/appbar_subtitles.dart';
-import 'package:trekmate_project/widgets/chips_and_drop_downs/choice_chips.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/model/wishlist.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/wishlist_screen.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/popular_places_screen.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/recommended_screen.dart';
+import 'package:trekgo_project/widgets/carousel_slider/popular_carousel_slider.dart';
+import 'package:trekgo_project/widgets/carousel_slider/recommended_slider.dart';
+import 'package:trekgo_project/widgets/carousel_slider/wishlist_carousel_slider.dart';
+import 'package:trekgo_project/screens/main_pages/home_screen/widgets/top_bar_items.dart';
+import 'package:trekgo_project/screens/main_pages/home_screen/widgets/appbar_subtitles.dart';
+import 'package:trekgo_project/widgets/chips_and_drop_downs/choice_chips.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 class HomeScreen extends StatefulWidget {
   final String? userId;

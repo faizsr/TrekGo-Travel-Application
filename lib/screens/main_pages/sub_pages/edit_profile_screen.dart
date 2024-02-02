@@ -5,12 +5,12 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/helper/auth_db_function.dart';
-import 'package:trekmate_project/helper/helper_functions.dart';
-import 'package:trekmate_project/screens/user/widget/widgets.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/helper/auth_db_function.dart';
+import 'package:trekgo_project/helper/helper_functions.dart';
+import 'package:trekgo_project/screens/user/widget/widgets.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/reusable_widgets.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? userId;

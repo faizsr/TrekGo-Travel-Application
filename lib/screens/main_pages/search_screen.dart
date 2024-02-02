@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:trekmate_project/assets.dart';
-import 'package:trekmate_project/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
-import 'package:trekmate_project/service/database_service.dart';
-import 'package:trekmate_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
-import 'package:trekmate_project/widgets/chips_and_drop_downs/filter_chip.dart';
-import 'package:trekmate_project/screens/user/widget/widgets.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/cards/recent_search_card.dart';
+import 'package:trekgo_project/assets.dart';
+import 'package:trekgo_project/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
+import 'package:trekgo_project/service/database_service.dart';
+import 'package:trekgo_project/widgets/bottomnav_and_drawer/bottom_navigation_bar.dart';
+import 'package:trekgo_project/widgets/chips_and_drop_downs/filter_chip.dart';
+import 'package:trekgo_project/screens/user/widget/widgets.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/cards/recent_search_card.dart';
 
 class SearchScreen extends StatefulWidget {
   final bool? isAdmin;

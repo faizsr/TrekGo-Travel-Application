@@ -1,4 +1,4 @@
-# trekmate_project
+# trekgo_project
 
 A new Flutter project.
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:trekmate_project/model/saved.dart';
-import 'package:trekmate_project/provider/saved_provider.dart';
+import 'package:trekgo_project/model/saved.dart';
+import 'package:trekgo_project/provider/saved_provider.dart';
 
 class SavedScreenIcon extends StatefulWidget {
   final int? index;

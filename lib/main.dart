@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:trekmate_project/firebase_options.dart';
-import 'package:trekmate_project/model/wishlist.dart';
-import 'package:trekmate_project/model/saved.dart';
-import 'package:trekmate_project/screens/main_pages/splash_screen.dart';
-import 'package:trekmate_project/provider/saved_provider.dart';
-import 'package:trekmate_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/firebase_options.dart';
+import 'package:trekgo_project/model/wishlist.dart';
+import 'package:trekgo_project/model/saved.dart';
+import 'package:trekgo_project/screens/main_pages/splash_screen.dart';
+import 'package:trekgo_project/provider/saved_provider.dart';
+import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

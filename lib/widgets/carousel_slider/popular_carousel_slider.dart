@@ -37,9 +37,9 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
       height: MediaQuery.of(context).size.height / 2.7,
       child: StreamBuilder(
         stream: widget.sortName == 'View All'
-            ? DatabaseService()
-                .destinationCollection
-                .where('place_category', isEqualTo: 'Popular')
+            ? FirebaseFirestore.instance
+                .collection('destination')
+                // .where('place_category', isEqualTo: 'Popular')
                 .snapshots()
             : DatabaseService()
                 .destinationCollection

@@ -4,7 +4,7 @@ import 'package:trekmate_project/model/wishlist.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/wishlist_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/popular_places_screen.dart';
 import 'package:trekmate_project/screens/main_pages/sub_pages/recommended_screen.dart';
-import 'package:trekmate_project/widgets/carousel_slider/popular_carousel_slider_copy.dart';
+import 'package:trekmate_project/widgets/carousel_slider/popular_carousel_slider.dart';
 import 'package:trekmate_project/widgets/carousel_slider/recommended_slider.dart';
 import 'package:trekmate_project/widgets/carousel_slider/wishlist_carousel_slider.dart';
 import 'package:trekmate_project/screens/main_pages/home_screen/widgets/top_bar_items.dart';

@@ -39,7 +39,7 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
         stream: widget.sortName == 'View All'
             ? FirebaseFirestore.instance
                 .collection('destination')
-                // .where('place_category', isEqualTo: 'Popular')
+                .where('place_category', isEqualTo: 'Popular')
                 .snapshots()
             : DatabaseService()
                 .destinationCollection

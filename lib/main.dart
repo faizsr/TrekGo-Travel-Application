@@ -1,39 +1,45 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:trekgo_project/firebase_options.dart';
-import 'package:trekgo_project/model/wishlist.dart';
-import 'package:trekgo_project/model/saved.dart';
-import 'package:trekgo_project/screens/main_pages/splash_screen.dart';
-import 'package:trekgo_project/provider/saved_provider.dart';
-import 'package:trekgo_project/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'package:trekgo_project/changer/model/wishlist.dart';
+import 'package:trekgo_project/changer/model/saved.dart';
+import 'package:trekgo_project/src/feature/auth/presentation/controllers/auth_controller.dart';
+import 'package:trekgo_project/src/feature/auth/presentation/views/splash_screen.dart';
+import 'package:trekgo_project/changer/provider/saved_provider.dart';
+import 'package:trekgo_project/src/feature/user/presentation/controllers/user_controller.dart';
+import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
+import 'injection_container.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await di.init();
+
   await Hive.initFlutter('hive_db');
   Hive.registerAdapter<Wishlist>(WishlistAdapter());
   Hive.registerAdapter(SavedAdapter());
   await Hive.openBox<Wishlist>('wishlists');
   await Hive.openBox<Saved>('saved');
 
-  List<String> savedIds = await loadSavedIds();
-
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-    SystemUiOverlay.top,
-  ]);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      // statusBarColor: Color(0xFFe5e6f6),
+      statusBarColor: Color(0xFFC0F8FE),
+      // statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark,
+      // systemNavigationBarColor: Color(0xFFe5e6f6),
+      systemNavigationBarColor: Color(0xFFF0F3F7),
+    ),
+  );
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp(savedIds: savedIds)));
+  ]);
 
   runApp(
-    MyApp(savedIds: savedIds),
+    const MyApp(savedIds: []),
   );
 }
 
@@ -50,21 +56,23 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    setStatusBarColor(
-      const Color(0xFFe5e6f6),
-    );
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: ChangeNotifierProvider(
-        create: (context) => SavedProvider(savedIds: widget.savedIds ?? []),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => SavedProvider(savedIds: widget.savedIds ?? []),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => di.getIt<AuthController>(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => di.getIt<UserController>(),
+          ),
+        ],
         child: MaterialApp(
           builder: (context, child) {
             return ScrollConfiguration(
@@ -85,17 +93,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    resetStatusBarColor();
-  }
-}
-
-Future<List<String>> loadSavedIds() async {
-  Box<Saved> savedBox = Hive.box('saved');
-  List<String> savedIds =
-      savedBox.keys.map((dynamic key) => key.toString()).toList();
-  return savedIds;
 }

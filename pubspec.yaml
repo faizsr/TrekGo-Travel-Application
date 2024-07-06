@@ -33,8 +33,6 @@ dependencies:
   connectivity_plus: ^5.0.1
   cupertino_icons: ^1.0.2
   feather_icons: ^1.2.0
-  firebase_auth: ^4.12.0
-  firebase_core: ^2.20.0
   firebase_storage: ^11.4.1
   flutter:
     sdk: flutter
@@ -59,6 +57,9 @@ dependencies:
   popup_banner: ^1.0.0
   flutter_plugin_android_lifecycle: ^2.0.16
   animated_text_kit: ^4.2.2
+  get_it: ^7.7.0
+  firebase_auth: ^4.20.0
+  firebase_core: ^2.32.0
 
 dev_dependencies:
   dart_code_metrics: ^4.19.2
@@ -93,15 +94,15 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
-        - asset: assets/fonts/Poppins/Poppins-Light.ttf
-        - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
-        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
-        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
-        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
-        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
-        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
-        - asset: assets/fonts/Poppins/Poppins-Black.ttf
+        - asset: assets/fonts/Poppins/Poppins-Black.otf
+        - asset: assets/fonts/Poppins/Poppins-Bold.otf
+        - asset: assets/fonts/Poppins/Poppins-ExtraBold.otf
+        - asset: assets/fonts/Poppins/Poppins-ExtraLight.otf
+        - asset: assets/fonts/Poppins/Poppins-Light.otf
+        - asset: assets/fonts/Poppins/Poppins-Medium.otf
+        - asset: assets/fonts/Poppins/Poppins-Regular.otf
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.otf
+        - asset: assets/fonts/Poppins/Poppins-Thin.otf
 
   #
   # For details regarding fonts from package dependencies,

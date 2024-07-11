@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:trekgo_project/src/config/constants/app_colors.dart';
 
-class ChoiceChipsWidget extends StatefulWidget {
+class FilterButtonList extends StatefulWidget {
   final void Function(String?)? onSortNameChanged;
-  const ChoiceChipsWidget({
+  const FilterButtonList({
     super.key,
     this.onSortNameChanged,
   });
 
   @override
-  State<ChoiceChipsWidget> createState() => _ChoiceChipsWidgetState();
+  State<FilterButtonList> createState() => _FilterButtonListState();
 }
 
-class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
+class _FilterButtonListState extends State<FilterButtonList> {
   int selectedOption = 0;
   bool? viewAll;
   List<bool>? isSelected;
@@ -51,51 +52,48 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SizedBox(
-      // color: Colors.red,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.08,
+      width: size.width,
+      height: 80,
       child: ListView.builder(
-        padding: const EdgeInsets.only(
-          left: 15,
-        ),
+        padding: const EdgeInsets.fromLTRB(15, 20, 0, 20),
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: buttonText.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.only(right: 13),
+            padding: const EdgeInsets.only(right: 15),
             child: ChoiceChip(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               showCheckmark: false,
-              backgroundColor: Colors.white,
+              elevation: 0,
+              backgroundColor: AppColors.white,
               label: Text(
                 buttonText[index],
                 style: TextStyle(
-                  color: isSelected![index]
-                      ? Colors.white
-                      : const Color(0xFF1285b9),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
+                  color:
+                      isSelected![index] ? AppColors.white : AppColors.darkTeal,
+                  fontSize: 13,
                 ),
               ),
-              selectedColor: const Color(0xFF1285b9),
+              selectedColor: AppColors.darkTeal,
               selected: isSelected![index],
               onSelected: (active) {
                 setState(() {
                   chipSelectionHandle(index);
                   sortName = buttonText[index];
-                  // viewAll = sortName == null;
                   widget.onSortNameChanged!(sortName);
                 });
               },
-              elevation: 0.0,
-              shadowColor: Colors.transparent.withOpacity(0),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              materialTapTargetSize: MaterialTapTargetSize.padded,
               shape: StadiumBorder(
                 side: BorderSide(
-                  color: isSelected![index]
-                      ? Colors.white
-                      : const Color(0xFF1285b9),
-                  width: 2.5,
+                  style: BorderStyle.solid,
+                  color: AppColors.darkTeal,
+                  width: 1.5,
                 ),
               ),
             ),

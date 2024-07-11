@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:trekgo_project/changer/model/wishlist.dart';
 import 'package:trekgo_project/changer/model/saved.dart';
+import 'package:trekgo_project/changer/model/wishlist.dart';
+import 'package:trekgo_project/src/config/constants/app_colors.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/controllers/auth_controller.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/splash_screen.dart';
-import 'package:trekgo_project/changer/provider/saved_provider.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/controllers/destination_controller.dart';
 import 'package:trekgo_project/src/feature/user/presentation/controllers/user_controller.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'injection_container.dart' as di;
@@ -22,14 +24,11 @@ Future<void> main() async {
   await Hive.openBox<Saved>('saved');
 
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      // statusBarColor: Color(0xFFe5e6f6),
-      statusBarColor: Color(0xFFC0F8FE),
-      // statusBarColor: Colors.white,
+    SystemUiOverlayStyle(
+      statusBarColor: AppColors.skyBlue,
       statusBarIconBrightness: Brightness.dark,
       statusBarBrightness: Brightness.dark,
-      // systemNavigationBarColor: Color(0xFFe5e6f6),
-      systemNavigationBarColor: Color(0xFFF0F3F7),
+      systemNavigationBarColor: AppColors.aquaBlue,
     ),
   );
 
@@ -39,22 +38,13 @@ Future<void> main() async {
   ]);
 
   runApp(
-    const MyApp(savedIds: []),
+    const MyApp(),
   );
 }
 
-class MyApp extends StatefulWidget {
-  final List<String>? savedIds;
-  const MyApp({
-    super.key,
-    this.savedIds,
-  });
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -64,13 +54,13 @@ class _MyAppState extends State<MyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => SavedProvider(savedIds: widget.savedIds ?? []),
-          ),
-          ChangeNotifierProvider(
             create: (context) => di.getIt<AuthController>(),
           ),
           ChangeNotifierProvider(
             create: (context) => di.getIt<UserController>(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => di.getIt<DestinationController>(),
           ),
         ],
         child: MaterialApp(
@@ -84,7 +74,7 @@ class _MyAppState extends State<MyApp> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             fontFamily: 'Poppins',
-            scaffoldBackgroundColor: const Color(0xFFf0f3f7),
+            scaffoldBackgroundColor: AppColors.aquaBlue,
             splashFactory: NoSplash.splashFactory,
           ),
           debugShowCheckedModeBanner: false,

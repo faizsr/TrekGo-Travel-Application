@@ -1,55 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
+import 'package:trekgo_project/src/config/constants/app_colors.dart';
+import 'package:trekgo_project/src/config/utils/gap.dart';
+import 'package:trekgo_project/src/feature/destination/domain/entities/destination_entity.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OverViewSection extends StatelessWidget {
-  final String? description;
-  final String? location;
-  final String? mapLink;
-  const OverViewSection(
-      {super.key, this.description, this.location, this.mapLink});
+  final DestinationEntity destination;
+  const OverViewSection({super.key, required this.destination});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              description ?? '',
-              style: const TextStyle(fontSize: 13),
+          Text(
+            'Overview',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: AppColors.darkTeal,
             ),
           ),
-          const Divider(
-            height: 30,
-            thickness: 1,
-            color: Color(0x0D000000),
-          ),
-          InkWell(
-            onTap: () => openGoogleMap(mapLink: mapLink),
-            child: Container(
-              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 75),
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.location_on_outlined,
-                    size: 30,
-                    color: Color(0xFF1285b9),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 10),
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      location ?? '',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          const Gap(height: 5),
+          ReadMoreText(
+            '${destination.description}  ',
+            trimMode: TrimMode.Line,
+            trimLines: 4,
+            colorClickableText: Colors.pink,
+            trimCollapsedText: ' more',
+            trimExpandedText: 'less',
+            moreStyle: TextStyle(color: AppColors.black38),
+            lessStyle: TextStyle(color: AppColors.black38),
           ),
         ],
       ),

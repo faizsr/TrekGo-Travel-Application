@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/changer/model/saved.dart';
-import 'package:trekgo_project/changer/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
 import 'package:trekgo_project/changer/service/database_service.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/admin/update_place_screen.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
@@ -76,15 +75,15 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
       onTap: () {
         debugPrint('Admin logged place in ${widget.isAdmin}');
         debugPrint('User logged in ${widget.isUser}');
-        nextScreen(
-          context,
-          PlaceDetailScreen(
-            // userId: widget.userId,
-            isAdmin: widget.isAdmin ?? true,
-            isUser: widget.isUser ?? false,
-            placeid: widget.placeid,
-          ),
-        );
+        // nextScreen(
+        //   context,
+        //   PlaceDetailScreen(
+        //     // userId: widget.userId,
+        //     isAdmin: widget.isAdmin ?? true,
+        //     isUser: widget.isUser ?? false,
+        //     placeid: widget.placeid,
+        //   ),
+        // );
       },
       child: Center(
         child: Container(

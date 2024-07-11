@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:trekgo_project/changer/assets.dart';
+import 'package:trekgo_project/src/config/utils/decorations.dart';
 import 'package:trekgo_project/src/feature/auth/domain/use_cases/auth_status_usecase.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/main_page.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/user/user_login_page.dart';
@@ -29,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFFE5E6F6),
+        decoration:  BoxDecoration(
+          gradient: bgGradient
         ),
         child: Padding(
           padding: const EdgeInsets.only(bottom: 50),

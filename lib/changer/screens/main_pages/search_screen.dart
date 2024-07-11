@@ -3,7 +3,6 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekgo_project/changer/assets.dart';
-import 'package:trekgo_project/changer/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
 import 'package:trekgo_project/changer/service/database_service.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/main_page.dart';
 import 'package:trekgo_project/changer/widgets/chips_and_drop_downs/filter_chip.dart';
@@ -251,16 +250,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      debugPrint('On recent searches');
-                      nextScreen(
-                        context,
-                        PlaceDetailScreen(
-                          // userId: widget.userId,
-                          isAdmin: widget.isAdmin,
-                          isUser: widget.isUser,
-                          placeid: recentSearchResult![index].id,
-                        ),
-                      );
+                      // debugPrint('On recent searches');
+                      // nextScreen(
+                      //   context,
+                      //   PlaceDetailScreen(
+                      //     // userId: widget.userId,
+                      //     isAdmin: widget.isAdmin,
+                      //     isUser: widget.isUser,
+                      //     placeid: recentSearchResult![index].id,
+                      //   ),
+                      // );
                     },
                     child: RecentSearchCard(
                       // userId: widget.userId,
@@ -286,16 +285,16 @@ class _SearchScreenState extends State<SearchScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      debugPrint('On recent searches');
-                      nextScreen(
-                        context,
-                        PlaceDetailScreen(
-                          // userId: widget.userId,
-                          isAdmin: widget.isAdmin,
-                          isUser: widget.isUser,
-                          placeid: searchResults![index].id,
-                        ),
-                      );
+                      // debugPrint('On recent searches');
+                      // nextScreen(
+                      //   context,
+                      //   PlaceDetailScreen(
+                      //     // userId: widget.userId,
+                      //     isAdmin: widget.isAdmin,
+                      //     isUser: widget.isUser,
+                      //     placeid: searchResults![index].id,
+                      //   ),
+                      // );
                     },
                     child: RecentSearchCard(
                       // userId: widget.userId,

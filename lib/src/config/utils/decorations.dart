@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trekgo_project/src/config/constants/app_colors.dart';
 
 List<BoxShadow> kBoxShadow = [
   BoxShadow(
@@ -9,12 +10,18 @@ List<BoxShadow> kBoxShadow = [
   )
 ];
 
-LinearGradient bgGradient = const LinearGradient(
-  colors: [
-    Color(0xFFC0F8FE),
-    Color(0xFFF0F3F7),
-  ],
-  stops: [0.25, 0.87],
+List<BoxShadow> kBoxShadow2 = [
+  BoxShadow(
+    color: Colors.black.withOpacity(0.04),
+    blurRadius: 20,
+    spreadRadius: 4,
+    offset: const Offset(0, 5),
+  )
+];
+
+LinearGradient bgGradient = LinearGradient(
+  colors: [AppColors.skyBlue, AppColors.aquaBlue],
+  stops: const [0.25, 0.88],
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );

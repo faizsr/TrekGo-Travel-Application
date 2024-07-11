@@ -67,7 +67,7 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setStatusBarColor(const Color(0xFFe5e6f6));
+    // setStatusBarColor(const Color(0xFFe5e6f6));
 
     return Scaffold(
       // ===== Appbar =====

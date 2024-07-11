@@ -18,6 +18,13 @@ import 'package:trekgo_project/src/feature/auth/domain/use_cases/user_login_usec
 import 'package:trekgo_project/src/feature/auth/domain/use_cases/user_logout_usecase.dart';
 import 'package:trekgo_project/src/feature/auth/domain/use_cases/user_sign_up_usecase.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/controllers/auth_controller.dart';
+import 'package:trekgo_project/src/feature/destination/data/data_sources/remote/destination_data_source.dart';
+import 'package:trekgo_project/src/feature/destination/data/data_sources/remote/destination_data_source_impl.dart';
+import 'package:trekgo_project/src/feature/destination/data/repositories/destination_repository_impl.dart';
+import 'package:trekgo_project/src/feature/destination/domain/repositories/destination_repository.dart';
+import 'package:trekgo_project/src/feature/destination/domain/use_cases/get_popular_destination_usecase.dart';
+import 'package:trekgo_project/src/feature/destination/domain/use_cases/get_recommended_destination_usecase.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/controllers/destination_controller.dart';
 import 'package:trekgo_project/src/feature/user/data/data_sources/user_remote_data_source.dart';
 import 'package:trekgo_project/src/feature/user/data/data_sources/user_remote_data_source_impl.dart';
 import 'package:trekgo_project/src/feature/user/data/repositories/user_repository_impl.dart';
@@ -41,6 +48,7 @@ Future<void> init() async {
   getIt.registerLazySingleton(() => sharedPreferences);
 
   // Provider Controller
+  // ====== User ======
   getIt.registerFactory<AuthController>(
     () => AuthController(
       authStatusUsecase: getIt.call(),
@@ -56,8 +64,16 @@ Future<void> init() async {
       updateUserDetailsUsecase: getIt.call(),
     ),
   );
+  // ====== Destination ======
+  getIt.registerFactory<DestinationController>(
+    () => DestinationController(
+      getPopularDestinationUsecase: getIt.call(),
+      getRecommendedDestinationUsecase: getIt.call(),
+    ),
+  );
 
   // Use Cases
+  // ====== User ======
   getIt.registerLazySingleton<UserLoginInUsecase>(
     () => UserLoginInUsecase(userAuthRepository: getIt.call()),
   );
@@ -79,8 +95,16 @@ Future<void> init() async {
   getIt.registerLazySingleton<UpdateUserDetailsUsecase>(
     () => UpdateUserDetailsUsecase(userRepository: getIt.call()),
   );
+  // ====== Destination ======
+  getIt.registerLazySingleton<GetRecommendedDestinationUsecase>(
+    () => GetRecommendedDestinationUsecase(destinationRepository: getIt.call()),
+  );
+  getIt.registerLazySingleton<GetPopularDestinationUsecase>(
+    () => GetPopularDestinationUsecase(destinationRepository: getIt.call()),
+  );
 
   // Repository
+  // ====== User ======
   getIt.registerLazySingleton<UserAuthRepository>(
     () => UserAuthRepositoryImpl(userAuthDataSource: getIt.call()),
   );
@@ -90,8 +114,13 @@ Future<void> init() async {
   getIt.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(userRemoteDataSource: getIt.call()),
   );
+  // ====== Destination ======
+  getIt.registerLazySingleton<DestinationRepository>(
+    () => DestinationRepositoryImpl(destinationDataSource: getIt.call()),
+  );
 
   // Remote DataSource
+  // ====== User ======
   getIt.registerLazySingleton<UserAuthRemoteDataSource>(
     () => UserAuthRemoteDataSourceImpl(
         fireStore: getIt.call(), auth: getIt.call()),
@@ -99,8 +128,13 @@ Future<void> init() async {
   getIt.registerLazySingleton<UserRemoteDataSource>(
     () => UserRemoteDataSourceImpl(fireStore: getIt.call(), auth: getIt.call()),
   );
+  // ====== Destination ======
+  getIt.registerLazySingleton<DestinationDataSource>(
+    () => DestinationDataSourceImpl(fireStore: getIt.call()),
+  );
 
   // Local DataSource
+  // ====== User ======
   getIt.registerLazySingleton<AuthStatusDataSource>(
     () => AuthStatusDataSourceImpl(sharedPreferences: getIt.call()),
   );

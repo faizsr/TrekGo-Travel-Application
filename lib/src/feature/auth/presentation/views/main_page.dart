@@ -3,17 +3,17 @@
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trekgo_project/changer/screens/main_pages/add_wishlist_screen.dart';
 import 'package:trekgo_project/src/config/constants/app_colors.dart';
 import 'package:trekgo_project/src/config/utils/gap.dart';
-import 'package:trekgo_project/src/feature/destination/presentation/views/home_screen.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/views/home_page.dart';
 import 'package:trekgo_project/changer/screens/main_pages/saved_places_screen/saved_places_screen.dart';
 import 'package:trekgo_project/changer/screens/main_pages/search_screen.dart';
 import 'package:trekgo_project/src/feature/user/presentation/views/profile_screen/profile_screen.dart';
-import 'package:trekgo_project/src/feature/destination/presentation/widgets/navigation_drawer.dart';
+import 'package:trekgo_project/src/feature/auth/presentation/views/custom_drawer.dart';
+import 'package:solar_icons/solar_icons.dart';
 
 ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
 
@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     pages = const [
-      HomeScreen(),
+      HomePage(),
       SearchScreen(),
       AddWishlistScreen(),
       SavedPlacesScreen(),
@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
       child: Scaffold(
         extendBody: true,
         key: scaffoldKey,
-        drawer: NavigationDrawerr(scaffoldKey: scaffoldKey),
+        drawer: CustomDrawer(scaffoldKey: scaffoldKey),
         body: ValueListenableBuilder(
           valueListenable: indexChangeNotifier,
           builder: (context, int index, child) {
@@ -74,45 +74,48 @@ class _MainPageState extends State<MainPage> {
           valueListenable: indexChangeNotifier,
           builder: (context, int newIndex, _) {
             return Container(
-              margin: const EdgeInsets.all(15),
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: ClipRRect(
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                  filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                     decoration: BoxDecoration(
-                      // color: AppColors.lightBlue.withOpacity(0.7),
-                      color: const Color(0xFFe5e6f6),
+                      color: AppColors.darkTeal.withOpacity(0.8),
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Gap(width: 1),
-                        kIconbutton(
+                        kIconButton(
                           context: context,
                           index: 0,
-                          icon: FeatherIcons.home,
+                          icon: SolarIconsOutline.homeAngle_2,
+                          text: 'Home',
                         ),
-                        kIconbutton(
+                        kIconButton(
                           context: context,
                           index: 1,
-                          icon: FeatherIcons.search,
+                          icon: SolarIconsOutline.roundedMagnifier,
+                          text: 'Search',
                         ),
-                        kIconbutton(
-                            context: context,
-                            index: 2,
-                            icon: CupertinoIcons.add,
-                            isAdd: true),
-                        kIconbutton(
+                        // addButton(
+                        //   context: context,
+                        //   index: 2,
+                        //   icon: Icons.add_rounded,
+                        // ),
+                        kIconButton(
                           context: context,
                           index: 3,
-                          icon: FeatherIcons.bookmark,
+                          icon: SolarIconsOutline.bookmark,
+                          text: 'Saved',
                         ),
-                        kIconbutton(
+                        kIconButton(
                           context: context,
                           index: 4,
-                          icon: FeatherIcons.user,
+                          icon: SolarIconsOutline.user,
+                          text: 'Profile',
                         ),
                         const Gap(width: 1),
                       ],
@@ -127,35 +130,68 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget kIconbutton({
+  Widget kIconButton({
     required int index,
     required IconData icon,
-    bool isAdd = false,
+    required String text,
     void Function()? onDoubleTap,
     required BuildContext context,
   }) {
     final selected = indexChangeNotifier.value == index;
-    final bgColor = selected ? Colors.white : AppColors.darkTeal;
-    final iconColor = selected
-        ? isAdd
-            ? AppColors.black
-            : AppColors.black
-        : isAdd
-            ? AppColors.white
-            : AppColors.darkTeal;
+    final iconColor =
+        selected ? AppColors.white : AppColors.white.withOpacity(0.6);
 
     return MaterialButton(
       onPressed: () {
         indexChangeNotifier.value = index;
       },
-      color: isAdd ? bgColor : null,
       minWidth: 0,
       elevation: 0,
-      padding: EdgeInsets.all(isAdd ? 8 : 0),
-      shape: isAdd ? const CircleBorder() : null,
+      padding: EdgeInsets.zero,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 24,
+            color: iconColor,
+          ),
+          const Gap(height: 4),
+          Text(
+            text,
+            style: TextStyle(
+              height: 1,
+              fontSize: 11,
+              color: iconColor,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget addButton({
+    required int index,
+    required IconData icon,
+    void Function()? onDoubleTap,
+    required BuildContext context,
+  }) {
+    final selected = indexChangeNotifier.value == index;
+    final iconColor = selected ? AppColors.white : AppColors.darkTeal;
+    final bgColor = selected ? AppColors.darkTeal : AppColors.white;
+
+    return MaterialButton(
+      onPressed: () {
+        indexChangeNotifier.value = index;
+      },
+      color: bgColor,
+      shape: const CircleBorder(),
+      minWidth: 0,
+      elevation: 0,
+      padding: const EdgeInsets.all(6),
       child: Icon(
         icon,
-        size: isAdd ? 20 : 25,
+        size: 26,
         color: iconColor,
       ),
     );

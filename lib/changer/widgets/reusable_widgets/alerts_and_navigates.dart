@@ -64,9 +64,6 @@ class CustomAlertDialog extends StatefulWidget {
 class _CustomAlertDialogState extends State<CustomAlertDialog> {
   @override
   Widget build(BuildContext context) {
-    setStatusBarColor(
-      const Color(0x73e5e6f6),
-    );
     return Dialog(
       elevation: 0,
       backgroundColor: const Color(0xFFFFFFFF),

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trekgo_project/changer/assets.dart';
-import 'package:trekgo_project/changer/screens/main_pages/sub_pages/place_detail_screen/place_detail_screen.dart';
-import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
+// import 'package:trekgo_project/src/feature/destination/presentation/views/place_detail_screen.dart';
+// import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
 
 class RecentSearchCard extends StatefulWidget {
@@ -48,14 +48,15 @@ class _RecentSearchCardState extends State<RecentSearchCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => nextScreen(
-          context,
-          PlaceDetailScreen(
-            // userId: widget.userId,
-            isAdmin: widget.isAdmin,
-            isUser: widget.isUser,
-            placeid: widget.placeId,
-          )),
+      // onTap: () => nextScreen(
+      //   context,
+      //   PlaceDetailScreen(
+      //     // userId: widget.userId,
+      //     isAdmin: widget.isAdmin,
+      //     isUser: widget.isUser,
+      //     placeid: widget.placeId,
+      //   ),
+      // ),
       child: Container(
         margin: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
         decoration: BoxDecoration(

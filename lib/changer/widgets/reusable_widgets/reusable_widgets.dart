@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:trekgo_project/src/config/constants/app_colors.dart';
 
 // =============== Container for adding, updating images ===============
 
@@ -83,14 +84,13 @@ class _CardRatingBarState extends State<CardRatingBar> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: widget.isMainAlignCenter
-          ? MainAxisAlignment.center
-          : MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // mainAxisAlignment: widget.isMainAlignCenter
+      //     ? MainAxisAlignment.center
+      //     : MainAxisAlignment.start,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         RatingBar(
           ignoreGestures: true,
-
           itemSize: widget.itemSize ?? 0,
           initialRating: widget.ratingCount ?? 0,
           unratedColor: Colors.grey.shade300,
@@ -301,7 +301,7 @@ class CustomAppbar extends StatelessWidget {
   final String? title;
   final double? iconPadding;
   final double? titlePadding;
-  final double? toolBarHeight;
+  final double? toolBarHeight;  
   final bool isLocationEnable;
   final bool showCheckIcon;
   final bool isLoading;
@@ -360,21 +360,13 @@ class CustomAppbar extends StatelessWidget {
                           size: 12,
                           color: Colors.black,
                         ),
-                        sortName == 'View All'
-                            ? const Text(
-                                'India',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                ),
-                              )
-                            : Text(
-                                '${sortName ?? 'Welcome to'}, India',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                ),
-                              )
+                        const Text(
+                          'India',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                        )
                       ],
                     ),
                   )
@@ -403,7 +395,7 @@ class CustomAppbar extends StatelessWidget {
       centerTitle: true,
       toolbarHeight: toolBarHeight ?? 100,
       elevation: 0,
-      backgroundColor: const Color(0xFFe5e6f6),
+      backgroundColor: AppColors.skyBlue,
     );
   }
 }

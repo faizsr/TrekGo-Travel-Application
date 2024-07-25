@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/list/list_page_appbar.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
@@ -12,7 +13,7 @@ class AboutUs extends StatelessWidget {
         preferredSize: MediaQuery.of(context).size * 0.1,
         child: const CustomAppbar(
           title: 'About Us',
-          isLocationEnable: false,
+          // isLocationEnable: false,
         ),
       ),
       body: SingleChildScrollView(

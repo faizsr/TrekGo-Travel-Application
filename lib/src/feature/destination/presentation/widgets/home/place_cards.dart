@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:solar_icons/solar_icons.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/src/feature/destination/presentation/views/place_detail_page.dart';
-import 'package:trekgo_project/changer/service/database_service.dart';
 import 'package:trekgo_project/src/config/constants/app_colors.dart';
 import 'package:trekgo_project/src/config/utils/decorations.dart';
 import 'package:trekgo_project/src/config/utils/gap.dart';
@@ -76,20 +74,23 @@ class PlaceCardLg extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 220,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => Image.asset(
-                    lazyLoading,
+            Hero(
+              tag: destination.image,
+              child: SizedBox(
+                height: 220,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => Image.asset(
+                      lazyLoading,
+                      fit: BoxFit.cover,
+                    ),
+                    imageUrl: destination.image,
+                    errorWidget: (context, url, error) =>
+                        Image.asset(lazyLoading, fit: BoxFit.cover),
                     fit: BoxFit.cover,
                   ),
-                  imageUrl: destination.image,
-                  errorWidget: (context, url, error) =>
-                      Image.asset(lazyLoading, fit: BoxFit.cover),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -146,25 +147,28 @@ class PlaceCardSm extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 2.3,
         child: Column(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 2.3,
-              height: MediaQuery.of(context).size.height / 5.1,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => Image.asset(
-                    lazyLoading,
+            Hero(
+              tag: destination.image,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width / 2.3,
+                height: MediaQuery.of(context).size.height / 5.1,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => Image.asset(
+                      lazyLoading,
+                      fit: BoxFit.cover,
+                    ),
+                    imageUrl: destination.image,
+                    errorWidget: (context, url, error) =>
+                        Image.asset(lazyLoading, fit: BoxFit.cover),
                     fit: BoxFit.cover,
                   ),
-                  imageUrl: destination.image,
-                  errorWidget: (context, url, error) =>
-                      Image.asset(lazyLoading, fit: BoxFit.cover),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -199,21 +203,4 @@ class PlaceCardSm extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<T?> deleteDestination<T>(String placeId, BuildContext context) async {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return CustomAlertDialog(
-        title: 'Delete Place?',
-        description: 'This place will be permanently deleted from this list',
-        onTap: () async {
-          await DatabaseService().destinationCollection.doc(placeId).delete();
-          debugPrint('Deleted successfully');
-          Navigator.of(context).pop();
-        },
-      );
-    },
-  );
 }

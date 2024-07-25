@@ -2,17 +2,14 @@
 
 import 'dart:ui';
 
-import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:trekgo_project/changer/screens/main_pages/add_wishlist_screen.dart';
 import 'package:trekgo_project/src/config/constants/app_colors.dart';
 import 'package:trekgo_project/src/config/utils/gap.dart';
 import 'package:trekgo_project/src/feature/destination/presentation/views/home_page.dart';
-import 'package:trekgo_project/changer/screens/main_pages/saved_places_screen/saved_places_screen.dart';
-import 'package:trekgo_project/changer/screens/main_pages/search_screen.dart';
-import 'package:trekgo_project/src/feature/user/presentation/views/profile_screen/profile_screen.dart';
-import 'package:trekgo_project/src/feature/auth/presentation/views/custom_drawer.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/views/search_page.dart';
+import 'package:trekgo_project/src/feature/trip_planner/presentation/views/add_trip_page.dart';
+import 'package:trekgo_project/src/feature/user/presentation/views/profile_page.dart';
+import 'package:trekgo_project/src/feature/auth/presentation/widgets/custom_drawer.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
@@ -27,19 +24,12 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List pages = [];
-
-  @override
-  void initState() {
-    super.initState();
-    pages = const [
-      HomePage(),
-      SearchScreen(),
-      AddWishlistScreen(),
-      SavedPlacesScreen(),
-      ProfileScreen(),
-    ];
-  }
+  List<Widget> pages = const [
+    HomePage(),
+    SearchPage(),
+    AddTripPage(),
+    ProfilePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +46,19 @@ class _MainPageState extends State<MainPage> {
         body: ValueListenableBuilder(
           valueListenable: indexChangeNotifier,
           builder: (context, int index, child) {
-            return PageTransitionSwitcher(
-              duration: const Duration(milliseconds: 250),
-              transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 400),
+              transitionBuilder: (child, animation) {
                 return FadeTransition(
-                  opacity: primaryAnimation,
+                  opacity: animation,
                   child: child,
                 );
               },
-              child: pages[index],
+              child: IndexedStack(
+                key: ValueKey<int>(index),
+                index: index,
+                children: pages,
+              ),
             );
           },
         ),
@@ -100,20 +94,15 @@ class _MainPageState extends State<MainPage> {
                           icon: SolarIconsOutline.roundedMagnifier,
                           text: 'Search',
                         ),
-                        // addButton(
-                        //   context: context,
-                        //   index: 2,
-                        //   icon: Icons.add_rounded,
-                        // ),
                         kIconButton(
                           context: context,
-                          index: 3,
-                          icon: SolarIconsOutline.bookmark,
-                          text: 'Saved',
+                          index: 2,
+                          icon: SolarIconsOutline.notebook,
+                          text: 'Plan',
                         ),
                         kIconButton(
                           context: context,
-                          index: 4,
+                          index: 3,
                           icon: SolarIconsOutline.user,
                           text: 'Profile',
                         ),
@@ -142,57 +131,22 @@ class _MainPageState extends State<MainPage> {
         selected ? AppColors.white : AppColors.white.withOpacity(0.6);
 
     return MaterialButton(
-      onPressed: () {
-        indexChangeNotifier.value = index;
-      },
       minWidth: 0,
       elevation: 0,
       padding: EdgeInsets.zero,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 24,
-            color: iconColor,
-          ),
-          const Gap(height: 4),
-          Text(
-            text,
-            style: TextStyle(
-              height: 1,
-              fontSize: 11,
-              color: iconColor,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget addButton({
-    required int index,
-    required IconData icon,
-    void Function()? onDoubleTap,
-    required BuildContext context,
-  }) {
-    final selected = indexChangeNotifier.value == index;
-    final iconColor = selected ? AppColors.white : AppColors.darkTeal;
-    final bgColor = selected ? AppColors.darkTeal : AppColors.white;
-
-    return MaterialButton(
       onPressed: () {
         indexChangeNotifier.value = index;
       },
-      color: bgColor,
-      shape: const CircleBorder(),
-      minWidth: 0,
-      elevation: 0,
-      padding: const EdgeInsets.all(6),
-      child: Icon(
-        icon,
-        size: 26,
-        color: iconColor,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 24, color: iconColor),
+          const Gap(height: 4),
+          Text(
+            text,
+            style: TextStyle(height: 1, fontSize: 11, color: iconColor),
+          )
+        ],
       ),
     );
   }

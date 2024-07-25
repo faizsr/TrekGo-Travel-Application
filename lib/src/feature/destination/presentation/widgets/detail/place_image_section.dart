@@ -16,26 +16,29 @@ class PlaceImageSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-      width: size.width,
-      height: size.height * 0.5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: kBoxShadow,
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: CachedNetworkImage(
-          placeholder: (context, url) => Image.asset(
-            lazyLoading,
+    return Hero(
+      tag: destination.image,
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+        width: size.width,
+        height: 400,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: kBoxShadow,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: CachedNetworkImage(
+            placeholder: (context, url) => Image.asset(
+              lazyLoading,
+              fit: BoxFit.cover,
+            ),
+            imageUrl: destination.image,
             fit: BoxFit.cover,
-          ),
-          imageUrl: destination.image,
-          fit: BoxFit.cover,
-          errorWidget: (context, url, error) => Image.asset(
-            lazyLoading,
-            fit: BoxFit.cover,
+            errorWidget: (context, url, error) => Image.asset(
+              lazyLoading,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

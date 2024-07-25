@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/changer/model/saved.dart';
-import 'package:trekgo_project/changer/service/database_service.dart';
-import 'package:trekgo_project/src/feature/auth/presentation/views/admin/update_place_screen.dart';
+// import 'package:trekgo_project/src/feature/admin/presentation/views/update_place_screen.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
 import 'package:trekgo_project/changer/screens/main_pages/saved_places_screen/widgets/saved_screen_icon.dart';
@@ -195,19 +194,19 @@ class _SavedScreenCardState extends State<SavedScreenCard> {
                       top: 20,
                       left: 20,
                       child: GestureDetector(
-                          onTap: () => nextScreen(
-                                context,
-                                UpdatePlaceScreen(
-                                  placeid: widget.placeid,
-                                  placeImage: widget.popularCardImage,
-                                  placeCategory: widget.placeCategory,
-                                  placeState: widget.placeState,
-                                  placeTitle: widget.placeName,
-                                  placeDescription: widget.placeDescripton,
-                                  placeLocation: widget.placeLocation,
-                                  placeRating: widget.ratingCount,
-                                ),
-                              ),
+                          // onTap: () => nextScreen(
+                          //       context,
+                          //       UpdatePlaceScreen(
+                          //         placeid: widget.placeid,
+                          //         placeImage: widget.popularCardImage,
+                          //         placeCategory: widget.placeCategory,
+                          //         placeState: widget.placeState,
+                          //         placeTitle: widget.placeName,
+                          //         placeDescription: widget.placeDescripton,
+                          //         placeLocation: widget.placeLocation,
+                          //         placeRating: widget.ratingCount,
+                          //       ),
+                          //     ),
                           child: const CardButton(buttonText: 'UPDATE')),
                     )
                   : const SizedBox(),
@@ -253,7 +252,7 @@ Future<T?> deleteDestination<T>(String placeId, BuildContext context) async {
         title: 'Delete Place?',
         description: 'This place will be permanently deleted from this list',
         onTap: () async {
-          await DatabaseService().destinationCollection.doc(placeId).delete();
+          // await DatabaseService().destinationCollection.doc(placeId).delete();
           debugPrint('Deleted successfully');
           // ignore: use_build_context_synchronously
           Navigator.of(context).pop();

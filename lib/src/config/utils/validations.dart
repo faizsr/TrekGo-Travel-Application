@@ -33,3 +33,12 @@ String? validateName(String? val) {
   }
   return null;
 }
+
+String? defaultValidateInput(String? val) {
+  if (val!.isEmpty) {
+    return '*Required field';
+  } else if (val.length < 3) {
+    return 'Enter at least 3 characters';
+  }
+  return null;
+}

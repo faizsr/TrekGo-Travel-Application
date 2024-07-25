@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trekgo_project/changer/screens/main_pages/sub_pages/place_detail_screen/widgets/appbar.dart';
-import 'package:trekgo_project/changer/screens/main_pages/sub_pages/place_detail_screen/widgets/overview_tabview.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/detail/place_detail_appbar.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/detail/overview_section.dart';
 import 'package:trekgo_project/src/config/utils/decorations.dart';
 import 'package:trekgo_project/src/config/utils/gap.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/widgets/custom_filled_button.dart';
@@ -16,14 +16,12 @@ class PlaceDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(size.height * 0.095),
-        child: const PlaceDetailAppbar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(75),
+        child: PlaceDetailAppbar(),
       ),
       body: Container(
         decoration: BoxDecoration(gradient: bgGradient),

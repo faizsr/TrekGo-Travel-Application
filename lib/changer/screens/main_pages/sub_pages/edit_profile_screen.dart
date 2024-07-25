@@ -8,9 +8,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/changer/helper/auth_db_function.dart';
 import 'package:trekgo_project/changer/helper/helper_functions.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/text_form_field_two.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/widgets/widgets.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/list/list_page_appbar.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? userId;
@@ -74,8 +76,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         preferredSize: MediaQuery.of(context).size * 0.1,
         child: CustomAppbar(
           title: 'Edit Profile',
-          isLocationEnable: false,
-          showCheckIcon: true,
+          // isLocationEnable: false,
+          // showCheckIcon: true,
           onTap: () {
             updateUserDetailss(
               name: nameController.text..replaceAll(RegExp(r'\s+'), ' '),

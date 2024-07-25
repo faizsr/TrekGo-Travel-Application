@@ -3,17 +3,18 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/changer/helper/helper_functions.dart';
-import 'package:trekgo_project/src/feature/auth/presentation/views/admin/add_place_screen.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/views/add_place_page.dart';
 import 'package:trekgo_project/changer/screens/main_pages/sub_pages/edit_profile_screen.dart';
 import 'package:trekgo_project/changer/screens/main_pages/sub_pages/settings_screen/widgets/widgets.dart';
 import 'package:trekgo_project/changer/screens/main_pages/sub_pages/settings_screen/sub_pages/about_us.dart';
 import 'package:trekgo_project/changer/screens/main_pages/sub_pages/settings_screen/sub_pages/privacy_policies.dart';
 import 'package:trekgo_project/changer/screens/main_pages/sub_pages/settings_screen/sub_pages/terms_and_conditions.dart';
 import 'package:trekgo_project/changer/service/auth_service.dart';
-import 'package:trekgo_project/changer/service/database_service.dart';
+// import 'package:trekgo_project/changer/service/database_service.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
-import 'package:trekgo_project/src/feature/auth/presentation/views/user/password_reset_page.dart';
+import 'package:trekgo_project/src/feature/auth/presentation/views/password_reset_page.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/list/list_page_appbar.dart';
 
 class SettingsScreen extends StatefulWidget {
   final String? userId;
@@ -45,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     getAdminLoggedInStatus();
-    userDataStream = DatabaseService().getUserDetails(widget.userId ?? '');
+    // userDataStream = DatabaseService().getUserDetails(widget.userId ?? '');
     super.initState();
   }
 
@@ -70,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         preferredSize: MediaQuery.of(context).size * 0.09,
         child: const CustomAppbar(
           title: 'Settings',
-          isLocationEnable: false,
+          // isLocationEnable: false,
         ),
       ),
 
@@ -135,7 +136,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _isAdminSignedIn
                     ? GestureDetector(
                         onTap: () {
-                          nextScreen(context, const AddPlaceScreen());
+                          nextScreen(context, const AddPlacePage());
                         },
                         child:
                             const ListtileItem(listtileText: 'Add Destination'),

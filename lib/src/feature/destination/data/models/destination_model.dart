@@ -1,3 +1,4 @@
+import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/src/feature/destination/domain/entities/destination_entity.dart';
 
 class DestinationModel extends DestinationEntity {
@@ -17,27 +18,27 @@ class DestinationModel extends DestinationEntity {
     final map = json as Map<String, dynamic>;
     return DestinationModel(
       id: map['id'] ?? '',
-      name: map['place_name'],
-      image: map['place_image'],
-      category: map['place_category'],
-      state: map['place_state'],
-      rating: map['place_rating'],
-      description: map['place_description'],
-      location: map['place_location'],
-      mapUrl: map['place_map'],
+      name: map['name'].toString().capitaliseAllWords(),
+      image: map['image'],
+      category: map['category'].toString().capitalise(),
+      state: map['state'].toString().capitalise(),
+      rating: map['rating'],
+      description: map['description'].toString().capitalise(),
+      location: map['location'],
+      mapUrl: map['map'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'place_name': name,
-      'place_category': category,
-      'place_state': state,
-      'place_rating': rating,
-      'place_description': description,
-      'place_location': location,
-      'place_map': mapUrl,
+      'name': name.toString().capitaliseAllWords(),
+      'category': category.capitalise(),
+      'state': state.capitalise(),
+      'rating': rating,
+      'description': description.capitalise(),
+      'location': location.capitalise(),
+      'map': mapUrl,
     };
   }
 }

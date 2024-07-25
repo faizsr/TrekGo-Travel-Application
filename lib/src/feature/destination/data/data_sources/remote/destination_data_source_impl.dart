@@ -18,7 +18,7 @@ class DestinationDataSourceImpl implements DestinationDataSource {
     try {
       final data = instance
           .collection('destination')
-          .where('place_category', isEqualTo: 'Popular')
+          .where('category', isEqualTo: 'Popular')
           .snapshots()
           .map(
         (snapshot) {
@@ -43,7 +43,7 @@ class DestinationDataSourceImpl implements DestinationDataSource {
     try {
       final data = instance
           .collection('destination')
-          .where('place_category', isEqualTo: 'Recommended')
+          .where('category', isEqualTo: 'Recommended')
           .snapshots()
           .map(
         (snapshot) {

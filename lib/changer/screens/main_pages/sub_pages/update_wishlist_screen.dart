@@ -1,14 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trekgo_project/changer/helper/helper_functions.dart';
 import 'package:trekgo_project/changer/helper/hive_db_function.dart';
 import 'package:trekgo_project/changer/model/wishlist.dart';
-import 'package:trekgo_project/changer/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/add_update_image_card.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/drop_down_widget.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/text_form_field_two.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/list/list_page_appbar.dart';
 
 class UpdateWishlistScreen extends StatefulWidget {
   final String? hiveKey;
@@ -81,8 +82,8 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
         preferredSize: MediaQuery.of(context).size * 0.1,
         child: CustomAppbar(
           title: 'Update Wishlist',
-          isLocationEnable: false,
-          showCheckIcon: true,
+          // isLocationEnable: false,
+          // showCheckIcon: true,
           onTap: () {
             updateWishlist(
               name: nameController.text.replaceAll(RegExp(r'\s+'), ' '),
@@ -111,16 +112,16 @@ class _UpdateWishlistScreenState extends State<UpdateWishlistScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AddUpdateImageContainer(
-                image: _selectedImage != null
-                    ? DecorationImage(
-                        image: FileImage(File(_selectedImage!.path)),
-                        fit: BoxFit.cover,
-                      )
-                    : DecorationImage(
-                        image: FileImage(File(widget.image.toString())),
-                        fit: BoxFit.cover,
-                      ),
+              AddUpdateImageCard(
+                // image: _selectedImage != null
+                //     ? DecorationImage(
+                //         image: FileImage(File(_selectedImage!.path)),
+                //         fit: BoxFit.cover,
+                //       )
+                //     : DecorationImage(
+                //         image: FileImage(File(widget.image.toString())),
+                //         fit: BoxFit.cover,
+                //       ),
                 onPressed: () async {
                   XFile? pickedImage = await pickImageFromGallery();
                   setState(() {

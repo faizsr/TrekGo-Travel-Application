@@ -1,3 +1,4 @@
+import 'package:trekgo_project/src/feature/auth/data/data_sources/local/auth_status_data_source_impl.dart';
 import 'package:trekgo_project/src/feature/auth/domain/repositories/auth_status_repository.dart';
 
 class AuthStatusUsecase {
@@ -5,11 +6,11 @@ class AuthStatusUsecase {
 
   AuthStatusUsecase({required this.authStatusRepository});
 
-  Future<bool> get() async {
+  Future<AuthType> get() async {
     return await authStatusRepository.getUserStatus();
   }
 
-  Future<void> save(bool status) async {
-    await authStatusRepository.saveUserStatus(status);
+  Future<void> save(bool status, AuthType who) async {
+    await authStatusRepository.saveUserStatus(status, who);
   }
 }

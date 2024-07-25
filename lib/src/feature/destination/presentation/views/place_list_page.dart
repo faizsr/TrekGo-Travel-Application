@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trekgo_project/src/feature/destination/domain/entities/destination_entity.dart';
 import 'package:trekgo_project/src/feature/destination/presentation/controllers/destination_controller.dart';
 import 'package:trekgo_project/src/feature/destination/presentation/widgets/home/place_cards.dart';
-import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/list/list_page_appbar.dart';
 
 class PlaceListPage extends StatelessWidget {
   final String title;
@@ -19,9 +19,6 @@ class PlaceListPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: MediaQuery.of(context).size * 0.105,
         child: CustomAppbar(
-          iconPadding: 25,
-          titlePadding: 20,
-          toolBarHeight: 80,
           sortName: 'India',
           title: '$title Destinations',
         ),

@@ -70,85 +70,85 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        SizedBox(height: widget.disableTitle ? 15 : 0),
-        widget.disableTitle
-            ? Text(
-                widget.title ?? '',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              )
-            : const SizedBox(),
-        const SizedBox(height: 15),
-        Padding(
-          padding: const EdgeInsets.only(left: 50, right: 50),
-          child: Text(
-            widget.description ?? '',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: widget.descriptionTxtSize ?? 13),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: widget.disableTitle ? 15 : 0),
+          widget.disableTitle
+              ? Text(
+                  widget.title ?? '',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
+              : const SizedBox(),
+          const SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child: Text(
+              widget.description ?? '',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: widget.descriptionTxtSize ?? 13),
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Divider(
-          height: 1.2,
-          color: Colors.grey.shade200,
-        ),
-        widget.disableActionBtn == false
-            ? SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 48,
-                child: InkWell(
-                  highlightColor: Colors.grey[200],
-                  onTap: widget.onTap,
-                  child: Center(
-                    child: Text(
-                      widget.actionBtnTxt ?? 'Delete',
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        color: Color(0xFF1285b9),
-                        fontWeight: FontWeight.w600,
+          const SizedBox(height: 10),
+          Divider(
+            height: 1.2,
+            color: Colors.grey.shade200,
+          ),
+          widget.disableActionBtn == false
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 48,
+                  child: InkWell(
+                    highlightColor: Colors.grey[200],
+                    onTap: widget.onTap,
+                    child: Center(
+                      child: Text(
+                        widget.actionBtnTxt ?? 'Delete',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color(0xFF1285b9),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            : const SizedBox(),
-        Divider(
+                )
+              : const SizedBox(),
+          Divider(
             height: widget.disableActionBtn == false ? 1.2 : 0,
-            color: Colors.grey.shade200),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 48,
-          child: InkWell(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(15.0),
-              bottomRight: Radius.circular(15),
-            ),
-            highlightColor: Colors.grey[200],
-            onTap: () {
-              Navigator.of(context).pop('refresh');
-            },
-            child: Center(
-              child: Text(
-                widget.popBtnText != null ? widget.popBtnText ?? '' : 'Cancel',
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.normal,
+            color: Colors.grey.shade200,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 48,
+            child: InkWell(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(15.0),
+                bottomRight: Radius.circular(15),
+              ),
+              highlightColor: Colors.grey[200],
+              onTap: () {
+                Navigator.of(context).pop('refresh');
+              },
+              child: Center(
+                child: Text(
+                  widget.popBtnText != null
+                      ? widget.popBtnText ?? ''
+                      : 'Cancel',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
             ),
-          ),
-        )
-      ]),
+          )
+        ],
+      ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    resetStatusBarColor();
   }
 }
 
@@ -223,6 +223,13 @@ class MyBehavior extends ScrollBehavior {
 extension MyExtension on String {
   String capitalise() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+
+  String capitaliseAllWords() {
+    return split(' ').map((word) {
+      if (word.isEmpty) return word;
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join(' ');
   }
 }
 

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:trekgo_project/changer/model/saved.dart';
 import 'package:trekgo_project/changer/model/wishlist.dart';
 import 'package:trekgo_project/src/config/constants/app_colors.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/controllers/manage_destination_controller.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/controllers/manage_user_controller.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/controllers/auth_controller.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/splash_screen.dart';
 import 'package:trekgo_project/src/feature/destination/presentation/controllers/destination_controller.dart';
@@ -62,6 +63,12 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => di.getIt<DestinationController>(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => di.getIt<ManageDestinationController>(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => di.getIt<ManageUserController>(),
+          ),
         ],
         child: MaterialApp(
           builder: (context, child) {
@@ -76,6 +83,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Poppins',
             scaffoldBackgroundColor: AppColors.aquaBlue,
             splashFactory: NoSplash.splashFactory,
+            appBarTheme: const AppBarTheme(
+              surfaceTintColor: Colors.transparent,
+            ),
           ),
           debugShowCheckedModeBanner: false,
           home: const SplashScreen(),

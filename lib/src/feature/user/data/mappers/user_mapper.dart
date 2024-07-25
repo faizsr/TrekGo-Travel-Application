@@ -10,6 +10,8 @@ class UserMapper {
       password: model.password,
       phoneNumber: model.phoneNumber,
       profilePhoto: model.profilePhoto,
+      createdDate: model.createdDate,
+      block: model.block,
     );
   }
 
@@ -21,6 +23,8 @@ class UserMapper {
       password: entity.password,
       phoneNumber: entity.phoneNumber,
       profilePhoto: entity.profilePhoto,
+      createdDate: entity.createdDate,
+      block: entity.block,
     );
   }
 }

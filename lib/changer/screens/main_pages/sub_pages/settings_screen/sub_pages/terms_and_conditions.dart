@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/src/feature/destination/presentation/widgets/list/list_page_appbar.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});
@@ -14,7 +15,7 @@ class TermsAndConditions extends StatelessWidget {
         preferredSize: MediaQuery.of(context).size * 0.1,
         child: const CustomAppbar(
           title: 'Terms & Conditions',
-          isLocationEnable: false,
+          // isLocationEnable: false,
         ),
       ),
       body: SingleChildScrollView(

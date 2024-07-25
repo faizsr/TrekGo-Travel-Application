@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:trekgo_project/src/feature/auth/data/data_sources/local/auth_status_data_source_impl.dart';
 import 'package:trekgo_project/src/feature/auth/domain/use_cases/forgot_password_usecase.dart';
 import 'package:trekgo_project/src/feature/auth/domain/use_cases/user_logout_usecase.dart';
 import 'package:trekgo_project/src/feature/auth/domain/use_cases/user_sign_up_usecase.dart';
@@ -35,7 +36,11 @@ class AuthController extends ChangeNotifier {
     result = response;
     notifyListeners();
     log('Result from signing in from controller: $result');
-    await authStatusUsecase.save(true);
+    if (result == 'success-user') {
+      await authStatusUsecase.save(true, AuthType.user);
+    } else if (result == 'success-admin') {
+      await authStatusUsecase.save(true, AuthType.admin);
+    }
 
     isLoading = false;
     notifyListeners();
@@ -49,7 +54,7 @@ class AuthController extends ChangeNotifier {
     result = response;
     notifyListeners();
     log('Result from signing up from controller: $result');
-    await authStatusUsecase.save(true);
+    await authStatusUsecase.save(true, AuthType.user);
 
     isLoading = false;
     notifyListeners();
@@ -57,7 +62,8 @@ class AuthController extends ChangeNotifier {
 
   Future<void> logout() async {
     await userLogoutUsecase.call();
-    await authStatusUsecase.save(false);
+    await authStatusUsecase.save(false, AuthType.user);
+    await authStatusUsecase.save(false, AuthType.admin);
     notifyListeners();
   }
 
@@ -68,8 +74,7 @@ class AuthController extends ChangeNotifier {
     final response = await forgotPasswordUsecase.call(email);
     result = response;
     notifyListeners();
-    log('Result from signing up from controller: $result');
-    await authStatusUsecase.save(true);
+    log('Result from forgot password from controller: $result');
 
     isLoading = false;
     notifyListeners();

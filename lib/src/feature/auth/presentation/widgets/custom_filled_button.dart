@@ -7,11 +7,13 @@ class CustomFilledButton extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
   final bool isBlurred;
+  final Widget? child;
   const CustomFilledButton({
     super.key,
     required this.onPressed,
     required this.text,
     this.isBlurred = false,
+    this.child,
   });
 
   @override
@@ -26,7 +28,7 @@ class CustomFilledButton extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+              // padding: const EdgeInsets.symmetric(horizontal: 40),
               elevation: 0,
               backgroundColor: AppColors.darkTeal.withOpacity(opacity),
               shape: RoundedRectangleBorder(
@@ -35,14 +37,15 @@ class CustomFilledButton extends StatelessWidget {
             ),
             iconAlignment: IconAlignment.end,
             onPressed: onPressed,
-            child: Text(
-              text,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-                color: AppColors.white,
-              ),
-            ),
+            child: child ??
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: AppColors.white,
+                  ),
+                ),
           ),
         ),
       ),

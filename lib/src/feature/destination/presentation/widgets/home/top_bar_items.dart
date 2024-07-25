@@ -7,10 +7,9 @@ import 'package:solar_icons/solar_icons.dart';
 import 'package:trekgo_project/src/config/constants/app_colors.dart';
 import 'package:trekgo_project/src/config/utils/gap.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/main_page.dart';
-import 'package:trekgo_project/src/feature/user/domain/entities/user_entity.dart';
 import 'package:trekgo_project/src/feature/user/presentation/controllers/user_controller.dart';
 
-class TopBarItems extends StatefulWidget {
+class TopBarItems extends StatelessWidget {
   final BuildContext scaffoldContext;
 
   const TopBarItems({
@@ -19,19 +18,12 @@ class TopBarItems extends StatefulWidget {
   });
 
   @override
-  State<TopBarItems> createState() => _TopBarItemsState();
-}
-
-class _TopBarItemsState extends State<TopBarItems> {
-  @override
   Widget build(BuildContext context) {
-    final userController = Provider.of<UserController>(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         cornerButton(
-          onPressed: () => Scaffold.of(widget.scaffoldContext).openDrawer(),
+          onPressed: () => Scaffold.of(scaffoldContext).openDrawer(),
           icon: SolarIconsOutline.list_1,
         ),
         TextButton(
@@ -46,11 +38,10 @@ class _TopBarItemsState extends State<TopBarItems> {
             ],
           ),
         ),
-        StreamBuilder(
-          stream: userController.getUserDetails(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final user = snapshot.data as UserEntity;
+        Consumer<UserController>(
+          builder: (context, value, child) {
+            if (value.user != null) {
+              final user = value.user!;
               return cornerButton(
                 onPressed: () => indexChangeNotifier.value = 4,
                 child: CachedNetworkImage(

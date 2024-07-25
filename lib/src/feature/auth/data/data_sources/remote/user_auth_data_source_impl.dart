@@ -15,14 +15,29 @@ class UserAuthRemoteDataSourceImpl implements UserAuthRemoteDataSource {
     required this.auth,
   });
 
+  FirebaseFirestore get instance => fireStore;
+
   @override
   Future<String> login(UserEntity user) async {
     log('Is data: ${user.email} ${user.password}');
     try {
-      await auth.signInWithEmailAndPassword(
-          email: user.email, password: user.password);
-      log('Login Success');
-      return 'success';
+      if (user.email == 'adminlogin@gmail.com') {
+        await auth.signInWithEmailAndPassword(
+            email: user.email, password: user.password);
+        log('Login Success');
+        return 'success-admin';
+      } else {
+        await auth.signInWithEmailAndPassword(
+            email: user.email, password: user.password);
+
+        // ======= Checking if user is blocked =======
+        final uid = auth.currentUser?.uid;
+        final data = await instance.collection('users').doc(uid).get();
+        if (data['block'] == true) return 'account-disabled';
+
+        log('Login Success');
+        return 'success-user';
+      }
     } on FirebaseAuthException catch (e) {
       log('Login Error: ${e.message}');
       return e.code;
@@ -47,6 +62,8 @@ class UserAuthRemoteDataSourceImpl implements UserAuthRemoteDataSource {
             email: user.email,
             phoneNumber: user.phoneNumber,
             profilePhoto: user.profilePhoto,
+            createdDate: DateTime.now().toString(),
+            block: false,
           ).toMap();
 
           await userCollection.doc(uid).set(newUser);

@@ -25,13 +25,14 @@ class DestinationController extends ChangeNotifier {
 
     final dataStream = getPopularDestinationUsecase.call();
     dataStream.listen(
-      (destination) {
-        popular = destination;
+      (destinations) {
+        popular = destinations;
         isLoading2 = false;
         notifyListeners();
         log('Popular: ${popular.length}');
       },
     ).onError((error) {
+      log('Error from fetching all destinations: $error');
       isLoading2 = false;
       notifyListeners();
     });
@@ -44,6 +45,7 @@ class DestinationController extends ChangeNotifier {
     final dataStream = getRecommendedDestinationUsecase.call();
     dataStream.listen(
       (destination) {
+        log('Listening to recommended stream');
         recommended = destination;
         isLoading = false;
         notifyListeners();

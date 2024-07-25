@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:trekgo_project/changer/assets.dart';
-import 'package:trekgo_project/changer/service/database_service.dart';
+// import 'package:loading_animation_widget/loading_animation_widget.dart';
+// import 'package:trekgo_project/changer/assets.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/views/main_page.dart';
 import 'package:trekgo_project/changer/widgets/chips_and_drop_downs/filter_chip.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekgo_project/changer/widgets/reusable_widgets/cards/recent_search_card.dart';
+// import 'package:trekgo_project/changer/widgets/reusable_widgets/cards/recent_search_card.dart';
 import 'package:trekgo_project/src/feature/auth/presentation/widgets/custom_text_field.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -209,136 +208,136 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: DatabaseService().destinationCollection.snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: LoadingAnimationWidget.threeArchedCircle(
-                color: const Color(0xFF1485b9),
-                size: 40,
-              ),
-            );
-          } else if (snapshot.hasData) {
-            List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+      // body: StreamBuilder<QuerySnapshot>(
+      //   stream: DatabaseService().destinationCollection.snapshots(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return Center(
+      //         child: LoadingAnimationWidget.threeArchedCircle(
+      //           color: const Color(0xFF1485b9),
+      //           size: 40,
+      //         ),
+      //       );
+      //     } else if (snapshot.hasData) {
+      //       List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
 
-            recentSearchResult = documents
-                .where((search) =>
-                    recentSearch != null &&
-                    recentSearch!['place_id'] == search.id)
-                .toList();
+      //       recentSearchResult = documents
+      //           .where((search) =>
+      //               recentSearch != null &&
+      //               recentSearch!['place_id'] == search.id)
+      //           .toList();
 
-            searchResults = documents
-                .where((search) =>
-                    (recentSearch == null ||
-                        search['place_id'] != recentSearch!['place_id']) &&
-                    (selectedState.isEmpty ||
-                        selectedState.contains(
-                            search['place_state'].toString().toLowerCase())) &&
-                    (name.isEmpty ||
-                        search['place_name']
-                            .toString()
-                            .toLowerCase()
-                            .contains(name.toLowerCase())))
-                .toList();
+      //       searchResults = documents
+      //           .where((search) =>
+      //               (recentSearch == null ||
+      //                   search['place_id'] != recentSearch!['place_id']) &&
+      //               (selectedState.isEmpty ||
+      //                   selectedState.contains(
+      //                       search['place_state'].toString().toLowerCase())) &&
+      //               (name.isEmpty ||
+      //                   search['place_name']
+      //                       .toString()
+      //                       .toLowerCase()
+      //                       .contains(name.toLowerCase())))
+      //           .toList();
 
-            if (recentSearch != null && recentSearchResult!.isNotEmpty) {
-              return ListView.builder(
-                padding: const EdgeInsets.only(top: 20, bottom: 100),
-                // itemCount: snapshot.data!.docs.length,
-                itemCount: recentSearchResult!.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      // debugPrint('On recent searches');
-                      // nextScreen(
-                      //   context,
-                      //   PlaceDetailScreen(
-                      //     // userId: widget.userId,
-                      //     isAdmin: widget.isAdmin,
-                      //     isUser: widget.isUser,
-                      //     placeid: recentSearchResult![index].id,
-                      //   ),
-                      // );
-                    },
-                    child: RecentSearchCard(
-                      // userId: widget.userId,
-                      isAdmin: widget.isAdmin,
-                      isUser: widget.isAdmin,
-                      placeId: recentSearchResult![index].id,
-                      cardImage: recentSearch!['place_image'],
-                      cardTitle: recentSearch!['place_name'],
-                      ratingCount: recentSearch!['place_rating'],
-                    ),
-                  );
-                },
-              );
-            } else if (searchResults!.isNotEmpty) {
-              debugPrint('Search Sorting');
-              return ListView.builder(
-                padding: const EdgeInsets.only(top: 20, bottom: 100),
-                // itemCount: snapshot.data!.docs.length,
-                itemCount: searchResults!.length,
-                itemBuilder: (context, index) {
-                  var data =
-                      searchResults![index].data() as Map<String, dynamic>;
+      //       if (recentSearch != null && recentSearchResult!.isNotEmpty) {
+      //         return ListView.builder(
+      //           padding: const EdgeInsets.only(top: 20, bottom: 100),
+      //           // itemCount: snapshot.data!.docs.length,
+      //           itemCount: recentSearchResult!.length,
+      //           itemBuilder: (context, index) {
+      //             return GestureDetector(
+      //               onTap: () {
+      //                 // debugPrint('On recent searches');
+      //                 // nextScreen(
+      //                 //   context,
+      //                 //   PlaceDetailScreen(
+      //                 //     // userId: widget.userId,
+      //                 //     isAdmin: widget.isAdmin,
+      //                 //     isUser: widget.isUser,
+      //                 //     placeid: recentSearchResult![index].id,
+      //                 //   ),
+      //                 // );
+      //               },
+      //               child: RecentSearchCard(
+      //                 // userId: widget.userId,
+      //                 isAdmin: widget.isAdmin,
+      //                 isUser: widget.isAdmin,
+      //                 placeId: recentSearchResult![index].id,
+      //                 cardImage: recentSearch!['place_image'],
+      //                 cardTitle: recentSearch!['place_name'],
+      //                 ratingCount: recentSearch!['place_rating'],
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       } else if (searchResults!.isNotEmpty) {
+      //         debugPrint('Search Sorting');
+      //         return ListView.builder(
+      //           padding: const EdgeInsets.only(top: 20, bottom: 100),
+      //           // itemCount: snapshot.data!.docs.length,
+      //           itemCount: searchResults!.length,
+      //           itemBuilder: (context, index) {
+      //             var data =
+      //                 searchResults![index].data() as Map<String, dynamic>;
 
-                  return GestureDetector(
-                    onTap: () {
-                      // debugPrint('On recent searches');
-                      // nextScreen(
-                      //   context,
-                      //   PlaceDetailScreen(
-                      //     // userId: widget.userId,
-                      //     isAdmin: widget.isAdmin,
-                      //     isUser: widget.isUser,
-                      //     placeid: searchResults![index].id,
-                      //   ),
-                      // );
-                    },
-                    child: RecentSearchCard(
-                      // userId: widget.userId,
-                      isAdmin: widget.isAdmin,
-                      isUser: widget.isAdmin,
-                      placeId: searchResults![index].id,
-                      cardImage: data['place_image'],
-                      cardTitle: data['place_name'],
-                      ratingCount: data['place_rating'],
-                    ),
-                  );
-                },
-              );
-            } else {
-              debugPrint('No search');
-              return Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Image.asset(emptysearchResult),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    const Text(
-                      'No Search Results.',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF6fb2d2),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-          }
-          return Container();
-        },
-      ),
+      //             return GestureDetector(
+      //               onTap: () {
+      //                 // debugPrint('On recent searches');
+      //                 // nextScreen(
+      //                 //   context,
+      //                 //   PlaceDetailScreen(
+      //                 //     // userId: widget.userId,
+      //                 //     isAdmin: widget.isAdmin,
+      //                 //     isUser: widget.isUser,
+      //                 //     placeid: searchResults![index].id,
+      //                 //   ),
+      //                 // );
+      //               },
+      //               child: RecentSearchCard(
+      //                 // userId: widget.userId,
+      //                 isAdmin: widget.isAdmin,
+      //                 isUser: widget.isAdmin,
+      //                 placeId: searchResults![index].id,
+      //                 cardImage: data['place_image'],
+      //                 cardTitle: data['place_name'],
+      //                 ratingCount: data['place_rating'],
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       } else {
+      //         debugPrint('No search');
+      //         return Center(
+      //           child: Column(
+      //             children: [
+      //               SizedBox(
+      //                 height: MediaQuery.of(context).size.height * 0.05,
+      //               ),
+      //               Padding(
+      //                 padding: const EdgeInsets.only(right: 5),
+      //                 child: Image.asset(emptysearchResult),
+      //               ),
+      //               SizedBox(
+      //                 height: MediaQuery.of(context).size.height * 0.02,
+      //               ),
+      //               const Text(
+      //                 'No Search Results.',
+      //                 style: TextStyle(
+      //                   fontSize: 15,
+      //                   fontWeight: FontWeight.w600,
+      //                   color: Color(0xFF6fb2d2),
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         );
+      //       }
+      //     }
+      //     return Container();
+      //   },
+      // ),
     );
   }
 }

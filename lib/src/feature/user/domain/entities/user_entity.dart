@@ -5,6 +5,8 @@ class UserEntity {
   final String password;
   final String phoneNumber;
   final String profilePhoto;
+  final String? createdDate;
+  final bool block;
 
   UserEntity({
     this.id = '',
@@ -13,5 +15,7 @@ class UserEntity {
     this.password = '',
     this.phoneNumber = '',
     this.profilePhoto = '',
+    this.createdDate,
+    this.block = false,
   });
 }

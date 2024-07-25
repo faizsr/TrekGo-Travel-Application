@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,8 +6,10 @@ import 'package:trekgo_project/changer/helper/helper_functions.dart';
 import 'package:trekgo_project/changer/helper/hive_db_function.dart';
 import 'package:trekgo_project/changer/model/wishlist.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/alerts_and_navigates.dart';
-import 'package:trekgo_project/changer/widgets/chips_and_drop_downs/drop_down_widget.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/add_update_image_card.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/drop_down_widget.dart';
 import 'package:trekgo_project/changer/widgets/reusable_widgets/reusable_widgets.dart';
+import 'package:trekgo_project/src/feature/admin/presentation/widgets/text_form_field_two.dart';
 
 class AddWishlistScreen extends StatefulWidget {
   final String? userId;
@@ -142,13 +142,13 @@ class _AddWishlistScreenState extends State<AddWishlistScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AddUpdateImageContainer(
-                image: _selectedImage != null
-                    ? DecorationImage(
-                        image: FileImage(File(_selectedImage!.path)),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
+              AddUpdateImageCard(
+                // image: _selectedImage != null
+                //     ? DecorationImage(
+                //         image: FileImage(File(_selectedImage!.path)),
+                //         fit: BoxFit.cover,
+                //       )
+                //     : null,
                 onPressed: () async {
                   XFile? pickedImage = await pickImageFromGallery();
                   setState(() {

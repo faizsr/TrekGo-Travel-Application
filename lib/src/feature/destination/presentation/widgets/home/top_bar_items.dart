@@ -43,7 +43,7 @@ class TopBarItems extends StatelessWidget {
             if (value.user != null) {
               final user = value.user!;
               return cornerButton(
-                onPressed: () => indexChangeNotifier.value = 4,
+                onPressed: () => indexChangeNotifier.value = 3,
                 child: CachedNetworkImage(
                   placeholder: (context, url) => const Icon(
                     SolarIconsBold.user,
@@ -61,7 +61,7 @@ class TopBarItems extends StatelessWidget {
               );
             }
             return cornerButton(
-              onPressed: () => indexChangeNotifier.value = 4,
+              onPressed: () => indexChangeNotifier.value = 3,
               icon: SolarIconsOutline.user,
             );
           },

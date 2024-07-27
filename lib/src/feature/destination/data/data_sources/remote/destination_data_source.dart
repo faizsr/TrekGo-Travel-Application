@@ -3,4 +3,5 @@ import 'package:trekgo_project/src/feature/destination/domain/entities/destinati
 abstract class DestinationDataSource {
   Stream<List<DestinationEntity>> fetchPopular();
   Stream<List<DestinationEntity>> fetchRecommended();
+  
 }

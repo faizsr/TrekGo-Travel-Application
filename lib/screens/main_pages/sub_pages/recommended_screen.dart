@@ -47,12 +47,12 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
           stream: widget.sortName == 'View All'
               ? DatabaseService()
                   .destinationCollection
-                  .where('place_category', isEqualTo: 'Recommended')
+                  .where('category', isEqualTo: 'Recommended')
                   .snapshots()
               : DatabaseService()
                   .destinationCollection
-                  .where('place_category', isEqualTo: 'Recommended')
-                  .where('place_state', isEqualTo: widget.sortName)
+                  .where('category', isEqualTo: 'Recommended')
+                  .where('state', isEqualTo: widget.sortName)
                   .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
@@ -60,7 +60,7 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
                 children: snapshot.data.docs
                     .map<Widget>((DocumentSnapshot destinationSnap) {
                   ratingCount = double.tryParse(
-                      destinationSnap['place_rating'].toString());
+                      destinationSnap['rating'].toString());
                   return Padding(
                     padding: const EdgeInsets.only(top: 25),
                     child: PopularCard(
@@ -69,13 +69,13 @@ class _RecommendedPlacesScreenState extends State<RecommendedPlacesScreen> {
                       isUser: widget.isUser,
                       ratingCount: ratingCount,
                       placeid: destinationSnap.id,
-                      placeCategory: destinationSnap['place_category'],
-                      placeState: destinationSnap['place_state'],
-                      placeName: destinationSnap['place_name'],
-                      popularCardImage: destinationSnap['place_image'],
-                      placeDescripton: destinationSnap['place_description'],
-                      placeLocation: destinationSnap['place_location'],
-                      placeMap: destinationSnap['place_map'],
+                      placeCategory: destinationSnap['category'],
+                      placeState: destinationSnap['state'],
+                      placeName: destinationSnap['name'],
+                      popularCardImage: destinationSnap['image'],
+                      placeDescripton: destinationSnap['description'],
+                      placeLocation: destinationSnap['location'],
+                      placeMap: destinationSnap['map'],
                     ),
                   );
                 }).toList(),

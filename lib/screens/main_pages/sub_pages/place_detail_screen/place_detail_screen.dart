@@ -136,14 +136,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                 var destinationSnapshot =
                     snapshot.data?.data() as Map<String, dynamic>;
 
-                String image = destinationSnapshot['place_image'];
-                String category = destinationSnapshot['place_category'];
-                String state = destinationSnapshot['place_state'];
-                String title = destinationSnapshot['place_name'];
-                String description = destinationSnapshot['place_description'];
-                String location = destinationSnapshot['place_location'];
-                double rating = destinationSnapshot['place_rating'];
-                String mapLink = destinationSnapshot['place_map'];
+                String image = destinationSnapshot['image'];
+                String category = destinationSnapshot['category'];
+                String state = destinationSnapshot['state'];
+                String title = destinationSnapshot['name'];
+                String description = destinationSnapshot['description'];
+                String location = destinationSnapshot['location'];
+                double rating = double.parse(destinationSnapshot['rating'].toString());
+                String mapLink = destinationSnapshot['map'];
 
                 return SingleChildScrollView(
                   child: Column(
@@ -198,7 +198,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                             fit: BoxFit.cover,
                                           ),
                                           imageUrl: destinationSnapshot[
-                                                  'place_image'] ??
+                                                  'image'] ??
                                               '',
                                           fit: BoxFit.cover,
                                           errorWidget: (context, url, error) =>
@@ -219,7 +219,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                 fit: BoxFit.cover,
                               ),
                               imageUrl:
-                                  destinationSnapshot['place_image'] ?? '',
+                                  destinationSnapshot['image'] ?? '',
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) => Image.asset(
                                 lazyLoading,
@@ -234,7 +234,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.67,
                         child: Text(
-                          destinationSnapshot['place_name']
+                          destinationSnapshot['name']
                               .toString()
                               .replaceAll(RegExp(r'\s+'), ' '),
                           style: const TextStyle(
@@ -248,7 +248,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       CardRatingBar(
                         itemSize: 20,
                         isMainAlignCenter: true,
-                        ratingCount: destinationSnapshot['place_rating'],
+                        ratingCount: double.parse(destinationSnapshot['rating'].toString()),
                       ),
                       const SizedBox(
                         height: 10,

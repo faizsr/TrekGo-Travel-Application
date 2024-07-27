@@ -128,14 +128,14 @@ updateDestinationn({
     setLoadingCallback!(true);
 
     await DatabaseService().destinationCollection.doc(placeId).update({
-      'place_image': imageUrl,
-      'place_name': title?.trim(),
-      'place_description': description?.trim(),
-      'place_location': location?.trim(),
-      'place_rating': ratingCount,
-      'place_category': selectedCategory,
-      'place_state': selectedState,
-      'place_map': mapLink,
+      'image': imageUrl,
+      'name': title?.trim(),
+      'description': description?.trim(),
+      'location': location?.trim(),
+      'rating': ratingCount,
+      'category': selectedCategory,
+      'state': selectedState,
+      'map': mapLink,
     });
     debugPrint('map link $mapLink');
     debugPrint('Updated');

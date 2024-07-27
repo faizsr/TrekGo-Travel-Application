@@ -39,12 +39,12 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
         stream: widget.sortName == 'View All'
             ? FirebaseFirestore.instance
                 .collection('destination')
-                .where('place_category', isEqualTo: 'Popular')
+                .where('category', isEqualTo: 'Popular')
                 .snapshots()
             : DatabaseService()
                 .destinationCollection
-                .where('place_category', isEqualTo: 'Popular')
-                .where('place_state', isEqualTo: widget.sortName)
+                .where('category', isEqualTo: 'Popular')
+                .where('state', isEqualTo: widget.sortName)
                 .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -77,15 +77,15 @@ class _PopularCarouselSliderState extends State<PopularCarouselSlider> {
                     isAdmin: widget.isAdmin == true ? null : widget.isAdmin,
                     isUser: widget.isUser,
                     placeid: destinationSnapshot.id,
-                    popularCardImage: destinationSnapshot['place_image'],
-                    placeCategory: destinationSnapshot['place_category'],
-                    placeState: destinationSnapshot['place_state'],
-                    placeName: destinationSnapshot['place_name'],
+                    popularCardImage: destinationSnapshot['image'],
+                    placeCategory: destinationSnapshot['category'],
+                    placeState: destinationSnapshot['state'],
+                    placeName: destinationSnapshot['name'],
                     ratingCount: double.tryParse(
-                        destinationSnapshot['place_rating'].toString()),
-                    placeDescripton: destinationSnapshot['place_description'],
-                    placeLocation: destinationSnapshot['place_location'],
-                    placeMap: destinationSnapshot['place_map'],
+                        destinationSnapshot['rating'].toString()),
+                    placeDescripton: destinationSnapshot['description'],
+                    placeLocation: destinationSnapshot['location'],
+                    placeMap: destinationSnapshot['map'],
                   );
                 },
                 options: CarouselOptions(

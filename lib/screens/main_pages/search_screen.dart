@@ -226,18 +226,18 @@ class _SearchScreenState extends State<SearchScreen> {
             recentSearchResult = documents
                 .where((search) =>
                     recentSearch != null &&
-                    recentSearch!['place_id'] == search.id)
+                    recentSearch!['id'] == search.id)
                 .toList();
 
             searchResults = documents
                 .where((search) =>
                     (recentSearch == null ||
-                        search['place_id'] != recentSearch!['place_id']) &&
+                        search['id'] != recentSearch!['id']) &&
                     (selectedState.isEmpty ||
                         selectedState.contains(
-                            search['place_state'].toString().toLowerCase())) &&
+                            search['state'].toString().toLowerCase())) &&
                     (name.isEmpty ||
-                        search['place_name']
+                        search['name']
                             .toString()
                             .toLowerCase()
                             .contains(name.toLowerCase())))
@@ -267,9 +267,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       isAdmin: widget.isAdmin,
                       isUser: widget.isAdmin,
                       placeId: recentSearchResult![index].id,
-                      cardImage: recentSearch!['place_image'],
-                      cardTitle: recentSearch!['place_name'],
-                      ratingCount: recentSearch!['place_rating'],
+                      cardImage: recentSearch!['image'],
+                      cardTitle: recentSearch!['name'],
+                      ratingCount: recentSearch!['rating'],
                     ),
                   );
                 },
@@ -302,9 +302,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       isAdmin: widget.isAdmin,
                       isUser: widget.isAdmin,
                       placeId: searchResults![index].id,
-                      cardImage: data['place_image'],
-                      cardTitle: data['place_name'],
-                      ratingCount: data['place_rating'],
+                      cardImage: data['image'],
+                      cardTitle: data['name'],
+                      ratingCount: double.parse(data['rating'].toString()),
                     ),
                   );
                 },

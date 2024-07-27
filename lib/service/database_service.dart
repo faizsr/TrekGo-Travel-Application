@@ -48,14 +48,14 @@ class DatabaseService {
     double placeRating,
   ) async {
     return await destinationCollection.doc().set({
-      "place_category": placeCategory,
-      "place_state": placeState,
-      "place_image": placeImage,
-      "place_name": placeName,
-      "place_description": placeDescription,
-      "place_location": placeLocation,
-      "place_map": placeMap,
-      "place_rating": placeRating,
+      "category": placeCategory,
+      "state": placeState,
+      "image": placeImage,
+      "name": placeName,
+      "description": placeDescription,
+      "location": placeLocation,
+      "map": placeMap,
+      "rating": placeRating,
     });
   }
 

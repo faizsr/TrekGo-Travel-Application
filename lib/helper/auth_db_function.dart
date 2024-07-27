@@ -137,7 +137,7 @@ adminLogin({
           // saving the values to our shared preferences
           await HelperFunctions.saveAdminLoggedInStatus(true);
           await HelperFunctions.saveAdminEmail(email ?? '');
-          await HelperFunctions.saveAdminId(snapshot.docs[0]["admin_id"]);
+          await HelperFunctions.saveAdminId('admin');
 
           nextScreenRemoveUntil(
               context,
